@@ -8,8 +8,8 @@ Nick kouwenhoven
 Jayden Jayawardhena  
 
 User Use Case Diagram:
-![Alt Text](Use Case Diagram.png)
+![Alt Text](Use%20Case%20Diagram.png)
   
 UML Data Diagram:
-![Alt Text](Uml Data Diagram.png)
+![Alt Text](Uml%20Data%20Diagram.png)
   
