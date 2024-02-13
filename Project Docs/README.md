@@ -15,3 +15,6 @@ UML Data Diagram:
   
 UML Class Diagram:
 ![alt text](UMLClassDiagram.png)
+
+Data Flow Diagram
+![Alt text](DataFlowDiagram.png)
