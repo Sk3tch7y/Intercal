@@ -48,6 +48,7 @@ Our Group goal with this prject is to help make a useful research tool for peopl
  - As a user, I want a to be able to filter lakes based on names, lakes, or water levels
  - As a user, I want to be able to save certain lakes to my dashboard for convenient analysis
  - As a user, I want to be able to manage my personal dashboard in order to edit or remove certain elements
+ - As a user, I want to see a forecast for what the lake data will look like.
 
 ## User Use Case Diagram:
 
