@@ -3,7 +3,7 @@
 Group Members:  
 - Adam Badry
 - Oakley Pankratz
-- Nick kouwenhoven
+- Nic Kouwenhoven
 - Jayden Jayawardhena  
 
 ## Project Descciption: 
@@ -40,6 +40,16 @@ Our Group goal with this prject is to help make a useful research tool for peopl
 - respond to queries in a reasonable amount of time
 - link to sourced data for visualization and predictions and previous years, to openly display facts
 
+## User Stories
+ - As a user, I want to get visualizations for lake data so that I can gain an understanding of water annual water flows in a given area
+ - As a user, I want to flag issues with data I come across so that the manager of the site can fix an issue.
+ - As a user, I want to be able to sign into an account
+ - As a user, I want a to be able to filter lakes based on locations or water levels
+ - As a user, I want to be able to save certain lakes to my dashboard for convenient analysis
+ - As a user, I want to be able to manage my personal dashboard in order to edit or remove certain elements
+ - As an admin, I want to be able to manage users on the site
+ - As an admin, I want to be able to remove/edit data with issues from in the database
+ - As an admin, I want to be able to manage the dashboard view of normal users
 
 ## User Use Case Diagram:
 
