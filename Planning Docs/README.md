@@ -1,13 +1,13 @@
 # Intercal
- COSC310 Group project  
-Group Members:  
+ COSC310 Group project
+Group Members:
 - Adam Badry
 - Oakley Pankratz
 - Nic Kouwenhoven
-- Jayden Jayawardhena  
+- Jayden Jayawardhena
 
-## Project Descciption: 
-Our Group goal with this prject is to help make a useful research tool for people looking into water levels in canadian lakes and rivers. By using evironment Canadas data, and creating a tool to visualize data, and track lake performance in real time and flag potential issues with lake levels. 
+## Project Descciption:
+Our Group goal with this prject is to help make a useful research tool for people looking into water levels in canadian lakes and rivers. By using evironment Canadas data, and creating a tool to visualize data, and track lake performance in real time and flag potential issues with lake levels.
 
 ## User Requirements:
 
@@ -53,11 +53,11 @@ Our Group goal with this prject is to help make a useful research tool for peopl
 ## User Use Case Diagram:
 
 ![alt text](useCaseDiagram.png)
-  
+
 ## UML Data Diagram:
 
 ![Alt Text](Uml%20Data%20Diagram.png)
-  
+
 ## UML Class Diagram:
 
 ![alt text](umlClass.png)
