@@ -2,11 +2,20 @@
 
 *{
     font-family: Roboto;
+    margin: 0;
+    padding: 0;
 }
 :root 
 {
    
-    --DefaultBR: 18px;
+    --DefaultBR: 34px;
+    --LightCyan: #CAF0F8;
+    --NonPhotoBlue: #9BF6FF;
+    --PacificCyan: #00B4D8;
+    --HonoluluBlue: #0077B6;
+    --PrussianBlue: #023E8A;
+
+
 }
 .hidden{
     display: none;
@@ -41,6 +50,5 @@ a{
     text-decoration: none;
     color: #FFF;
     border-radius: 18px;
-    background: linear-gradient(90deg, var(--CoralRed), var(--Coral));
     padding: 1vh 1vw;
 }
