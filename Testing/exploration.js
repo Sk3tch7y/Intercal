@@ -8,8 +8,14 @@ async function getStations() {
 
     for(let i = 0; i < stations.features.length; i++) {
         if(stations.features[i].properties.STATION_NAME == stations.features[450].properties.STATION_NAME) {
-            console.log(stations.features[i].properties);
+            selected = stations.features[i].properties.links[6].href; // 6 & 5 are the related links
         }
+    }
+
+    const response2 = await fetch(selected);
+    const data = await response2.json();
+    for(let i = 0; i < data.features.length; i++) {
+        console.log(data.features[i].properties.MAX_VALUE);
     }
 }
 
