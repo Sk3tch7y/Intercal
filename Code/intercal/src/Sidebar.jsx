@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './/styles/styles.css';
+import './/styles/sidebarStyles.css'
 
 export default function Sidebar() {
   const [favs, setFav] = useState([]);
@@ -22,7 +23,7 @@ export default function Sidebar() {
   }
 
     let as = favs.map((fav) =>{
-      return <a href = '{}'>{fav.id}</a>
+      return <a class = 'favorite' href = '{}'>{fav.id}</a>
     });
   return (
   <div className = 'sidebar'>
