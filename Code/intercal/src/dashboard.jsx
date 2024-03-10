@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import './/styles/styles.css';
-import './/styles/sidebarStyles.css'
+
 
 export default function Dashboard() {
-  const [alerts, setAlerts] = useState([]);
+  const [watched, setWatched] = useState([]);
 
   //get data from the server
   /*
@@ -14,18 +14,23 @@ export default function Dashboard() {
       .catch(error => console.error(error));
   }, []);
   */
-  function addAlert(newAl){
-    setAlerts(newAl =>{
-      console.log(newAl);
-      let newAr = [...alerts, newAl,];
+  // this function is purely test atm, as the actual favorite button is going to be built into the 
+  function addWatched(newWatch){
+    setWatched(newWatch =>{
+      console.log(newWatch);
+      let newAr = [...watched, newWatch,];
       return newAr;
     });
   }
 
-    let as = alerts.map((fav) =>{
+    let as = watched.map((fav) =>{
       return <a class = 'favorite' href = '{}'>{fav.id}</a>
     });
-  return ( );
+  return (
+  <div className='dashboard'>
+    {}
+  </div> 
+  );
 }
 
 
