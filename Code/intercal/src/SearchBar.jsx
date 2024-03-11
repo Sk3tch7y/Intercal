@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './/styles/searchbarStyles.css'
 const SearchBar = () => {
     const [searchTerm, setSearchTerm] = useState('');
-// added this comment to update .dsStore
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);
         // Perform search logic here
