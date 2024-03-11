@@ -1,7 +1,9 @@
 .sidebar{
     width: 18vw;
     height: 100vh;
-    background: linear-gradient(to bottom left, #003552, #58C4FF);
+    display: inline-flex;
+    float: left;
+    background: linear-gradient(to bottom right, #003552, #58C4FF);
 
 }
 

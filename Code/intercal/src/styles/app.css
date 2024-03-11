@@ -1,0 +1,8 @@
+.rightSide{
+    float: right;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 82vw;
+    height: 100vh;
+}
