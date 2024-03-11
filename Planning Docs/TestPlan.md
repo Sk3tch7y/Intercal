@@ -32,6 +32,7 @@ Testing the server will involve ensuring that connections are handled properly (
 Testing the javascript functions will involve unit testing functions to ensure they are providing the correct return values and outputs for a given set of inputs from the user
 
 ### Overall:
+Aside from automated testing, we will be performing code reviews and design reviews when a team member updates the main branch. This will allow us to increase optimization, reduce errors, and provide input or feedback if something can be done a better way.
 Testing everything will involve integration testing using a CI/CD pipeline in Github. This will run tests every time a change is made on the main branch, allowing us to ensure that our code runs after every iteration of our main codebase.
 
 ### Current:
