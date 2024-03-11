@@ -125,4 +125,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+<<<<<<< Updated upstream
+=======
+
+# mac ds file
+>>>>>>> Stashed changes
 .DS_Store
