@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS accounts (
 
 userid VARCHAR(20),
 password VARCHAR(20),
+accountType VARCHAR(5),
 PRIMARY KEY (userid),
 FOREIGN KEY (userid) REFERENCES savedData(userid)
 
