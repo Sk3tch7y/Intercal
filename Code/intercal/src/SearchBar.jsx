@@ -4,8 +4,8 @@ const SearchBar = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);
-        // Perform search logic here
-        fetch('https://api.example.com/search?query=' + searchTerm)
+        //Todo Perform search logic here
+        fetch('url' + searchTerm)
             .then(response => response.json())
             .then(data => {
             
@@ -27,4 +27,6 @@ const SearchBar = () => {
     );
 };
 
+
 export default SearchBar;
+

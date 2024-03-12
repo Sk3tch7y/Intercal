@@ -1,0 +1,10 @@
+.dashboard{
+    display: inline-flex;
+    background: var(--DefaultGrad);
+    margin-top: 6%;
+    margin-bottom: 1%;
+    width: 95%;
+    height: 85%;
+    justify-self: center;
+    border-radius: var(--DefaultBR);
+}

@@ -4,6 +4,7 @@ import './/styles/sidebarStyles.css'
 
 export default function Sidebar() {
   const [favs, setFav] = useState([]);
+
   //get data from the server
   /*
   useEffect(() => {
