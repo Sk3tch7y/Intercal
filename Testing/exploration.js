@@ -121,6 +121,6 @@
     }
 
     //getStations();
-    getAnnual("01AD015");
+    getAnnual("Hello");
     //getMonthly("01AD003");
     //getDaily("01AA002");
