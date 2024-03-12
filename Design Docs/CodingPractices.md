@@ -1,5 +1,15 @@
 # Coding Design Practices
 
+
+
+## Planned patterns
+
+### Abstract Factory pattern
+As we are using react, it does heavily lean into this style for objects as each object created can be classed differently or built differently depending on the context. This Can be best seen in our info fragments, that all share the same design but contain different data. We chose to do this design pattern as it is most effective for code reusability and effectiveness in maintaining design standards
+
+### Adapter Pattern
+As we are dealing with an external api for our sensor data, we are relying heavily on the adaptation of data to fit cleanly into our functions and produce usable results. we decided to do this because by adapting the data we will be better able to visualize and manipulate it.
+
 ## Anti-pattern Avoidance Techniques/Practices
 ### Code Cleanliness and readability
     this refers to the ease of review and documentation of solutions

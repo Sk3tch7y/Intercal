@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './/styles/searchbarStyles.css'
 const SearchBar = () => {
     const [searchTerm, setSearchTerm] = useState('');
-
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);
         //Todo Perform search logic here
@@ -22,12 +21,12 @@ const SearchBar = () => {
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
-                //every change triggers a new query
                 onChange={handleSearch}
             />
         </div>
     );
 };
+
 
 export default SearchBar;
 
