@@ -70,7 +70,7 @@ Our Group goal with this prject is to help make a useful research tool for peopl
 ![Sequence Diagram](SequenceDiagram.png)
 
 ## Class Diagram:
-![Class Diagram](updatedUmlClassDiagram.png)
+![Class Diagram](updatedClassDiagram.png)
 
 # Test Plan
 
