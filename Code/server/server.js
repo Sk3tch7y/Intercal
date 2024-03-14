@@ -27,17 +27,54 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
-//testing mysql
-let connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
 
-connection.connect((err) => {
-  if (err) return console.error(err.message);
+//function to get a connection to the db
+//
+function getConnection(){
+  let connection = mysql.createConnection({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+  });
 
-  console.log('Connected to the MySQL server.');
-});
+  return connection;
+}
+
+//function for validating login
+//
+function valiateLogin(){
+
+  //check to see if username is valid
+  
+
+  
+ //establish connection to db
+  con = getConnection();
+
+  //check if the user already exists
+  
+
+  const query = con.query('SELECT COUNT(userid) FROM accounts WHERE userid = ?', 
+  [userId], 
+  function(err, results) {
+    // Handle results
+
+  }
+  );
+
+  
+//if the user doesnt exist and is valid, create the account
+
+
+
+//return json with relevant info
+
+
+}
+
+
+module.exports = {
+  getConnection,
+};
