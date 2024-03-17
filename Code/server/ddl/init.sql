@@ -20,3 +20,5 @@ CREATE TABLE IF NOT EXISTS savedData (
 userid VARCHAR(20),
 query VARCHAR
 );
+
+INSERT INTO accounts(userid,password) VALUES ('test123','pass123');

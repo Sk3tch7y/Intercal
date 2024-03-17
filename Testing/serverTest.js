@@ -7,7 +7,7 @@ const server = require("../Code/server/server");
 
 //IMPORTANT: 
 // 1. Make sure docker is running or tests will fail
-// 2. Make sure ther server side is running or some tests will fail
+
 
 
 describe("Test mysql",function(){
@@ -20,7 +20,7 @@ describe("Test mysql",function(){
         try{
             con = server.getConnection();
             con.connect();
-            con.close();
+            con.end();
         } catch(error){
             assert.fail(error);
         }
@@ -63,6 +63,7 @@ describe("Login tests",function(){
         
         try {
             const obj = await server.validateLogin(username1, password1);
+            assert.fail("An error was expected, but there was none.");
         } catch (error) {
             assert.equal(error,"invalid username or password.");
         }
@@ -74,6 +75,7 @@ describe("Login tests",function(){
         
         try {
             const obj = await server.validateLogin(username2, password2);
+            assert.fail("An error was expected, but there was none.");
         } catch (error) {
             assert.equal(error,"invalid username or password.");
         }
@@ -81,3 +83,70 @@ describe("Login tests",function(){
 
 });
 
+describe("validateAccountCreation tests",function(){
+
+    const usernameValid = "validUser123";
+    const usernameAlreadyTaken = "test123";
+    const usernameInvalidFormat = "=+-_)(*&^%$#@!";
+
+    const passwordValid = "pass123";
+    const passwordInvalidFormat = "!@#$%^&*()_-+=";
+
+
+    it("should be able to validate a new valid account",async function(){
+        try {
+            const obj = await server.validateAccountCreation(usernameValid,passwordValid);
+            assert.equal(obj.overallStatus,"Valid");
+            assert.equal(obj.userIdStatus,"Valid");
+            assert.equal(obj.passwordStatus,"Valid");
+        } catch(error) {
+            assert.fail(error);
+        }
+
+    });
+    it("should be able to invalidate a username already in use",async function(){
+        try {
+            const obj = await server.validateAccountCreation(usernameAlreadyTaken,passwordValid);
+            assert.equal(obj.overallStatus,"Invalid");
+            assert.equal(obj.userIdStatus,"Invalid, username already taken.");
+            assert.equal(obj.passwordStatus,"Valid");
+        } catch(error) {
+            assert.fail(error);
+        }
+
+    });
+    it("should be able to invalidate a username with invalid format",async function(){
+        try {
+            const obj = await server.validateAccountCreation(usernameInvalidFormat,passwordValid);
+            assert.equal(obj.overallStatus,"Invalid");
+            assert.equal(obj.userIdStatus,"Invalid format.");
+            assert.equal(obj.passwordStatus,"Valid");
+        } catch(error) {
+            assert.fail(error);
+        }
+
+    });
+    it("should be able to invalidate a password with invalid format",async function(){
+        try {
+            const obj = await server.validateAccountCreation(usernameValid,passwordInvalidFormat);
+            assert.equal(obj.overallStatus,"Invalid");
+            assert.equal(obj.userIdStatus,"Valid");
+            assert.equal(obj.passwordStatus,"Invalid format.");
+        } catch(error) {
+            assert.fail(error);
+        }
+
+    });
+    it("should be able to invalidate a username that is already taken, and a password with invalid format",async function(){
+        try {
+            const obj = await server.validateAccountCreation(usernameAlreadyTaken,passwordInvalidFormat);
+            assert.equal(obj.overallStatus,"Invalid");
+            assert.equal(obj.userIdStatus,"Invalid, username already taken.");
+            assert.equal(obj.passwordStatus,"Invalid format.");
+        } catch(error) {
+            assert.fail(error);
+        }
+    });
+
+
+});

@@ -45,8 +45,9 @@ function getConnection(){
   return connection;
 }
 
-/*
-//Function for validating login
+
+// Function for validating login
+/* 
 // Usage:
 // Notice the async keyword in the middleware function
 
@@ -77,35 +78,33 @@ function validateLogin(userId, password) {
 
       //check if username and password are valid (alphanumeric)
       const alphanumericRegex = /^[a-zA-Z0-9]+$/;
-      if(!alphanumericRegex.test(userId) || !alphanumericRegex.test(userId)){
+      if(!alphanumericRegex.test(userId) || !alphanumericRegex.test(password)){
         reject("invalid username or password.");
       }
 
-      // Establish connection to the database
-      const con = mysql.createConnection({
-          host: process.env.DB_HOST,
-          port: process.env.DB_PORT,
-          user: process.env.DB_USER,
-          password: process.env.DB_PASSWORD,
-          database: process.env.DB_NAME,
+      //establish connection to the database
+      const con = getConnection();
+
+      //connect to the database, reject if error
+      con.connect((err) => {
+        if(err){
+          reject(err);
+        }
       });
 
-      // Connect to the database
-      con.connect();
-
-      // Query to check if the userid and password match
+      //query to check if the userid and password match
       con.query(`SELECT userid FROM accounts WHERE userid = ? AND password = ?`, [userId, password], (err, rows, fields) => {
           if (err) {
-              // Reject the promise if there's an error
-              con.end(); // Close the connection
+              //reject the promise if there's an error
+              con.end(); //close the connection
               reject(err);
               return;
           }
 
-          // Close the connection
+          //close the connection
           con.end();
 
-          // build the JSON object to be returned
+          //build the JSON object to be returned
           var message = "Success.";
           const isValid = rows.length > 0;
           if(!isValid){
@@ -120,10 +119,72 @@ function validateLogin(userId, password) {
   });
 }
 
-console.log(process.env.DB_HOST);
+
+//Function for validating user creation
+//Note: This is not the function that creates the account.
+//      It justs ensures the given info can be made into an account.
+//Returns: a JSON object with{overallStatus,userIdStatus,passwordStatus}
+function validateAccountCreation(userId,password) {
+  return new Promise((resolve,reject) => {
+    
+    //initialize varibles for JSON return object
+    overallStatus = "Valid";
+    userIdStatus = "Valid";
+    passwordStatus = "Valid";
+
+    //check if username and password are valid (alphanumeric)
+    //
+    const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+    if(!alphanumericRegex.test(userId)){
+      userIdStatus = "Invalid format.";
+      overallStatus = "Invalid";
+    }
+    if(!alphanumericRegex.test(password)){
+      passwordStatus = "Invalid format.";
+      overallStatus = "Invalid";
+    }
+
+
+    //establish connection to the database
+    const con = getConnection();
+
+    // Connect to the database, reject if error
+    con.connect((err) => {
+      if(err){
+        reject(err);
+      }
+    });
+
+    //query to check if the name already exists
+    con.query(`SELECT userid FROM accounts WHERE userid = ?`, [userId], (err, rows, fields) => {
+      if (err) {
+          // Reject the promise if there's an error
+          con.end(); // Close the connection
+          reject(err);
+          return;
+      }
+
+      //close the connection
+      con.end();
+
+      //username is already taken
+      if(rows.length > 0){
+        userIdStatus = "Invalid, username already taken.";
+        overallStatus = "Invalid";
+      }
+
+      //build the JSON object to be returned
+      const result = {overallStatus,userIdStatus,passwordStatus};
+
+      //resolve the promise with the result
+      resolve(result); 
+  });
+
+  });
+}
 
 module.exports = {
-  app,
   getConnection,
   validateLogin,
+  validateAccountCreation,
 };
