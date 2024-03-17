@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
+const { get } = require("request");
 
 const app = express();
 
@@ -18,7 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "cool it works" });
+  res.json({ message: "cool it works"});
+  
 });
 
 // set port, listen for requests
@@ -27,6 +30,19 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
+/* TEMPORARY location. to be placed in serverTest.js
+app.use("/login",function(req,res,next){
+  username = "test123";
+  password = "pass123";
+  obj = valiateLogin(username,password);
+  req.obj = obj;
+  next();
+});
+
+app.get('/login', function(req, res){
+  res.json(req.obj);
+});
+///*/
 
 //function to get a connection to the db
 //
@@ -42,39 +58,77 @@ function getConnection(){
   return connection;
 }
 
-//function for validating login
+/*function for validating login
 //
-function valiateLogin(){
+// Usage:
+// Notice the async keyword in the middleware function
 
-  //check to see if username is valid
-  
+app.use("/login", async function(req, res, next) {
+  const username = "test123";
+  const password = "pass123";
 
-  
- //establish connection to db
-  con = getConnection();
-
-  //check if the user already exists
-  
-
-  const query = con.query('SELECT COUNT(userid) FROM accounts WHERE userid = ?', 
-  [userId], 
-  function(err, results) {
-    // Handle results
-
+  try {
+      const obj = await validateLogin(username, password);
+      req.obj = obj;
+      next();
+  } catch (error) {
+      // Handle error if needed
+      console.error(error);
+      res.status(500).send("Internal Server Error");
   }
-  );
+});
 
-  
-//if the user doesnt exist and is valid, create the account
+app.get('/login', function(req, res) {
+  res.json(req.obj);
+});
+
+*/
+function validateLogin(userId, password) {
+  return new Promise((resolve, reject) => {
+
+      //TODO: check if username and password are valid (alphanumeric)
 
 
+      // Establish connection to the database
+      const con = mysql.createConnection({
+          host: 'localhost',
+          port: '3306',
+          user: 'testuser',
+          password: 'testpw',
+          database: 'maindb',
+      });
 
-//return json with relevant info
+      // Connect to the database
+      con.connect();
 
+      // Query to check if the userid and password match
+      con.query('SELECT userid FROM accounts WHERE userid = ? AND password = ?', [userId, password], (err, rows, fields) => {
+          if (err) {
+              // Reject the promise if there's an error
+              con.end(); // Close the connection
+              reject(err);
+              return;
+          }
 
+          // Close the connection
+          con.end();
+
+          // Process the result
+          const isValid = rows.length > 0;
+          if(!isValid){
+            userId = null;
+          }
+          const result = { isValid, userId };
+          
+          // Resolve the promise with the result
+          resolve(result);
+      });
+  });
 }
 
 
 module.exports = {
+  app,
   getConnection,
+  validateLogin,
 };

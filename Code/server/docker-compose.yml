@@ -5,7 +5,7 @@ version: '3.8'
 services:
   mysql:
     image: mysql:latest
-    container_name: mysql-for-website-project
+    container_name: mysql-intercal
     environment:
       MYSQL_ROOT_PASSWORD: rootpw
       MYSQL_DATABASE: maindb
