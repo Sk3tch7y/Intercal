@@ -30,19 +30,6 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
-/* TEMPORARY location. to be placed in serverTest.js
-app.use("/login",function(req,res,next){
-  username = "test123";
-  password = "pass123";
-  obj = valiateLogin(username,password);
-  req.obj = obj;
-  next();
-});
-
-app.get('/login', function(req, res){
-  res.json(req.obj);
-});
-///*/
 
 //function to get a connection to the db
 //
@@ -58,11 +45,12 @@ function getConnection(){
   return connection;
 }
 
-/*function for validating login
-//
+/*
+//Function for validating login
 // Usage:
 // Notice the async keyword in the middleware function
 
+//express function for validating a login request
 app.use("/login", async function(req, res, next) {
   const username = "test123";
   const password = "pass123";
@@ -78,6 +66,7 @@ app.use("/login", async function(req, res, next) {
   }
 });
 
+//display the result of the function every get request
 app.get('/login', function(req, res) {
   res.json(req.obj);
 });
@@ -91,11 +80,11 @@ function validateLogin(userId, password) {
 
       // Establish connection to the database
       const con = mysql.createConnection({
-          host: 'localhost',
-          port: '3306',
-          user: 'testuser',
-          password: 'testpw',
-          database: 'maindb',
+          host: process.env.DB_HOST,
+          port: process.env.DB_PORT,
+          user: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
+          database: process.env.DB_NAME,
       });
 
       // Connect to the database
@@ -126,6 +115,7 @@ function validateLogin(userId, password) {
   });
 }
 
+console.log(process.env.DB_HOST);
 
 module.exports = {
   app,

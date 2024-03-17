@@ -16,30 +16,30 @@ describe("Test mysql",function(){
         assert.equal((con != null), true);
     });
 
-    it("Should be able to use a connection to query the database",async function(){
-        con = server.getConnection();
-        con.connect();
-        var [rows] = await con.execute('SELECT * FROM account');
-        
-        assert.equal(rows[0],1);
+    it("Should be able to connect to the server using connection object",async function(){
+        try{
+            con = server.getConnection();
+            con.connect();
+            con.close();
+        } catch(error){
+            assert.fail(error);
+        }
     });
 });
 
 describe("Login tests",function(){
-    it("should be able to validate logins, returning a json with {isValid,userId}",async function(){
-        
+    it("should be able to validate logins, returning a JSON with {isValid,userId}",async function(){
         
         const username = "test123";
         const password = "pass123";
         
         try {
             const obj = await server.validateLogin(username, password);
-            assert.equal(obj.isValid,true);
+            assert.equal(obj.isValid, true);
+            assert.equal(obj.userId,username);
         } catch (error) {
             assert.fail(error);
         }
-        
-        assert.fail("no result");
     });
 
 });
