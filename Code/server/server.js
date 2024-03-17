@@ -75,8 +75,11 @@ app.get('/login', function(req, res) {
 function validateLogin(userId, password) {
   return new Promise((resolve, reject) => {
 
-      //TODO: check if username and password are valid (alphanumeric)
-
+      //check if username and password are valid (alphanumeric)
+      const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+      if(!alphanumericRegex.test(userId) || !alphanumericRegex.test(userId)){
+        reject("invalid username or password.");
+      }
 
       // Establish connection to the database
       const con = mysql.createConnection({
@@ -91,7 +94,7 @@ function validateLogin(userId, password) {
       con.connect();
 
       // Query to check if the userid and password match
-      con.query('SELECT userid FROM accounts WHERE userid = ? AND password = ?', [userId, password], (err, rows, fields) => {
+      con.query(`SELECT userid FROM accounts WHERE userid = ? AND password = ?`, [userId, password], (err, rows, fields) => {
           if (err) {
               // Reject the promise if there's an error
               con.end(); // Close the connection
@@ -102,12 +105,14 @@ function validateLogin(userId, password) {
           // Close the connection
           con.end();
 
-          // Process the result
+          // build the JSON object to be returned
+          var message = "Success.";
           const isValid = rows.length > 0;
           if(!isValid){
             userId = null;
+            message = "Invalid credentials."
           }
-          const result = { isValid, userId };
+          const result = { isValid, userId, message};
           
           // Resolve the promise with the result
           resolve(result);

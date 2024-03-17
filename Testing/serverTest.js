@@ -37,8 +37,45 @@ describe("Login tests",function(){
             const obj = await server.validateLogin(username, password);
             assert.equal(obj.isValid, true);
             assert.equal(obj.userId,username);
+            assert.equal(obj.message,"Success.");
         } catch (error) {
             assert.fail(error);
+        }
+    });
+    it("should be able to return the correct response if invalid credentials are given",async function(){
+        
+        const username = "test123";
+        const password = "wrongpassword123";
+        
+        try {
+            const obj = await server.validateLogin(username, password);
+            assert.equal(obj.isValid, false);
+            assert.equal(obj.userId,null);
+            assert.equal(obj.message,"Invalid credentials.");
+        } catch (error) {
+            assert.fail(error);
+        }
+    });
+    it("(V1)should be able to reject the input if the username info is not formatted correctly",async function(){
+        
+        const username1 = "!@#$%^&*()-+=_";
+        const password1 = "validpw";
+        
+        try {
+            const obj = await server.validateLogin(username1, password1);
+        } catch (error) {
+            assert.equal(error,"invalid username or password.");
+        }
+    });
+    it("(V2)should be able to reject the input if the password info is not formatted correctly",async function(){
+
+        const username2 = "validuser";
+        const password2 = "=+_-)(*&^%$#@!";
+        
+        try {
+            const obj = await server.validateLogin(username2, password2);
+        } catch (error) {
+            assert.equal(error,"invalid username or password.");
         }
     });
 
