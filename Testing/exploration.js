@@ -33,6 +33,7 @@
         for(let i = 0; i < stations.features.length; i++) {
             if(stations.features[i].properties.IDENTIFIER == station) {
                 getLinks(i, "annual", stations);
+                break;
             }
         }
 
@@ -44,6 +45,7 @@
         for(let i = 0; i < stations.features.length; i++) {
             if(stations.features[i].properties.IDENTIFIER == station) {
                 getLinks(i, "monthly", stations);
+                break;
             }
         }
     }
@@ -54,6 +56,7 @@
         for(let i = 0; i < stations.features.length; i++) {
             if(stations.features[i].properties.IDENTIFIER == station) {
                 getLinks(i, "daily", stations);
+                break;
             }
         }
     }
@@ -76,6 +79,7 @@
             if(stations.features[index].properties.links[j].href.includes(partialLink)) {
                 let selected = stations.features[index].properties.links[j].href;
                 getData(selected, freq);
+                break;
             }
         }
     }
@@ -121,6 +125,6 @@
     }
 
     //getStations();
-    getAnnual("Hello");
+    getAnnual("01AD015");
     //getMonthly("01AD003");
     //getDaily("01AA002");
