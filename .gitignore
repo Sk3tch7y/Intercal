@@ -125,3 +125,10 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+<<<<<<< HEAD
+
+# mac ds file
+=======
+# ds mac file
+>>>>>>> ea0d889d034f9a3d34225b57c8ff4fffb3169a5b
+**/.DS_Store
