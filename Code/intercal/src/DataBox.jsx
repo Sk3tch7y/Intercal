@@ -18,7 +18,7 @@ export default function DataBox() {
   //Set new data to be mapped
 
   let as = favs.map((fav) =>{
-    return <ThumbData postId={fav} ></ThumbData>;
+    return <ThumbData postData={fav} ></ThumbData>;
   });
   return (
   <div className = 's'>
