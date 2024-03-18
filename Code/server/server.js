@@ -183,8 +183,57 @@ function validateAccountCreation(userId,password) {
   });
 }
 
+
+//Function for creating account
+//
+function createAccount(userId,password){
+
+  return new Promise((resolve,reject) => {
+
+   //establish connection to the database
+   const con = getConnection();
+
+   // Connect to the database, reject if error
+   con.connect((err) => {
+     if(err){
+       reject(err);
+     }
+   });
+
+
+   //check for valid id
+   const auth = validateAccountCreation(userId,password);
+   //if the userId and password is invalid reject the creation
+  if(auth.overall != "Valid"){
+   reject("Invalid account info.");
+  }
+
+//insert the new account
+con.query(`INSERT INTO accounts (userid,password) VALUES (?,?)`, [userId,password], (err, rows, fields) => {
+  if (err) {
+      // Reject the promise if there's an error
+      con.end(); // Close the connection
+      reject(err);
+      return;
+  }
+
+  //close the connection
+  con.end();
+
+  //build the JSON object to be returned
+  const result = {status: 'Success'};
+
+  //resolve the promise with the result
+  resolve(result); 
+});
+
+
+  });  
+}
+
 module.exports = {
   getConnection,
   validateLogin,
   validateAccountCreation,
+  createAccount,
 };
