@@ -150,3 +150,33 @@ describe("validateAccountCreation tests",function(){
 
 
 });
+
+describe("createAccount tests",function(){
+    usernameAlreadyTaken = "test123";
+    usernameInvalidFormat = "!@#$%^&*()_-+=";
+    passwordInvalidFormat = "=+-_)(*&^%$#@!";
+    username = "newuser123";
+    password = "pass123";
+
+    it("Should be able to reject the addition of an incorrectly formatted username",async function(){
+        try{
+            await server.createAccount(usernameInvalidFormat,password);
+        } catch(error) {
+            assert.equal(error,"Invalid account info.");
+        }
+    });
+    it("Should be able to reject the addition of an incorrectly formatted password",async function(){
+        try{
+            await server.createAccount(username,passwordInvalidFormat);
+        } catch(error) {
+            assert.equal(error,"Invalid account info.");
+        }
+    });
+    it("Should be able to reject the addition of a username already in use",async function(){
+        try{
+            await server.createAccount(usernameAlreadyTaken,password);
+        } catch(error) {
+            assert.equal(error,"Invalid account info.");
+        }
+    });
+});

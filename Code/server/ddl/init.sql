@@ -1,24 +1,29 @@
-CREATE DATABASE maindb IF NOT EXISTS;
-go
+CREATE DATABASE IF NOT EXISTS maindb;
+
 
 USE maindb;
-go
 
-CREATE TABLE IF NOT EXISTS accounts (
+
+DROP TABLE IF EXISTS savedData;
+DROP TABLE IF EXISTS accounts;
+
+
+
+CREATE TABLE accounts (
 
 userid VARCHAR(20),
 password VARCHAR(20),
 accountType VARCHAR(5),
-PRIMARY KEY (userid),
-FOREIGN KEY (userid) REFERENCES savedData(userid)
+PRIMARY KEY (userid)
 
 );
 
-
-CREATE TABLE IF NOT EXISTS savedData (
+CREATE TABLE savedData (
 
 userid VARCHAR(20),
-query VARCHAR
+query VARCHAR(4096),
+FOREIGN KEY (userid) REFERENCES accounts(userid)
 );
+
 
 INSERT INTO accounts(userid,password) VALUES ('test123','pass123');
