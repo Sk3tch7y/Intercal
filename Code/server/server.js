@@ -51,7 +51,7 @@ function getConnection(){
 // Usage:
 // Notice the async keyword in the middleware function
 
-//express function for validating a login request
+//express middleware function for validating a login request
 app.use("/login", async function(req, res, next) {
   const username = "test123";
   const password = "pass123";
