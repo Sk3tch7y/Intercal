@@ -1,5 +1,5 @@
 
-//This document contains functions for computing a statistical summary for a list of numeric data
+//This document contains functions for conducting a statistical analysis of a list of numeric data.
 
 //returns null for empty arrays
 function fiveNumSummary(inputArray) {
@@ -88,6 +88,26 @@ function stdev(inputArray) {
    } else {
    return Math.pow(sigmaSquared, 0.5);
    }
+}
+
+//compute the following probabilities using z-scores: 
+//probability that x < a (mode 0)
+//probability that a < x < b (mode 1)
+//probability that a < x (mode 2)
+function zScore(inputArray, mode, a, b) {
+   let mu = mean(inputArray);
+   let sigma = stdev(inputArray);
+   switch (mode) {
+      case 0: return integrateGaussian(-10, (a-mu)/sigma);
+      case 1: return integrateGaussian((a-mu)/sigma, (b-mu)/sigma);
+      case 2: return integrateGaussian((a-mu)/sigma, 10);
+      default: console.log("Invalid value for mode given."); return null;
+   }
+}
+
+// Takes the indefininte integral of the standard normal distribution between the specified enpoints
+function integrateGaussian(leftEnd, rightEnd) {
+   //TODO
 }
 
 //for testing
