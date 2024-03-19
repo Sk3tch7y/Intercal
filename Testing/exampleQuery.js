@@ -1,4 +1,4 @@
-const {getAnnual, getMonthly, getDaily} = require('./exploration');
+const {getAnnual, getMonthly, getDaily} = require('./queries');
 
 async function test() {
     //testDaily = await getDaily("01AD002");
