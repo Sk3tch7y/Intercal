@@ -3,7 +3,7 @@ async function getAnnual(station) {
     const stations = await response.json();
     for(let i = 0; i < stations.features.length; i++) {
         if(stations.features[i].properties.IDENTIFIER == station) {
-            getLinks(i, "annual", stations);
+            getLinkedData(i, "annual", stations);
             break;
         }
     }
@@ -13,7 +13,7 @@ async function getMonthly(station) {
     const stations = await response.json();
     for(let i = 0; i < stations.features.length; i++) {
         if(stations.features[i].properties.IDENTIFIER == station) {
-            getLinks(i, "monthly", stations);
+            getLinkedData(i, "monthly", stations);
             break;
         }
     }
@@ -23,12 +23,12 @@ async function getDaily(station) {
     const stations = await response.json();
     for(let i = 0; i < stations.features.length; i++) {
         if(stations.features[i].properties.IDENTIFIER == station) {
-            getLinks(i, "daily", stations);
+            getLinkedData(i, "daily", stations);
             break;
         }
     }
 }
-function getLinks(index, freq, stations) {
+function getLinkedData(index, freq, stations) {
     let partialLink = "";
     switch(freq) {
         case "annual":
@@ -60,36 +60,49 @@ async function getData(url, freq) {
     //console.log(jsonData);
     for(let i = 0; i < jsonData.features.length; i++) {
         if(freq == "annual") {
-            levelData.push([Number(jsonData.features[i].properties.MAX_DATE.substring(0,4)), jsonData.features[i].properties.MAX_VALUE, jsonData.features[i].properties.MIN_VALUE])
-            //console.log(jsonData.features[i].properties.MAX_DATE.substring(0,4)); // Get max value for annual water levels
-            //console.log(jsonData.features[i].properties.MIN_DATE); // Get min value for annual water levels
+            if(jsonData.features[i].properties.DATA_TYPE_EN == "Water Level") {
+                levelData.push([Number(jsonData.features[i].properties.MAX_DATE.substring(0,4)), jsonData.features[i].properties.MAX_VALUE, jsonData.features[i].properties.MIN_VALUE]);
+                //console.log(jsonData.features[i].properties.MAX_DATE.substring(0,4)); // Get max value for annual water levels
+                //console.log(jsonData.features[i].properties.MIN_DATE); // Get min value for annual water levels
+            }
+            else if(jsonData.features[i].properties.DATA_TYPE_EN == "Discharge") {
+                dischargeData.push([Number(jsonData.features[i].properties.MAX_DATE.substring(0,4)), jsonData.features[i].properties.MAX_VALUE, jsonData.features[i].properties.MIN_VALUE]);
+            }
+            else {
+                // Do nothing
+            }
         }
         else if(freq == "monthly") {
             if(jsonData.features[i].properties.MONTHLY_MEAN_LEVEL != null) {
-                console.log(jsonData.features[i].properties.MONTHLY_MEAN_LEVEL); // If monthly level exists, get it
+                //console.log(jsonData.features[i].properties.MONTHLY_MEAN_LEVEL); // If monthly level exists, get it
+                levelData.push([Number(jsonData.features[i].properties.DATE.substring(0,4)), Number(jsonData.features[i].properties.DATE.substring(5,7)), jsonData.features[i].properties.MONTHLY_MEAN_LEVEL]);
             }
-            else if(jsonData.feature[i].properties.MONTHLY_MEAN_DISCHARGE != null) {
-                console.log(jsonData.features[i].properties.MONTHLY_MEAN_DISCHARGE); // If monthly discharge exists, get it
+            else if(jsonData.features[i].properties.MONTHLY_MEAN_DISCHARGE != null) {
+                //console.log(jsonData.features[i].properties.MONTHLY_MEAN_DISCHARGE); // If monthly discharge exists, get it
+                levelData.push([Number(jsonData.features[i].properties.DATE.substring(0,4)), Number(jsonData.features[i].properties.DATE.substring(5,7)), jsonData.features[i].properties.MONTHLY_MEAN_DISCHARGE]);
             }
             else {
-                console.log("Nothing to show.");
+                // Do nothing
             }
         }
         else {
             if(jsonData.features[i].properties.LEVEL != null) {
-                console.log("Level: " + jsonData.features[i].properties.LEVEL); // If water level data exists, get it
+                //console.log("Level: " + jsonData.features[i].properties.LEVEL); // If water level data exists, get it
+                levelData.push([Number(jsonData.features[i].properties.DATE.substring(0,4)), Number(jsonData.features[i].properties.DATE.substring(5,7)), Number(jsonData.features[i].properties.DATE.substring(8,10)), jsonData.features[i].properties.LEVEL]);
             }
             else if(jsonData.features[i].properties.DISCHARGE != null) {
-                console.log("Discharge: " + jsonData.features[i].properties.DISCHARGE); // If water discharge data exists, get it
+                //console.log("Discharge: " + jsonData.features[i].properties.DISCHARGE); // If water discharge data exists, get it
+                levelData.push([Number(jsonData.features[i].properties.DATE.substring(0,4)), Number(jsonData.features[i].properties.DATE.substring(5,7)), Number(jsonData.features[i].properties.DATE.substring(8,10)), jsonData.features[i].properties.DISCHARGE]);
             }
             else {
-                console.log("Nothing to show.");
+                // Do nothing
             }
         }
     }
     console.log(levelData);
+    console.log(dischargeData);
 }
 //getStations();
-getAnnual("01AD015");
-//getMonthly("01AD003");
-//getDaily("01AA002");
+//getAnnual("01AD015");
+//getMonthly("01AD002");
+getDaily("01AA002");
