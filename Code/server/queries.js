@@ -1,5 +1,5 @@
 
-    async function getAnnual(station) {
+async function getAnnual(station) {
         console.log("fetching " + station);
         const response = await fetch("https://api.weather.gc.ca/collections/hydrometric-stations/items?lang=en&limit=7963");
         const stations = await response.json();
@@ -114,7 +114,7 @@
     //getMonthly("01AD002");
     //getDaily("01AA002");
     module.exports = {
-        getAnnual,
+        getDaily,
         getMonthly,
-        getDaily
+        getAnnual
     }
