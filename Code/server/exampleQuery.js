@@ -1,10 +1,10 @@
-const { getAnnual } = require('./queries.js');
+const stations = require('./queries.js');
 
-async function test() {
-    //testDaily = await getDaily("01AD002");
-    //testMonthly = await getMonthly("01AD002");
-    testAnnual = await getAnnual("01AD002");
-    console.log(testAnnual);
+async function example() {
+    exampleDaily = await stations.getDaily("01AD002");
+    //exampleMonthly = await stations.getMonthly("01AD002");
+    //exampleAnnual = await stations.getAnnual("01AD002");
+    console.log(exampleDaily);
 }
 
-test();
+example();
