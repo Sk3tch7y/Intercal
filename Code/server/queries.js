@@ -109,6 +109,16 @@ async function getAnnual(station) {
         //console.log(dischargeData);
         return [levelData, dischargeData];
     }
+    async function getIds() {
+        idArray = [];
+        const response = await fetch("https://api.weather.gc.ca/collections/hydrometric-stations/items?lang=en&limit=7963");
+        const stations = await response.json();
+        for(let i = 0; i < stations.features.length; i++) {
+            idArray.push(stations.features[i].properties.IDENTIFIER, stations.features[i].properties.STATION_NAME);
+        }
+        return idArray;
+
+    }
     //getStations();
     //getAnnual("01AD015");
     //getMonthly("01AD002");
@@ -116,5 +126,6 @@ async function getAnnual(station) {
     module.exports = {
         getDaily,
         getMonthly,
-        getAnnual
+        getAnnual,
+        getIds
     }
