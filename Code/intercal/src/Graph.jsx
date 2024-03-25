@@ -1,5 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
+import { fiveNumSummary } from './stats';
+
+//For testing
+let sampleData = [8, 9, 1, 8, 5, 10, 13, 70];
+let FiveNumSum = fiveNumSummary(sampleData);
+let display = <></>;  
 
 export default function Graph(data) {
   console.log(data);
@@ -8,25 +14,30 @@ export default function Graph(data) {
   </>
 
 function MyButton() {
-  const [FiveNumberSumarry, setFiveNumberSumarry] = useState([0, 1, 2, 3, 4]);
-
+  const [FiveNumberSumarry, setFiveNumberSumarry] = useState(FiveNumSum);
+  
   function handleClick() {
-    setFiveNumberSumarry([5, 6, 7, 8, 9]);
-  }
-
-  return ( <>
-    <button onClick={handleClick}> 
-      5-Number Sumarry </button>
+    setFiveNumberSumarry(fiveNumSummary(sampleData));
+    display =  <>
     <p>Minimum:         {FiveNumberSumarry[0]}</p>
     <p>First quartile:  {FiveNumberSumarry[1]}</p>
     <p>Median:          {FiveNumberSumarry[2]}</p>
     <p>Third quartile:  {FiveNumberSumarry[3]}</p>
     <p>Maximum:         {FiveNumberSumarry[4]}</p>
+    </>;
+    
+  }
+
+  return ( <>
+    <button onClick={handleClick}> 
+      5 - Number Sumarry </button>
+    {display}
     </>
   );
 
+
 }
-  
+
 }
 
 

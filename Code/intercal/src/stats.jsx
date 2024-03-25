@@ -2,7 +2,7 @@
 //This document contains functions for conducting a statistical analysis of a list of numeric data.
 
 //returns null for empty arrays
-function fiveNumSummary(inputArray) {
+export function fiveNumSummary(inputArray) {
    //In the five number summary, the median is central datapoint for arrays of odd
    //length. It is the average of the central two data points for arrrays of even 
    //length. The first quartile (Q1) is the median of a subarray with data points
@@ -11,9 +11,9 @@ function fiveNumSummary(inputArray) {
 
    let n = inputArray.length;
    //Start with 2 edge cases
-   if (n == 0) {
+   if (n === 0) {
       return null;
-   } else if(n == 1) {
+   } else if(n === 1) {
       let x = inputArray[0];
       return [x, x, x, x, x]; //all five numbers are the single data point.
    }
@@ -35,7 +35,7 @@ function fiveNumSummary(inputArray) {
    let startUpper;
 
    //Find the median of original array.
-   if(n%2 == 1) {
+   if(n%2 === 1) {
       median = sortedArray[(n-1)/2];
       subLength = (n-1)/2;
       startUpper = subLength + 1;
@@ -46,7 +46,7 @@ function fiveNumSummary(inputArray) {
    }
 
    //Calculate Q1 and Q3.
-   if(subLength%2 == 1) {
+   if(subLength%2 === 1) {
       Q1 = sortedArray[(subLength-1)/2];
       Q3 = sortedArray[startUpper + (subLength-1)/2];
    } else {
@@ -60,7 +60,7 @@ return [min, Q1, median, Q3, max];
 //returns null for empty arrays
 function mean(inputArray) {
    let n = inputArray.length;
-   if(n == 0) {return null;}
+   if(n === 0) {return null;}
    let sum = 0;
    for(let i = 0; i < n; i++){
       sum += inputArray[i];
@@ -71,7 +71,7 @@ function mean(inputArray) {
 //returns NaN for single element arrays, and null for empty arrays
 function variance(inputArray) {
    let n = inputArray.length;
-   if(n == 0) {return null;}
+   if(n === 0) {return null;}
    let avg = mean(inputArray);
    let sum = 0;
    for(let i = 0; i < n; i++){
@@ -111,9 +111,10 @@ function integrateGaussian(leftEnd, rightEnd) {
 }
 
 //for testing
-array = [4, 5, 6, 7, 10];
-console.log("five Number Sumary: " + fiveNumSummary(array));
-console.log("mean (avergae):     " + mean(array));
-console.log("variance:           " + variance(array));
-console.log("Standard deviation: " + stdev(array));
+//array = [4, 5, 6, 7, 10];
+//console.log("five Number Sumary: " + fiveNumSummary(array));
+//console.log("mean (avergae):     " + mean(array));
+//console.log("variance:           " + variance(array));
+//console.log("Standard deviation: " + stdev(array));
+console.log(zScore([3,2,1], 2, 1, 5));
 
