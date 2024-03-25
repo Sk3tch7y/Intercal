@@ -5,6 +5,7 @@ async function example() {
     //exampleMonthly = await stations.getMonthly("01AD002");
     //exampleAnnual = await stations.getAnnual("01AD002");
     console.log(exampleDaily);
+    
 }
 
 example();
