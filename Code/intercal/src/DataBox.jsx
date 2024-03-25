@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import ThumbData from './ThumbData.jsx';
 import './/styles/styles.css';
 import './/styles/sidebarStyles.css'
 
-export default function Sidebar() {
+export default function DataBox() {
   const [favs, setFav] = useState([]);
-
+  let postId = 0;
   //get data from the server
   /*
   useEffect(() => {
@@ -14,19 +15,13 @@ export default function Sidebar() {
       .catch(error => console.error(error));
   }, []);
   */
-  function addFav(newFav){
-    setFav(newFav =>{
-      console.log(newFav);
-      let newAr = [...favs, newFav,];
-      return newAr;
-    });
-  }
+  //Set new data to be mapped
 
-    let as = favs.map((fav) =>{
-      return <a class = 'favorite' href = '{}'>{fav.id}</a>
-    });
+  let as = favs.map((fav) =>{
+    return <ThumbData postData={fav} ></ThumbData>;
+  });
   return (
-  <div className = 'sidebar'>
+  <div className = 's'>
     {as}
   </div>);
 }

@@ -5,7 +5,7 @@ version: '3.8'
 services:
   mysql:
     image: mysql:latest
-    container_name: mysql-for-website-project
+    container_name: mysql-intercal
     environment:
       MYSQL_ROOT_PASSWORD: rootpw
       MYSQL_DATABASE: maindb
@@ -15,6 +15,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./ddl:/docker-entrypoint.initdb.d
  
 volumes:
   mysql_data:
