@@ -6,7 +6,8 @@ const server = require("../Code/server/server");
 
 
 //IMPORTANT: 
-// 1. Make sure docker is running or tests will fail
+// 1. Make sure docker is running and configured correctly or tests will fail.
+//    See the docker setup in README.
 
 
 
@@ -179,4 +180,64 @@ describe("createAccount tests",function(){
             assert.equal(error,"Invalid account info.");
         }
     });
+});
+
+describe("validateSaveData tests",function(){
+    const usernameValid = 'test123';
+    const usernameInvalid = 'nonexistentuser';
+    const queryAlreadyTaken = 'testquery';
+    const queryValid = 'brandnewquery';
+    it("Should validate a valid saveData",async function(){
+        try{
+            result = await server.validateSaveData(usernameValid,queryValid);
+            assert.equal(result.overallStatus,"Valid");
+            assert.equal(result.userIdStatus,"Valid");
+            assert.equal(result.queryStatus,"Valid");
+        } catch(error){
+            assert.fail(error);
+        }
+       
+    });
+    it("Should invalidate a saveData with invalid username",async function(){
+        try{
+            result = await server.validateSaveData(usernameInvalid,queryValid);
+            assert.equal(result.overallStatus,"Invalid");
+            assert.equal(result.userIdStatus,"Invalid. userId does not exist");
+            assert.equal(result.queryStatus,"Valid");
+        } catch(error){
+            assert.fail(error);
+        }
+     });
+     it("Should invalidate a saveData that already exists",async function(){
+        try{
+            result = await server.validateSaveData(usernameValid,queryAlreadyTaken);
+            assert.equal(result.overallStatus,"Invalid");
+            assert.equal(result.userIdStatus,"Valid");
+            assert.equal(result.queryStatus,"Invalid. saveData already exists for this user");
+        } catch(error){
+            assert.fail(error);
+        }
+     });
+});
+
+describe("saveData tests", function(){
+    const usernameValid = 'test123';
+    const usernameInvalid = 'nonexistentuser';
+    const queryAlreadyTaken = 'testquery';
+    const queryValid = 'brandnewquery';
+    it("Should reject a saveData with invalid username",async function(){
+        try{
+            result = await server.saveData(usernameInvalid,queryValid);
+        } catch(error){
+            assert.equal(error,"Invalid");
+        }
+     });
+     it("Should reject a saveData that already exists",async function(){
+        try{
+            result = await server.saveData(usernameValid,queryAlreadyTaken);
+        } catch(error){
+            assert.equal(error,"Invalid");
+        }
+     });
+
 });

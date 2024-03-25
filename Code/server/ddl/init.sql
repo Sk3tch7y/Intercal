@@ -27,3 +27,4 @@ FOREIGN KEY (userid) REFERENCES accounts(userid)
 
 
 INSERT INTO accounts(userid,password) VALUES ('test123','pass123');
+INSERT INTO savedData(userid,query) VALUES ('test123','testquery');

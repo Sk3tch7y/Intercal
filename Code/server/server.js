@@ -231,9 +231,143 @@ con.query(`INSERT INTO accounts (userid,password) VALUES (?,?)`, [userId,passwor
   });  
 }
 
+//Function for checking if this bookmark already exists
+//Note: this does not save the data, this only checks if the data is already bookmarked
+function validateSaveData(userId,query){
+  return new Promise((resolve, reject) => {
+
+    //variable for JSON return object
+    overallStatus = "Valid";
+    userIdStatus = "Valid";
+    queryStatus = "Valid";
+
+    //check if the username exists
+    res = validateAccountCreation(userId,"!@#invalid!@#");
+    //the username given does not exist in the database. Update status accordingly.
+    if(res.userIdStatus != "Invalid, username already taken."){
+      overallStatus = "Invalid";
+      userIdStatus = "Invalid. userId does not exist";
+    }
+
+
+    //establish connection to the database
+    const con = getConnection();
+
+     // Connect to the database, reject if error
+     con.connect((err) => {
+      if (err) {
+        reject(err);
+      }
+    });
+
+    //query to see if saveData already exists
+    con.query(`SELECT COUNT(userid) FROM savedData WHERE userid = ? AND query = ?`,[userId,query], (err,rows,fields) =>{
+
+      con.end(); // Close the connection
+
+      // Reject the promise if there's an error
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      //the saveData already exists
+      if(rows.length > 0){
+        overallStatus = "Invalid";
+        queryStatus = "Invalid. saveData already exists for this user";
+      }
+
+      
+      //return JSON object with appropriate status
+      resolve({overallStatus,userIdStatus,queryStatus});
+    });
+  });
+}
+
+//funtion for "bookmarking" a query.
+// - The bookmark is tied to the userId, and saves the query string.
+function saveData(userId,query){
+  return new Promise((resolve, reject) => {
+
+    //establish connection to the database
+    const con = getConnection();
+
+    // Connect to the database, reject if error
+    con.connect((err) => {
+      if (err) {
+        reject(err);
+      }
+    });
+
+
+    //validate the saveData, reject if invalid
+    res = validateSaveData(userId,query);
+    if(res.overallStatus != "Valid"){
+      reject(res.overallStatus);
+    }
+
+    //insert the new saveData
+    con.query(`INSERT INTO saveData(userid,query) VALUES (?,?)`, [userId, query], (err, rows, fields) => {
+      //close the connection
+      con.end();
+
+      // Reject the promise if there's an error
+      if (err) {
+        reject(err);
+      }
+
+      //build the JSON object to be returned
+      const result = { status: 'Success' };
+
+      //resolve the promise with the result
+      resolve(result);
+    });
+  });
+}
+
+//Function to get a list of saved data as a JSON list
+//
+function getSaveData(userId){
+  return new Promise((resolve, reject) => {
+
+    //establish connection to the database
+    const con = getConnection();
+
+    // Connect to the database, reject if error
+    con.connect((err) => {
+      if (err) {
+        reject(err);
+      }
+    });
+
+    //get all saved queries
+    con.query(`SELECT query FROM saveData WHERE userid = ?`,[userId],(err,rows,fields) => {
+      //close the connection
+      con.end();
+
+      // Reject the promise if there's an error
+      if (err) {
+        reject(err);
+      }
+
+      //create list of queries
+      var list = [];
+      for(r in rows){
+        list.push(r);
+      }
+
+      //return a json array of list
+      resolve(JSON.stringify(list));
+    });
+  });
+}
+
+
 module.exports = {
   getConnection,
   validateLogin,
   validateAccountCreation,
   createAccount,
+  validateSaveData,
+  saveData,
 };
