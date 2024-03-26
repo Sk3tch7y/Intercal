@@ -107,6 +107,7 @@ function zScore(inputArray, mode, a, b) {
 
 // Takes the indefininte integral of the standard normal distribution between the specified enpoints
 function integrateGaussian(leftEnd, rightEnd) {
+   zScore([3,2,1], 2, 1, 5);
    //TODO
 }
 
@@ -116,5 +117,4 @@ function integrateGaussian(leftEnd, rightEnd) {
 //console.log("mean (avergae):     " + mean(array));
 //console.log("variance:           " + variance(array));
 //console.log("Standard deviation: " + stdev(array));
-console.log(zScore([3,2,1], 2, 1, 5));
 
