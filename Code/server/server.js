@@ -351,10 +351,11 @@ function getSaveData(userId){
       }
 
       //create list of queries
-      var list = [];
-      for(r in rows){
-        list.push(r.query);
-      }
+      let list = [];
+      rows.forEach(row => {
+        list.push(row.query);
+      });
+      
 
       //return a json array of list
       resolve(JSON.stringify(list));
@@ -465,9 +466,9 @@ function getAlerts(){
  
        //create list of alerts
        var list = [];
-       for(r in rows){
-         list.push(r);
-       }
+       rows.forEach(row => {
+        list.push(row);
+      });
  
        //return a json array of list
        resolve(JSON.stringify(list));
