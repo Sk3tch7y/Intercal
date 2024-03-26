@@ -22,7 +22,7 @@ class GraphWrapper extends React.Component {
 
     render() {
         const { graphData, otherData } = this.state;
-        <Graph data={graphData} />
+        //<Graph data={graphData} />
         return (
             <div>
                 <h1>Monitoring Post</h1>

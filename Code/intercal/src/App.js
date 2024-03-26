@@ -14,11 +14,6 @@ function App() {
       <div className ='rightSide'>
         <SearchBar></SearchBar>
         <Dashboard></Dashboard>
-        <SearchBar></SearchBar>
-        <GraphWrapper></GraphWrapper>
-      </div>
-      <div className = "dataViewingWindow">
-        <GraphWrapper></GraphWrapper>
       </div>
       
     </div>
