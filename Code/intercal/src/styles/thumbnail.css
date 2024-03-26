@@ -1,0 +1,13 @@
+.postThumbnail {
+    box-sizing: border-box;
+    display: flex;
+    width: 94%;
+    height: 5%;
+    background-color: #f2f2f2;
+    border-radius: var(--DefaultBR);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    align-items: center;
+    padding-left: 17px;
+}
+

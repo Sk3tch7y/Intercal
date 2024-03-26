@@ -1,16 +1,13 @@
 .sidebar{
+    padding-top: 10px;
     width: 18vw;
     height: 100vh;
     display: inline-flex;
     flex-direction: column;
     float: left;
+    flex-direction: column;
+    align-items: center;
+    overflow: scroll;
     background: linear-gradient(to bottom right, #003552, #58C4FF);
 
-}
-
-.favorite{
-    width: 90%;
-    height: 5%;
-    background-color: #FFFFFF;
-    box-shadow: #003552 2px;
 }
