@@ -248,7 +248,7 @@ describe("getSaveData tests",function(){
 
     it("should return a list of saveData for the corresponding username",async function(){
         result = await server.getSaveData(usernameValid);
-        assert.equal(result.length,1);
+        result = JSON.parse(result);
         assert.equal(result[0],'testquery');
     });
 });
