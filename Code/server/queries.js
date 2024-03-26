@@ -1,8 +1,12 @@
+const fs = require('node:fs');
 
+async function getStations() {
+    const stations = (await fetch("https://api.weather.gc.ca/collections/hydrometric-stations/items?lang=en&limit=7963&f=json")).json();
+    return stations;
+}
 async function getAnnual(station) {
         console.log("fetching " + station);
-        const response = await fetch("https://api.weather.gc.ca/collections/hydrometric-stations/items?lang=en&limit=7963");
-        const stations = await response.json();
+        const stations = await getStations();
         for(let i = 0; i < stations.features.length; i++) {
             if(stations.features[i].properties.IDENTIFIER == station) {
                 var data = getLinkedData(i, "annual", stations);
@@ -13,8 +17,7 @@ async function getAnnual(station) {
     }
     async function getMonthly(station) {
         console.log("fetching " + station);
-        const response = await fetch("https://api.weather.gc.ca/collections/hydrometric-stations/items?lang=en&limit=7963");
-        const stations = await response.json();
+        const stations = await getStations();
         for(let i = 0; i < stations.features.length; i++) {
             if(stations.features[i].properties.IDENTIFIER == station) {
                 var data = getLinkedData(i, "monthly", stations);
@@ -25,8 +28,7 @@ async function getAnnual(station) {
     }
     async function getDaily(station) {
         console.log("fetching " + station);
-        const response = await fetch("https://api.weather.gc.ca/collections/hydrometric-stations/items?lang=en&limit=7963");
-        const stations = await response.json();
+        const stations = await getStations();
         for(let i = 0; i < stations.features.length; i++) {
             if(stations.features[i].properties.IDENTIFIER == station) {
                 var data = getLinkedData(i, "daily", stations);
@@ -109,23 +111,29 @@ async function getAnnual(station) {
         //console.log(dischargeData);
         return [levelData, dischargeData];
     }
-    async function getIds() {
-        idArray = [];
-        const response = await fetch("https://api.weather.gc.ca/collections/hydrometric-stations/items?lang=en&limit=7963");
-        const stations = await response.json();
-        for(let i = 0; i < stations.features.length; i++) {
-            idArray.push(stations.features[i].properties.IDENTIFIER, stations.features[i].properties.STATION_NAME);
-        }
-        return idArray;
 
+    async function makeStationList() {
+        list = await getStations();
+        list = JSON.stringify(list.features);
+        fs.writeFile("stations.json", list, err => {
+            if(err) {
+                console.error(err);
+            }
+            else {
+                console.log("stations.json initialized");
+            }
+        });
     }
+    
     //getStations();
     //getAnnual("01AD015");
     //getMonthly("01AD002");
     //getDaily("01AA002");
+    //makeStationList();
     module.exports = {
         getDaily,
         getMonthly,
         getAnnual,
-        getIds
+        getStations,
+        makeStationList
     }

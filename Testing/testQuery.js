@@ -5,16 +5,17 @@ const stationQuery = require("../Code/server/queries");
 let station = "01AD002";
 
 describe("Testing Query Functions", function() {
-    it("Should return the date of the data entry annually", function() {
-        annualData = stationQuery.getAnnual(station);
+    annualData = stationQuery.getAnnual(station);
+    monthlyData = stationQuery.getMonthly(station);
+    dailyData = stationQuery.getDaily(station);
+    it("Should return the date of the data entry annually (1927)", function() {
         assert.equal(annualData[1][0][0], 1927);
     });
 
-    it("Should return no data for the entry monthly", function() {
-        monthlyData = stationQuery.getMonthly(station);
-        myTest = (monthlyData[0] == 0 && monthlyData[1] == 0);
-        assert.equal(myTest, true);
+    it("Should return the month of the first data entry monthly (10)", function() {
+        assert.equal(monthlyData[0][0][1], 10);
     });
-    //it("")
-    // To be cont'd
+    it("Should return the day of the first data entry daily", function() {
+        
+    })
 });

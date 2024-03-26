@@ -2,7 +2,8 @@ require('dotenv').config();
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-const { get } = require("request");
+//const { get } = require("request");
+const stations = require('./queries');
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
+stations.makeStationList();
 
 //function to get a connection to the db
 //
