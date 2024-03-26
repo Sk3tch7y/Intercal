@@ -234,19 +234,19 @@ con.query(`INSERT INTO accounts (userid,password) VALUES (?,?)`, [userId,passwor
 //Function for checking if this bookmark already exists
 //Note: this does not save the data, this only checks if the data is already bookmarked
 function validateSaveData(userId,query){
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
 
     //variable for JSON return object
-    overallStatus = "Valid";
-    userIdStatus = "Valid";
+    overall = "Valid";
+    isUserIdValid = "Valid";
     queryStatus = "Valid";
 
     //check if the username exists
-    res = validateAccountCreation(userId,"!@#invalid!@#");
+    res = await validateAccountCreation(userId,"!@#invalid!@#");
     //the username given does not exist in the database. Update status accordingly.
     if(res.userIdStatus != "Invalid, username already taken."){
-      overallStatus = "Invalid";
-      userIdStatus = "Invalid. userId does not exist";
+      overall = "Invalid";
+      isUserIdValid = "Invalid. userId does not exist";
     }
 
 
@@ -261,7 +261,7 @@ function validateSaveData(userId,query){
     });
 
     //query to see if saveData already exists
-    con.query(`SELECT COUNT(userid) FROM savedData WHERE userid = ? AND query = ?`,[userId,query], (err,rows,fields) =>{
+    con.query(`SELECT userid FROM savedData WHERE userid = ? AND query = ?`,[userId,query], (err,rows,fields) =>{
 
       con.end(); // Close the connection
 
@@ -273,13 +273,13 @@ function validateSaveData(userId,query){
 
       //the saveData already exists
       if(rows.length > 0){
-        overallStatus = "Invalid";
-        queryStatus = "Invalid. saveData already exists for this user";
+        overall = "Invalid";
+        queryStatus = "Invalid. savedData already exists for this user";
       }
 
       
       //return JSON object with appropriate status
-      resolve({overallStatus,userIdStatus,queryStatus});
+      resolve({overall,isUserIdValid,queryStatus});
     });
   });
 }
@@ -287,7 +287,7 @@ function validateSaveData(userId,query){
 //funtion for "bookmarking" a query.
 // - The bookmark is tied to the userId, and saves the query string.
 function saveData(userId,query){
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
 
     //establish connection to the database
     const con = getConnection();
@@ -301,13 +301,13 @@ function saveData(userId,query){
 
 
     //validate the saveData, reject if invalid
-    res = validateSaveData(userId,query);
-    if(res.overallStatus != "Valid"){
-      reject(res.overallStatus);
+    res = await validateSaveData(userId,query);
+    if(res.overall != "Valid"){
+      reject(res.overall);
     }
 
     //insert the new saveData
-    con.query(`INSERT INTO saveData(userid,query) VALUES (?,?)`, [userId, query], (err, rows, fields) => {
+    con.query(`INSERT INTO savedData(userid,query) VALUES (?,?)`, [userId, query], (err, rows, fields) => {
       //close the connection
       con.end();
 
@@ -317,7 +317,7 @@ function saveData(userId,query){
       }
 
       //build the JSON object to be returned
-      const result = { status: 'Success' };
+      const result = {status: 'Success' };
 
       //resolve the promise with the result
       resolve(result);
@@ -341,7 +341,7 @@ function getSaveData(userId){
     });
 
     //get all saved queries
-    con.query(`SELECT query FROM saveData WHERE userid = ?`,[userId],(err,rows,fields) => {
+    con.query(`SELECT query FROM savedData WHERE userid = ?`,[userId],(err,rows,fields) => {
       //close the connection
       con.end();
 
@@ -353,7 +353,7 @@ function getSaveData(userId){
       //create list of queries
       var list = [];
       for(r in rows){
-        list.push(r);
+        list.push(r.query);
       }
 
       //return a json array of list
@@ -363,6 +363,118 @@ function getSaveData(userId){
 }
 
 
+//Function for checking if the user is an admin
+// 
+function isAdmin(userId) {
+  return new Promise((resolve, reject) => {
+
+
+    //establish connection to the database
+    const con = getConnection();
+
+    // Connect to the database, reject if error
+    con.connect((err) => {
+      if (err) {
+        reject(err);
+      }
+    });
+
+    //check if user is admin
+    con.query(`SELECT accountType FROM accounts WHERE userid = ?`, [userId], (err, rows, fields) => {
+      //close the connection
+      con.end();
+
+      // Reject the promise if there's an error
+      if (err) {
+        reject(err);
+      }
+
+      //return true or false depending on if the user is an admin
+      resolve((rows[0].accountType == "admin"));
+
+    });
+
+  });
+}
+
+
+//Function to create an alert
+//must be an 'admin' account type
+function createAlert(userId,query,notes = "None") {
+  return new Promise((resolve, reject) => {
+
+    //check if userId is an admin account, reject creation if not admin
+    if(!isAdmin(userId)){
+      reject("User must be an admin to create alerts.");
+    }
+
+    //establish connection to the database
+    const con = getConnection();
+
+    // Connect to the database, reject if error
+    con.connect((err) => {
+      if (err) {
+        reject(err);
+      }
+    });
+
+    //create the alert 
+    //returns a JSON object indicating success
+    con.query(`INSERT INTO alerts (query,notes) VALUES(?,?)`,[query,notes],(err,rows,fields) => {
+      //close the connection
+      con.end();
+
+      // Reject the promise if there's an error
+      if (err) {
+        reject(err);
+      }
+
+      //build the JSON object to be returned
+      const result = { status: 'Success' };
+
+      //resolve the promise with the result
+      resolve(result);
+    });
+  });
+}
+
+//Function to get all alerts
+//returns as a JSON list
+//TODO: implement testing
+function getAlerts(){
+  return new Promise((resolve,reject) => {
+    //establish connection to the database
+    const con = getConnection();
+
+    //Connect to the database, reject if error
+    con.connect((err) => {
+      if (err) {
+        reject(err);
+      }
+    });
+
+    //get alerts and return them as a JSON list
+    con.query(`SELECT * FROM alerts`,(err,rows,fields) => {
+       //close the connection
+       con.end();
+
+       // Reject the promise if there's an error
+       if (err) {
+         reject(err);
+       }
+ 
+       //create list of alerts
+       var list = [];
+       for(r in rows){
+         list.push(r);
+       }
+ 
+       //return a json array of list
+       resolve(JSON.stringify(list));
+    });
+  });
+}
+
 module.exports = {
   getConnection,
   validateLogin,
@@ -370,4 +482,8 @@ module.exports = {
   createAccount,
   validateSaveData,
   saveData,
+  getSaveData,
+  createAlert,
+  getAlerts,
+  isAdmin,
 };
