@@ -10,20 +10,47 @@ export function parseDailyData(data) {
     let n = data[0].length;
     formatted.startDate = [data[0][0][0], getMonth(data[0][0][1]), data[0][0][2]];
     formatted.endDate = [data[0][n-1][0], getMonth(data[0][n-1][1]), data[0][n-1][2]];
-    formatted.frequency = "daily";
+    formatted.frequency = "Daily";
     for(var i = 0; i<n; i++){
         formatted.data[i] = data[0][i][3];
     }
     return formatted;
-
 }
 
 export function parseMonthlyData(data) {
     let formatted = new formattedData();
+    let n = data[0].length;
+    formatted.startDate = [data[0][0][0], getMonth(data[0][0][1])];
+    formatted.endDate = [data[0][n-1][0], getMonth(data[0][n-1][1])];
+    formatted.frequency = "Monthly";
+    for(var i = 0; i<n; i++){
+        formatted.data[i] = data[0][i][2];
+    }
+    return formatted;
 }
 
-export function parseAnnualData(data) {
+export function parseAnnualMaxData(data) {
     let formatted = new formattedData();
+    let n = data[1].length;
+    formatted.startDate = data[1][0][0];
+    formatted.endDate = data[1][n-1][0];
+    formatted.frequency = "Annual Maximum";
+    for(var i = 0; i<n; i++){
+        formatted.data[i] = data[1][i][1];
+    }
+    return formatted;
+}
+
+export function parseAnnualMinData(data) {
+    let formatted = new formattedData();
+    let n = data[1].length;
+    formatted.startDate = data[1][0][0];
+    formatted.endDate = data[1][n-1][0];
+    formatted.frequency = "Annual Minimum";
+    for(var i = 0; i<n; i++){
+        formatted.data[i] = data[1][i][2];
+    }
+    return formatted;
 }
 
 function getMonth(n){

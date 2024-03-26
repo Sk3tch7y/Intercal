@@ -1,5 +1,5 @@
 import React from 'react';
-import Graph from './Graph.jsx';
+import Graph from './dataViewing.jsx';
 
 class GraphWrapper extends React.Component {
     constructor(props) {
@@ -15,7 +15,7 @@ class GraphWrapper extends React.Component {
         // Fetch graph data and other data from an API or any other source
         // Update the state with the fetched data
         this.setState({
-            graphData: [1, 2, 3, 4],
+            graphData: [/* graph data */],
             otherData: 'Some other data',
         });
     }
