@@ -2,6 +2,7 @@
     width: 18vw;
     height: 100vh;
     display: inline-flex;
+    flex-direction: column;
     float: left;
     background: linear-gradient(to bottom right, #003552, #58C4FF);
 

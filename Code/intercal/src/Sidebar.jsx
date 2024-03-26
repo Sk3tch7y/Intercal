@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import './/styles/styles.css';
 import './/styles/sidebarStyles.css'
+import Thumbnail from './Thumbnail'; // Import the 'Thumbnail' component
+import { sampleFavs } from './testFiles/sampleFavs';
 
 export default function Sidebar() {
   const [favs, setFav] = useState([]);
@@ -20,7 +22,9 @@ export default function Sidebar() {
       return newAr;
     });
   }
-
+    if(favs.length === 0){
+      setFav(sampleFavs); 
+    }
     let as = favs.map((fav) =>{
       return <a class = 'favorite' href = '{}'>{fav.id}</a>
     });
