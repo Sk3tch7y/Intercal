@@ -1,7 +1,7 @@
 const stations = require('./queries.js');
 
 async function example() {
-    exampleDaily = await stations.getDaily("0000000"); console.log(exampleDaily);
+    exampleDaily = await stations.getDaily("0000000"); console.log(exampleDaily == undefined);
     //exampleMonthly = await stations.getMonthly("01AD002"); console.log(exampleMonthly);
     //exampleAnnual = await stations.getAnnual("01AD002"); console.log(exampleAnnual);
     //exampleStations = await stations.getStations(); console.log(exampleStations);

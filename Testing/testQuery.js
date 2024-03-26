@@ -6,10 +6,18 @@ const stationQuery = require("../Code/server/queries");
 let station = "01AD002";
 
 describe("Testing Query Functions", function() {
-    it("Should return 'No matches'", async function() {
+    it("Should return no matches for invalid station ID on annual values", async function() {
         let noData = await stationQuery.getAnnual("Intercal");
-        assert.equal(noData, "No matches");
-    })
+        assert.equal(noData, undefined);
+    });
+    it("Should return no matches for invalid station ID on monthly values", async function() {
+        let noData = await stationQuery.getMonthly("Intercal");
+        assert.equal(noData, undefined);
+    });
+    it("Should return no matches for invalid station ID on daily values", async function() {
+        let noData = await stationQuery.getDaily("Intercal");
+        assert.equal(noData, undefined);
+    });
     it("Should return a list of stations", async function() {
         let stationList = await stationQuery.getStations();
         assert.equal(stationList.type, "FeatureCollection");
@@ -27,7 +35,7 @@ describe("Testing Query Functions", function() {
     it("Should return the day of the first data entry daily (1)", async function() {
         let dailyData = await stationQuery.getDaily(station);
         assert.equal(dailyData[0][0][2], 1);
-    })
+    });
 });
 
 describe("Testing json file creation", function() {
