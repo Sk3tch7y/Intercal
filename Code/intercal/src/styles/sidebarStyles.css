@@ -6,7 +6,8 @@
     float: left;
     flex-direction: column;
     align-items: center;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     background: linear-gradient(to bottom right, #003552, #58C4FF);
 
 }
