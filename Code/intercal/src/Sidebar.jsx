@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import './/styles/styles.css';
 import './/styles/sidebarStyles.css'
 import Thumbnail from './Thumbnail'; // Import the 'Thumbnail' component
-import { sampleFavs } from './testFiles/sampleFavs';
+import { sampleFavs } from './sampleFavs';
 
 export default function Sidebar() {
   const [favs, setFav] = useState([]);
+ 
   //get data from the server
   /*
   useEffect(() => {
@@ -15,6 +16,7 @@ export default function Sidebar() {
       .catch(error => console.error(error));
   }, []);
   */
+
   function addFav(newFav){
     setFav(newFav =>{
       console.log(newFav);
@@ -22,12 +24,18 @@ export default function Sidebar() {
       return newAr;
     });
   }
-    if(favs.length === 0){
-      setFav(sampleFavs); 
-    }
-    let as = favs.map((fav) =>{
-      return <a class = 'favorite' href = '{}'>{fav.id}</a>
-    });
+  
+  //test
+
+
+  if(favs.length === 0){
+    setFav(sampleFavs); 
+  }
+  let as = favs.map((fav) =>{
+    console.log(fav);
+    return <Thumbnail monitoringPost={fav} ></Thumbnail>;
+  });
+  
   return (
   <div className = 'sidebar'>
     {as}
