@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import ThumbData from './ThumbData.jsx';
 import './/styles/styles.css';
-import './/styles/sidebarStyles.css'
+import './/styles/databox.css'
 
-export default function DataBox() {
-  const [favs, setFav] = useState([]);
+export default function DataBox( {data} ) {
   let postId = 0;
   //get data from the server
   /*
@@ -17,15 +15,21 @@ export default function DataBox() {
   */
   //Set new data to be mapped
 
-  let as = favs.map((fav) =>{
-    return (
-    <div className = 'dataBox'>
-      
+  let as = (
+    <div className = 'data'>
+      <div className = 'dataID'>
+        <h6>{data.postId}</h6>
+      </div>
+      <div className = 'content'>
+        <h6>{data.content}</h6>
+      </div>
+      <div className = 'waterLevel'>
+        <h6>{data.waterLevel}</h6>
+      </div>
     </div>
-    )
-  });
+    );
   return (
-  <div className = 'dataBox'>
+  <div className = 'databox'>
     {as}
   </div>);
 }

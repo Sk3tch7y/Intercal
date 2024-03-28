@@ -3,6 +3,7 @@
     width: 16vw;
     height: 100vh;
     display: inline-flex;
+    flex-direction: column;
     float: left;
     flex-direction: column;
     align-items: center;

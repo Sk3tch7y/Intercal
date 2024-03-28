@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './/styles/styles.css';
 import './/styles/sidebarStyles.css'
-import ThumbData from './ThumbData'; // Import the 'ThumbData' component
 import Thumbnail from './Thumbnail'; // Import the 'Thumbnail' component
 import { sampleFavs } from './sampleFavs';
 
