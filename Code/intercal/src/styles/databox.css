@@ -1,0 +1,12 @@
+.databox{
+    background-color: white;
+    width: 10%;
+    height: 8%;
+    border-radius: var(--DefaultBR);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    float: left;
+}
