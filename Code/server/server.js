@@ -3,13 +3,13 @@ const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
 const { get } = require("request");
+const stations = require('./queries');
 
 const app = express();
 
 var corsOptions = {
   origin: "http://localhost:8081"
 };
-
 app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
@@ -20,7 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
+  const body = req.body;
   res.json({ message: "cool it works"});
+  res.send(body);
   
 });
 
@@ -30,6 +32,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
+stations.makeStationList();
 
 //function to get a connection to the db
 //
