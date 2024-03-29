@@ -1,6 +1,7 @@
 import React from 'react';
 import Graph from './dataViewing.jsx';
 
+
 class GraphWrapper extends React.Component {
     constructor(props) {
         super(props);
@@ -29,6 +30,7 @@ class GraphWrapper extends React.Component {
                 <div className='sidemenu'>{otherData}</div>
                 <div className = 'graph'></div>
                 <Graph data = {graphData}></Graph>
+
             </div>
         );
     }

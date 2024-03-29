@@ -1,10 +1,16 @@
 .dashboard{
-    display: inline-flex;
+    display: flex;
     background: var(--DefaultGrad);
     margin-top: 6%;
     margin-bottom: 1%;
+    padding-top: 20px;
+    overflow-y: scroll;
+    overflow-x:visible;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: flex-start;
     width: 95%;
     height: 85%;
-    justify-self: center;
     border-radius: var(--DefaultBR);
 }

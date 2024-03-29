@@ -6,6 +6,7 @@ import Dashboard from './/dashboard.jsx';
 import SearchBar from './SearchBar.jsx';
 import GraphWrapper from './GraphWrapper.jsx';
 
+
 function App() {
 
   return (

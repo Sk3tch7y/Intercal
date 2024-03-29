@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './/styles/styles.css';
 import './/styles/dashboard.css'
 import DataBox from './DataBox';
-
+import { sampleDash } from './testFiles/sampleDash';
 
 export default function Dashboard() {
   const [watched, setWatched] = useState([]);
@@ -24,10 +24,14 @@ export default function Dashboard() {
       return newAr;
     });
   }
-
+    if(watched.length === 0){
+      setWatched(sampleDash); 
+    }
     let as = watched.map((fav) =>{
-      return <DataBox postId={fav} ></DataBox>;
+      return <DataBox key ={fav.postId} data={fav} ></DataBox>;
+
     });
+
   return (
   <div className='dashboard'>
     {as}

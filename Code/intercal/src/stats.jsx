@@ -35,7 +35,7 @@ export function fiveNumSummary(inputArray) {
    let startUpper;
 
    //Find the median of original array.
-   if(n%2 === 1) {
+   if(n%2 == 1) {
       median = sortedArray[(n-1)/2];
       subLength = (n-1)/2;
       startUpper = subLength + 1;
@@ -46,7 +46,8 @@ export function fiveNumSummary(inputArray) {
    }
 
    //Calculate Q1 and Q3.
-   if(subLength%2 === 1) {
+
+   if(subLength%2 == 1) {
       Q1 = sortedArray[(subLength-1)/2];
       Q3 = sortedArray[startUpper + (subLength-1)/2];
    } else {
@@ -60,7 +61,7 @@ return [min, Q1, median, Q3, max];
 //returns null for empty arrays
 function mean(inputArray) {
    let n = inputArray.length;
-   if(n === 0) {return null;}
+   if(n == 0) {return null;}
    let sum = 0;
    for(let i = 0; i < n; i++){
       sum += inputArray[i];
@@ -71,7 +72,7 @@ function mean(inputArray) {
 //returns NaN for single element arrays, and null for empty arrays
 function variance(inputArray) {
    let n = inputArray.length;
-   if(n === 0) {return null;}
+   if(n == 0) {return null;}
    let avg = mean(inputArray);
    let sum = 0;
    for(let i = 0; i < n; i++){
@@ -117,4 +118,3 @@ function integrateGaussian(leftEnd, rightEnd) {
 //console.log("mean (avergae):     " + mean(array));
 //console.log("variance:           " + variance(array));
 //console.log("Standard deviation: " + stdev(array));
-
