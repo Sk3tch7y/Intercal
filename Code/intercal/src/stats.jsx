@@ -1,7 +1,7 @@
 //This document contains functions for conducting a statistical analysis of a list of numeric data.
 
 //returns null for empty arrays
-function fiveNumSummary(inputArray) {
+export function fiveNumSummary(inputArray) {
    //In the five number summary, the median is central datapoint for arrays of odd
    //length. It is the average of the central two data points for arrrays of even 
    //length. The first quartile (Q1) is the median of a subarray with data points
@@ -10,9 +10,9 @@ function fiveNumSummary(inputArray) {
 
    let n = inputArray.length;
    //Start with 2 edge cases
-   if (n == 0) {
+   if (n === 0) {
       return null;
-   } else if(n == 1) {
+   } else if(n === 1) {
       let x = inputArray[0];
       return [x, x, x, x, x]; //all five numbers are the single data point.
    }
@@ -45,6 +45,7 @@ function fiveNumSummary(inputArray) {
    }
 
    //Calculate Q1 and Q3.
+
    if(subLength%2 == 1) {
       Q1 = sortedArray[(subLength-1)/2];
       Q3 = sortedArray[startUpper + (subLength-1)/2];

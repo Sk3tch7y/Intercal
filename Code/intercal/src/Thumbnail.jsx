@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
+
 import './/styles/thumbnail.css'
 //uses term assigned by dashboard logic to display data of listening post
 const Thumbnail = ({ monitoringPost }) => {
-    
-
     let post = 
     (<div className = 'post'>
         <div className = 'postID'>
@@ -23,7 +22,5 @@ const Thumbnail = ({ monitoringPost }) => {
         </div>
     );
 };
-
-
 export default Thumbnail;
 
