@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-
-const Login = () => {
+import './styles/styles.css';
+import './styles/login.css';
+import UserLogin from './UserLogin.jsx';
+const Login = ({closeMenu}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    
 
     const handleLogin = async () => {
         try {
@@ -28,6 +31,8 @@ const Login = () => {
 
     return (
         <div className = 'loginForm'>
+            <button className = 'close' onClick={closeMenu}>Close</button>
+            <form>
                 <h1>Login</h1>
                 {error && <p>{error}</p>}
                 <input
@@ -42,8 +47,9 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button onClick={handleLogin}>Login</button>
-            </div>
+                <button onClick={handleLogin}>Lets Go!</button>
+            </form>     
+        </div>
     );
 };
 

@@ -32,8 +32,14 @@ input{
     display: flex;
     float: right;
     align-self: center;
-    background-color: var(--HonoluluBlue);
     color: white;
     border: none;
     cursor: pointer;
+}
+.loginButt button{
+    background: linear-gradient(to bottom right, var(--PrussianBlue), var(--PacificCyan));
+    color: white;
+    box-shadow: none;
+    border-radius: var(--DefaultBR);
+    padding: 1vh 2vw;
 }
