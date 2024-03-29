@@ -6,6 +6,7 @@ const server = require("../Code/server/server");
 
 
 //IMPORTANT: 
+
 // 1. Make sure docker is running and configured correctly or tests will fail.
 //    See the docker setup in README.
 
@@ -180,6 +181,7 @@ describe("createAccount tests",function(){
             assert.equal(error,"Invalid account info.");
         }
     });
+
 });
 
 describe("validateSaveData tests",function(){

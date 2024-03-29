@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
+
   const body = req.body;
   res.json({ message: "cool it works"});
   res.send(body);
@@ -170,6 +171,19 @@ function validateAccountCreation(userId,password) {
       //close the connection
       con.end();
 
+
+    //query to check if the name already exists
+    con.query(`SELECT userid FROM accounts WHERE userid = ?`, [userId], (err, rows, fields) => {
+      if (err) {
+          // Reject the promise if there's an error
+          con.end(); // Close the connection
+          reject(err);
+          return;
+      }
+
+      //close the connection
+      con.end();
+
       //username is already taken
       if(rows.length > 0){
         userIdStatus = "Invalid, username already taken.";
@@ -233,6 +247,7 @@ con.query(`INSERT INTO accounts (userid,password) VALUES (?,?)`, [userId,passwor
 
   });  
 }
+
 
 //Function for checking if this bookmark already exists
 //Note: this does not save the data, this only checks if the data is already bookmarked
