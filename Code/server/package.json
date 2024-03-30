@@ -5,7 +5,6 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha ../../Testing/serverTest.js",
-    "testquery": "mocha ../../Testing/testQuery.js --timeout 10000",
     "start": "node server.js"
   },
   "keywords": [],
