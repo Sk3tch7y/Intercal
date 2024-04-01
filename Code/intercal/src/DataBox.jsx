@@ -16,11 +16,13 @@ export default function DataBox( {data} ) {
   //Set new data to be mapped
   const [showModal, setShowModal] = useState(false);
 
-    const openModal = () => {
+    const openModal = (e) => {
+        e.preventDefault();
         setShowModal(true);
     };
 
-    const closeModal = () => {
+    const closeModal = (e) => {
+        e.preventDefault();
         setShowModal(false);
     };
 
