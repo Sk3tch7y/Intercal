@@ -37,7 +37,7 @@ export default function Sidebar() {
   });
   
   return (
-  <div className = 'sidebar'>
+  <div className = 'sidebar' onClick=''>
     {as}
   </div>);
 }
