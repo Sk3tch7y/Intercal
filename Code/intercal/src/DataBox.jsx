@@ -40,7 +40,7 @@ export default function DataBox( {data} ) {
   return (
   <div className = 'databox'>
     {as}
-    {showModal && <ViewData onClose={closeModal} />}
+    {showModal && <ViewData onClose={closeModal} data={data}  />}
   </div>);
 }
 

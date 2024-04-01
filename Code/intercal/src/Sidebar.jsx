@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import './/styles/styles.css';
 import './/styles/sidebarStyles.css'
-import Thumbnail from './Thumbnail'; // Import the 'Thumbnail' component
+import Thumbnail from './Thumbnail'; 
+import ViewData from './ViewData.jsx';
+
 import { sampleFavs } from './sampleFavs';
 
 export default function Sidebar() {
@@ -33,11 +35,11 @@ export default function Sidebar() {
   }
   let as = favs.map((fav) =>{
     console.log(fav);
-    return <Thumbnail monitoringPost={fav} ></Thumbnail>;
+    return <Thumbnail monitoringPost={fav}></Thumbnail>;
   });
   
   return (
-  <div className = 'sidebar' onClick=''>
+  <div className = 'sidebar'>
     {as}
   </div>);
 }

@@ -25,3 +25,13 @@
     overflow-y: scroll;
     overflow-x: hidden;
 }
+.closer{
+    position: absolute;
+    top: 2vh;
+    left: 2vw;
+    padding: 1vh 1vw;
+    border-radius: var(--DefaultBR);
+    background: var(--DefaultGrad);
+    font-size: 2em;
+    cursor: pointer;
+}
