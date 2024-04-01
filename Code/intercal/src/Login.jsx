@@ -6,7 +6,7 @@ const Login = ({closeMenu}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    
+    //added this comment because I couldnt commit the casesensitive name change without it
 
     const handleLogin = async () => {
         try {
