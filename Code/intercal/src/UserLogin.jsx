@@ -9,6 +9,7 @@ const UserLogin = () => {
     const [showLogin, setShowLogin] = useState(false); // Add this line
 
     const openMenu = () => {
+        console.log('openMenu');
         setShowLogin(true); // Set showLogin to true when the button is clicked
     };
     const closeMenu = () => {
