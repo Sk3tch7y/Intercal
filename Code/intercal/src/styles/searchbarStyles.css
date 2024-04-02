@@ -1,0 +1,19 @@
+*{
+}
+.searchBar{
+    padding: 2vh 0;
+    justify-items: center;
+    height: 2vh;
+    width: 55vw;
+    float: left;
+    clear: right;
+}
+input{
+   
+    border: solid 6px var(--HonoluluBlue);
+    box-sizing: border-box;
+    background-color: var(--LightCyan);
+    border-radius: 60px;
+    width: 100%;
+    padding: 2%;
+}

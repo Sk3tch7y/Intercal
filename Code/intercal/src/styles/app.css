@@ -1,0 +1,9 @@
+.rightSide{
+    float: right;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: first baseline;
+    width: 82vw;
+    height: 100vh;
+}
