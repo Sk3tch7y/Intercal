@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-
 import './/styles/styles.css';
 import './/styles/databox.css'
 
@@ -15,7 +14,6 @@ export default function DataBox( {data} ) {
   }, []);
   */
   //Set new data to be mapped
-
 
   let as = (
     <div className = 'data'>

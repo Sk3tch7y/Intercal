@@ -29,7 +29,6 @@ export default function Dashboard() {
     }
     let as = watched.map((fav) =>{
       return <DataBox key ={fav.postId} data={fav} ></DataBox>;
-
     });
 
   return (

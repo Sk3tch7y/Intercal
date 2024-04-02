@@ -1,0 +1,30 @@
+.loginForm{
+    position: fixed;
+    top:0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom left, #003552ac, #58c5ffb8);
+    z-index: 3;
+}
+.close{
+    position: fixed;
+    top:1vh;
+    left:1vh;
+}
+.loginForm input{
+    margin: 1vh 0;
+    padding: 1vh;
+    border-radius: var(--DefaultBR);
+    border: none;
+}
+.loginForm button{
+    background: linear-gradient(to bottom right, var(--PrussianBlue), var(--PacificCyan));
+    color: white;
+    box-shadow: none;
+    border-radius: var(--DefaultBR);
+    padding: 1vh 2vw;
+}
