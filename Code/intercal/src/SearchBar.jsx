@@ -37,12 +37,14 @@ const SearchBar = ({setWatched}) => {
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
+                onChange={(e) =>{
+                    setSearchTerm(e.target.value);
+
+                }}
                 onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                         handleSearch(e);
-                    } else {
-                        setSearchTerm(searchTerm + e.key);
-                    }
+                    } 
                 }}
             />
             </div>
