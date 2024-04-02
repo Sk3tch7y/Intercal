@@ -3,15 +3,23 @@ import './/styles/searchbarStyles.css'
 const SearchBar = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const handleSearch = (e) => {
+        let url = ''; //add search url
         setSearchTerm(e.target.value);
         // Perform search logic here
-        fetch('https://api.example.com/search?query=' + searchTerm)
-            .then(response => response.json())
-            .then(data => {
-            
+        fetch(url + searchTerm)
+            .then(response => {
+                response.json()
+                    .then(data => {
+                        
+                        const result = data;
+                        
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
             })
             .catch(error => {
-            // Handle any errors
+                console.error(error);
             });
     };
 
@@ -21,7 +29,11 @@ const SearchBar = () => {
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
-                onChange={handleSearch}
+                onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                        handleSearch();
+                    }
+                }}
             />
         </div>
     );
