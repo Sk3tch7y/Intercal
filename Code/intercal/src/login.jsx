@@ -119,7 +119,7 @@ const Login = ({closeMenu}) => {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     <button onClick={handleSignUp}>Lets Go!</button>
-                    <button onClick={toggleSignUp}>Sign Up</button>
+                    <button onClick={toggleSignUp}>Sign in</button>
                 </form>     
             </div>
             );
