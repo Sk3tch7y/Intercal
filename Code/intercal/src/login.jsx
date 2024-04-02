@@ -22,7 +22,6 @@ const Login = ({closeMenu}) => {
                 setError('Passwords do not match');
                 return;
             }
-
             const response = await fetch('url', {
                 method: 'POST',
                 headers: {
@@ -127,7 +126,6 @@ const Login = ({closeMenu}) => {
     }
     return (
         formFormer()
-
     );
 };
 
