@@ -3,17 +3,14 @@ import './/styles/styles.css';
 import './/styles/app.css'
 import Sidebar from './/Sidebar.jsx';
 import Dashboard from './/dashboard.jsx';
-import SearchBar from './SearchBar.jsx';
-import GraphWrapper from './GraphWrapper.jsx';
-
-
+import Header from './header.jsx';
 function App() {
 
   return (
     <div className="App">
       <Sidebar></Sidebar>
       <div className ='rightSide'>
-        <SearchBar></SearchBar>
+        <Header></Header>
         <Dashboard></Dashboard>
       </div>
       

@@ -21,11 +21,11 @@ export default function DataBox( {data} ) {
         setShowModal(true);
     };
 
+
     const closeModal = (e) => {
         e.preventDefault();
         setShowModal(false);
     };
-
   let as = (
     <div className = 'data' onClick={openModal}>
       <div className = 'dataID'>

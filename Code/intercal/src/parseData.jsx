@@ -5,7 +5,7 @@ class formattedData {
     data = [];
 }
 
-export function parseDailyData(data) {
+function parseDailyData(data) {
     let formatted = new formattedData();
     let n = data[0].length;
     formatted.startDate = [data[0][0][0], getMonth(data[0][0][1]), data[0][0][2]];
@@ -17,7 +17,7 @@ export function parseDailyData(data) {
     return formatted;
 }
 
-export function parseMonthlyData(data) {
+function parseMonthlyData(data) {
     let formatted = new formattedData();
     let n = data[0].length;
     formatted.startDate = [data[0][0][0], getMonth(data[0][0][1])];
@@ -29,7 +29,7 @@ export function parseMonthlyData(data) {
     return formatted;
 }
 
-export function parseAnnualMaxData(data) {
+function parseAnnualMaxData(data) {
     let formatted = new formattedData();
     let n = data[1].length;
     formatted.startDate = data[1][0][0];
@@ -41,7 +41,7 @@ export function parseAnnualMaxData(data) {
     return formatted;
 }
 
-export function parseAnnualMinData(data) {
+function parseAnnualMinData(data) {
     let formatted = new formattedData();
     let n = data[1].length;
     formatted.startDate = data[1][0][0];
@@ -72,3 +72,11 @@ function getMonth(n){
     }
     return s;
 }
+
+module.exports = {
+    parseDailyData,
+    parseMonthlyData,
+    parseAnnualMaxData,
+    parseAnnualMinData,
+ }
+
