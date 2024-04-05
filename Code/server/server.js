@@ -198,6 +198,7 @@ function validateAccountCreation(userId,password) {
   });
 
   });
+});
 }
 
 
