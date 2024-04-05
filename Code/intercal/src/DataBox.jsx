@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import ViewData from './ViewData.jsx';
 import './/styles/styles.css';
-import './/styles/databox.css'
-
+import './/styles/databox.css';
 export default function DataBox( {data} ) {
   let postId = 0;
   //get data from the server
@@ -14,9 +14,20 @@ export default function DataBox( {data} ) {
   }, []);
   */
   //Set new data to be mapped
+  const [showModal, setShowModal] = useState(false);
 
+    const openModal = (e) => {
+        e.preventDefault();
+        setShowModal(true);
+    };
+
+
+    const closeModal = (e) => {
+        e.preventDefault();
+        setShowModal(false);
+    };
   let as = (
-    <div className = 'data'>
+    <div className = 'data' onClick={openModal}>
       <div className = 'dataID'>
         <h6>{data.postId}</h6>
       </div>
@@ -31,6 +42,7 @@ export default function DataBox( {data} ) {
   return (
   <div className = 'databox'>
     {as}
+    {showModal && <ViewData onClose={closeModal} data={data}  />}
   </div>);
 }
 
