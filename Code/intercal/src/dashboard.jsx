@@ -4,8 +4,16 @@ import './/styles/dashboard.css'
 import DataBox from './DataBox';
 import { sampleDash } from './testFiles/sampleDash';
 
-export default function Dashboard() {
-  const [watched, setWatched] = useState([]);
+const Dashboard = ({watched, setWatched}) => {
+  
+  const [hasAddedSamples, setHasAddedSamples] = useState(false);
+  //test files
+  useEffect(() => {
+      if (!hasAddedSamples) {
+          setWatched(sampleDash);
+          setHasAddedSamples(true);
+      }
+  }, [hasAddedSamples, sampleDash]);
 
   //get data from the server
   /*
@@ -24,11 +32,15 @@ export default function Dashboard() {
       return newAr;
     });
   }
-    if(watched.length === 0){
-      setWatched(sampleDash); 
-    }
-    let as = watched.map((fav) =>{
-      return <DataBox key ={fav.postId} data={fav} ></DataBox>;
+  function setNewWatched(newWatched){
+    setWatched(newWatched =>{
+      return newWatched;
+    });
+  }
+
+    let as = watched.map((post) =>{
+      return <DataBox key ={post.postId} data={post} ></DataBox>;
+
     });
 
   return (
@@ -38,5 +50,5 @@ export default function Dashboard() {
   );
 }
 
-
+export default Dashboard;
 
