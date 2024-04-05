@@ -1,0 +1,45 @@
+*{
+}
+.header{
+    display: flex;
+    width: 100%;
+    height: 10%;
+    justify-content: space-around;
+    align-content: center;
+    vertical-align: middle;
+    background: linear-gradient(to bottom ,var(--HonoluluBlue), var(--PacificCyan));
+
+}
+.searchBar{
+    display: flex;
+    float: left;
+    padding: 2% 0;
+    justify-items: center;
+    height: 5vh;
+    width: 55vw;
+    float: left;
+}
+input{
+   
+    border: solid 6px var(--HonoluluBlue);
+    box-sizing: border-box;
+    background-color: var(--LightCyan);
+    border-radius: 60px;
+    width: 100%;
+    padding: 2%;
+}
+.loginButt{
+    display: flex;
+    float: right;
+    align-self: center;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.loginButt button{
+    background: linear-gradient(to bottom right, var(--PrussianBlue), var(--PacificCyan));
+    color: white;
+    box-shadow: none;
+    border-radius: var(--DefaultBR);
+    padding: 1vh 2vw;
+}

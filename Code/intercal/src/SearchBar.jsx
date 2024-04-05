@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Dashboard from './dashboard';
 import './/styles/searchbarStyles.css'
 const SearchBar = ({setWatched}) => {
+
     const [searchTerm, setSearchTerm] = useState('');
     const handleSearch = (e) => {
         let url = ''; //add search url

@@ -15,6 +15,7 @@ const Thumbnail = ({ monitoringPost }) => {
         setShowModal(false);
     };
 
+
     let post = 
     (<div className = 'post' onClick = {openModal}>
         <div className = 'postID'>
@@ -36,5 +37,7 @@ const Thumbnail = ({ monitoringPost }) => {
         </div>
     );
 };
+
+
 export default Thumbnail;
 

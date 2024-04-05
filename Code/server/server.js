@@ -171,19 +171,6 @@ function validateAccountCreation(userId,password) {
       //close the connection
       con.end();
 
-
-    //query to check if the name already exists
-    con.query(`SELECT userid FROM accounts WHERE userid = ?`, [userId], (err, rows, fields) => {
-      if (err) {
-          // Reject the promise if there's an error
-          con.end(); // Close the connection
-          reject(err);
-          return;
-      }
-
-      //close the connection
-      con.end();
-
       //username is already taken
       if(rows.length > 0){
         userIdStatus = "Invalid, username already taken.";

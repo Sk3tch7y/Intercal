@@ -4,10 +4,7 @@ import './/styles/app.css'
 import React, { useState } from 'react';
 import Sidebar from './/Sidebar.jsx';
 import Dashboard from './/dashboard.jsx';
-import SearchBar from './SearchBar.jsx';
-import GraphWrapper from './GraphWrapper.jsx';
-
-
+import Header from './header.jsx';
 function App() {
   const [watched, setWatched] = useState([]);
 
@@ -15,7 +12,7 @@ function App() {
     <div className="App">
       <Sidebar />
       <div className ='rightSide'>
-        <SearchBar setWatched={setWatched} />
+        <Header></Header>
         <Dashboard watched={watched} setWatched={setWatched} />
       </div>
     </div>

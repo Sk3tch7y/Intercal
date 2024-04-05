@@ -11,4 +11,3 @@ export const sampleFavs = [
     { postId: "Post ID 10", content: "Sample Content 10", waterLevel: "Normal"},
     
   ];
-  
