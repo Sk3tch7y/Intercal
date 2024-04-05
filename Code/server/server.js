@@ -185,6 +185,7 @@ function validateAccountCreation(userId,password) {
   });
 
   });
+});
 }
 
 

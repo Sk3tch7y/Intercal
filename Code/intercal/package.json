@@ -16,6 +16,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "testStats": "mocha ../../Testing/statsTest.js",
+    "testParsing": "mocha ../../Testing/frontEndParsingTest.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

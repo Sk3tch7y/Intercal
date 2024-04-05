@@ -1,8 +1,7 @@
-
 //This document contains functions for conducting a statistical analysis of a list of numeric data.
 
 //returns null for empty arrays
-export function fiveNumSummary(inputArray) {
+function fiveNumSummary(inputArray) {
    //In the five number summary, the median is central datapoint for arrays of odd
    //length. It is the average of the central two data points for arrrays of even 
    //length. The first quartile (Q1) is the median of a subarray with data points
@@ -95,7 +94,7 @@ function stdev(inputArray) {
 //probability that x < a (mode 0)
 //probability that a < x < b (mode 1)
 //probability that a < x (mode 2)
-function zScore(inputArray, mode, a, b) {
+function probability(inputArray, mode, a, b = 0) {
    let mu = mean(inputArray);
    let sigma = stdev(inputArray);
    switch (mode) {
@@ -104,17 +103,36 @@ function zScore(inputArray, mode, a, b) {
       case 2: return integrateGaussian((a-mu)/sigma, 10);
       default: console.log("Invalid value for mode given."); return null;
    }
+
+   // Takes the indefininte integral of the standard normal distribution between the specified enpoints
+   function integrateGaussian(leftEnd, rightEnd) {
+   //Use simpson's 1/3 rule
+      function Gaussian(x) {
+         return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);
+      }
+      let n = 100;
+      //n must be an even whole number
+      let d = (rightEnd - leftEnd)/n;
+      function x(i) {
+         return leftEnd+i*d;
+      }
+      let s1 = 0;
+      let s2 = 0;
+      for(let i = 1; i < n/2; i++) {
+         s1 += Gaussian(x(2*i - 1));
+         s2 += Gaussian(x(2*i));
+      }
+      s1 += Gaussian(x(n-1));
+      return d*(Gaussian(leftEnd) + 4*s1 + 2*s2 + Gaussian(rightEnd))/3;
+   }
+
 }
 
-// Takes the indefininte integral of the standard normal distribution between the specified enpoints
-function integrateGaussian(leftEnd, rightEnd) {
-   zScore([3,2,1], 2, 1, 5);
-   //TODO
+module.exports = {
+   fiveNumSummary,
+   mean,
+   variance,
+   stdev,
+   probability,
 }
 
-//for testing
-//array = [4, 5, 6, 7, 10];
-//console.log("five Number Sumary: " + fiveNumSummary(array));
-//console.log("mean (avergae):     " + mean(array));
-//console.log("variance:           " + variance(array));
-//console.log("Standard deviation: " + stdev(array));
