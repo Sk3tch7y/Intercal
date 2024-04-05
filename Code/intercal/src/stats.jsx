@@ -1,4 +1,3 @@
-
 //This document contains functions for conducting a statistical analysis of a list of numeric data.
 
 //returns null for empty arrays
@@ -107,9 +106,25 @@ function zScore(inputArray, mode, a, b) {
 }
 
 // Takes the indefininte integral of the standard normal distribution between the specified enpoints
-function integrateGaussian(leftEnd, rightEnd) {
-   zScore([3,2,1], 2, 1, 5);
-   //TODO
+function integrateGaussian(a, b) {
+   //Use simpson's 1/3 rule
+   function Gaussian(x) {
+      return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);
+   }
+   let n = 100;
+   //n must be an even whole number
+   let d = (b-a)/n;
+   function x(i) {
+      return a+i*d;
+   }
+   let s1 = 0;
+   let s2 = 0;
+   for(let i = 1; i < n/2; i++) {
+      s1 += Gaussian(x(2*i -1));
+      s2 += Gaussian(x(2*i));
+   }
+   s1 += Gaussian(x(n-1));
+   return d*(Gaussian(a) + 4*s1 + 2*s2 + Gaussian(b))/3;
 }
 
 //for testing
