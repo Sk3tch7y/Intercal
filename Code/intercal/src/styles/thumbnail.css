@@ -1,6 +1,7 @@
 .postThumbnail {
     box-sizing: border-box;
     display: flex;
+    justify-content: space-between;
     width: 94%;
     height: 5%;
     background-color: #f2f2f2;
@@ -9,5 +10,13 @@
     margin-bottom: 10px;
     align-items: center;
     padding-left: 17px;
+}
+.unmark{
+    
+    width: 20%;
+    height: 100%;
+    background-color: var(--PacificCyan);
+    border-top-right-radius: var(--DefaultBR);
+    border-bottom-right-radius: var(--DefaultBR);
 }
 

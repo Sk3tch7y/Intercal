@@ -3,9 +3,11 @@ import ViewData from './ViewData';
 import './/styles/styles.css';
 import './/styles/thumbnail.css'
 //uses term assigned by dashboard logic to display data of listening post
+
 const Thumbnail = ({ monitoringPost }) => {
     
     const [showModal, setShowModal] = useState(false);
+    const [postId, setPostId] = useState(0);
 
     const openModal = () => {
         setShowModal(true);
@@ -13,6 +15,18 @@ const Thumbnail = ({ monitoringPost }) => {
 
     const closeModal = () => {
         setShowModal(false);
+    };
+    const unmark = (e) => {
+        e.preventDefault();
+        //todo: send get request to server to unmark the post
+        let url = '/api/markData';
+        fetch(url+postId)
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+            setPostId(data.postId);
+          })
+          .catch(error => console.error(error));
     };
 
 
@@ -33,6 +47,8 @@ const Thumbnail = ({ monitoringPost }) => {
     return (
         <div className='postThumbnail'>
             {post}
+            <button className='unmark' onClick={unmark}>❌</button>
+
             {showModal && <ViewData onClose={closeModal} data={monitoringPost} />}
         </div>
     );
