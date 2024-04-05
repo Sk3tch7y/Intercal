@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Dashboard from './dashboard';
-import './/styles/searchbarStyles.css'
+import './/styles/header.css'
 const SearchBar = ({setWatched}) => {
 
     const [searchTerm, setSearchTerm] = useState('');
