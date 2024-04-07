@@ -1,4 +1,5 @@
 import React from 'react';
+import Graph from './dataViewing.jsx';
 
 class GraphWrapper extends React.Component {
     constructor(props) {
@@ -27,6 +28,7 @@ class GraphWrapper extends React.Component {
                 <h1>Monitoring Post</h1>
                 <div className='sidemenu'>{otherData}</div>
                 <div className = 'graph'></div>
+                <Graph data={graphData} />
             </div>
         );
     }
