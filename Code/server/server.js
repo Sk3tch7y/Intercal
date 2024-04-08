@@ -8,7 +8,7 @@ const stations = require('./queries');
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: "http://localhost:3000"
 };
 app.use(cors(corsOptions));
 
@@ -45,37 +45,21 @@ function getConnection(){
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
   });
-
   return connection;
 }
 
 
 // Function for validating login
-/* 
+ 
 // Usage:
 // Notice the async keyword in the middleware function
 
-//express middleware function for validating a login request
-app.use("/login", async function(req, res, next) {
-  const username = "test123";
-  const password = "pass123";
 
-  try {
-      const obj = await validateLogin(username, password);
-      req.obj = obj;
-      next();
-  } catch (error) {
-      // Handle error if needed
-      console.error(error);
-      res.status(500).send("Internal Server Error");
-  }
-});
-
+/*
 //display the result of the function every get request
 app.get('/login', function(req, res) {
   res.json(req.obj);
 });
-
 */
 function validateLogin(userId, password) {
   return new Promise((resolve, reject) => {
@@ -191,7 +175,7 @@ function validateAccountCreation(userId,password) {
 //Function for creating account
 //
 function createAccount(userId,password){
-
+  console.log("Creating account for: " + userId);
   return new Promise((resolve,reject) => {
 
    //establish connection to the database
@@ -203,32 +187,30 @@ function createAccount(userId,password){
        reject(err);
      }
    });
-
-
    //check for valid id
    const auth = validateAccountCreation(userId,password);
    //if the userId and password is invalid reject the creation
-  if(auth.overall != "Valid"){
-   reject("Invalid account info.");
-  }
+    if(auth.overall != "Valid"){
+    reject("Invalid account info.");
+    }
 
-//insert the new account
-con.query(`INSERT INTO accounts (userid,password) VALUES (?,?)`, [userId,password], (err, rows, fields) => {
-  if (err) {
-      // Reject the promise if there's an error
-      con.end(); // Close the connection
-      reject(err);
-      return;
-  }
+    //insert the new account
+    con.query(`INSERT INTO accounts (userid,password) VALUES (?,?)`, [userId,password], (err, rows, fields) => {
+    if (err) {
+        // Reject the promise if there's an error
+        con.end(); // Close the connection
+        reject(err);
+        return;
+    }
 
-  //close the connection
-  con.end();
+    //close the connection
+    con.end();
 
-  //build the JSON object to be returned
-  const result = {status: 'Success'};
+    //build the JSON object to be returned
+    const result = {status: 'Success'};
 
-  //resolve the promise with the result
-  resolve(result); 
+    //resolve the promise with the result
+    resolve(result); 
 });
 
 
@@ -481,6 +463,34 @@ function getAlerts(){
   });
 }
 
+//app functions
+app.post('/createAccount', (req, res) => {
+  const { username, password } = req.body;
+  if(validateAccountCreation(username, password) != "Valid"){
+    createAccount(username, password)
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((error) => {
+      res.status(500).json({ error: 'An error occurred while creating the account' });
+    });
+  }
+  
+});
+//express middleware function for validating a login request
+app.post("/login", (req, res) => {
+  
+  const { username, password } = req.body;
+  console.log("Login request received for user: " + username);
+  try {
+      const obj = validateLogin(username, password);
+      res.json(obj);
+  } catch (error) {
+      // Handle error if needed
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+  }
+});
 module.exports = {
   getConnection,
   validateLogin,
