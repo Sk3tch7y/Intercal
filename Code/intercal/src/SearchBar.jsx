@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Dashboard from './dashboard';
 import './/styles/header.css'
+
 const SearchBar = ({setWatched}) => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const handleSearch = (e) => {
-        let url = ''; //add search url
+        let url = 'http://localhost:8080/search?searchTerm='; //add search url
         setSearchTerm(e.target.value);
         // Perform search
         fetch(url + searchTerm)

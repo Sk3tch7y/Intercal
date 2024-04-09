@@ -1,14 +1,16 @@
 const fs = require('node:fs');
+const localStations = require('./stations.json');
 
 async function getStations() {
     const stations = (await fetch("https://api.weather.gc.ca/collections/hydrometric-stations/items?lang=en&limit=7963&f=json")).json();
     return stations;
 }
+
 async function getAnnual(station) {
     console.log("fetching " + station);
-    const stations = await getStations();
-    for(let i = 0; i < stations.features.length; i++) {
-        if(stations.features[i].properties.IDENTIFIER == station) {
+    const stations = localStations;
+    for(let i = 0; i < localStations.length; i++) {
+        if(stations[i].properties.IDENTIFIER == station) {
             var data = getLinkedData(i, "annual", stations);
             break;
         }
@@ -17,9 +19,9 @@ async function getAnnual(station) {
 }
 async function getMonthly(station) {
     console.log("fetching " + station);
-    const stations = await getStations();
-    for(let i = 0; i < stations.features.length; i++) {
-        if(stations.features[i].properties.IDENTIFIER == station) {
+    const stations = localStations;
+    for(let i = 0; i < stations.length; i++) {
+        if(stations[i].properties.IDENTIFIER == station) {
             var data = getLinkedData(i, "monthly", stations);
             break;
         }
@@ -28,9 +30,9 @@ async function getMonthly(station) {
 }
 async function getDaily(station) {
     console.log("fetching " + station);
-    const stations = await getStations();
-    for(let i = 0; i < stations.features.length; i++) {
-        if(stations.features[i].properties.IDENTIFIER == station) {
+    const stations = localStations;
+    for(let i = 0; i < stations.length; i++) {
+        if(stations[i].properties.IDENTIFIER == station) {
             var data = getLinkedData(i, "daily", stations);
             break;
         }
@@ -51,9 +53,9 @@ function getLinkedData(index, freq, stations) {
             break;
     }
     console.log("fetching " + partialLink);
-    for(let j = 0; j < stations.features[index].properties.links.length; j++) {
-        if(stations.features[index].properties.links[j].href.includes(partialLink)) {
-            let selected = stations.features[index].properties.links[j].href;
+    for(let j = 0; j < stations[index].properties.links.length; j++) {
+        if(stations[index].properties.links[j].href.includes(partialLink)) {
+            let selected = stations[index].properties.links[j].href;
             var data = getData(selected, freq);
             break;
         }
@@ -125,7 +127,56 @@ async function makeStationList() {
     return true;
 }
 
-//getStations();
+async function searchStations(str) {
+    const stations = localStations;
+    let result = '{ "stations":[';
+    let newResult;
+    if(str.length == 7) {
+        for(i = 0; i < stations.length; i++) {
+            if(stations[i].properties.IDENTIFIER == str) {
+                let id = str;
+                let name = stations[i].properties.STATION_NAME;
+                let content = "Province: "+stations[i].properties.PROV_TERR_STATE_LOC+"; Status: "+stations[i].properties.STATUS_EN;
+                let waterData = await getDaily(id);
+                if(waterData[0] != 0) {
+                    waterLevel = waterData[0][waterData[0].length-1][3];
+                }
+                else {
+                    waterLevel = waterData[1][waterData[1].length-1][3];
+                }
+                newResult = '{"postId":"'+id+'", "name":"'+name+'", "content":"'+content+'", "waterLevel":"'+waterLevel+'"},';
+                result = result.concat(newResult);
+            }
+        }
+        result=result.slice(0,-1);
+        result = result.concat("]}");
+    }
+    else {
+        for(i = 0; i < stations.length; i++) {
+            if(stations[i].properties.STATION_NAME.includes(str.toUpperCase())) {
+                identifier = stations[i].properties.IDENTIFIER;
+                let id = identifier;
+                let name = stations[i].properties.STATION_NAME;
+                let content = "Province: "+stations[i].properties.PROV_TERR_STATE_LOC+"; Status: "+stations[i].properties.STATUS_EN;
+                let waterData = await getDaily(id);
+                if(typeof(waterData[0]) != 'undefined') {
+                    waterLevel = waterData[0][waterData[0].length-1][3];
+                }
+                else {
+                    waterLevel = waterData[1][waterData[1].length-1][3];
+                }
+                newResult = '{"postId":"'+id+'", "name":"'+name+'", "content":"'+content+'", "waterLevel":"'+waterLevel+'"},';
+                result = result.concat(newResult);
+            }
+        }
+        result = result.slice(0,-1);
+        result = result.concat("]}");
+    }
+    return(JSON.parse(result));
+}
+
+//searchStations("okanagan");
+//getStationsLocal();
 //getAnnual("01AD015");
 //getMonthly("01AD002");
 //getDaily("01AA002");
@@ -137,5 +188,6 @@ module.exports = {
     getStations,
     makeStationList,
     getLinkedData,
-    getData
+    getData,
+    searchStations
 }
