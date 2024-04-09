@@ -176,7 +176,7 @@ function validateAccountCreation(userId,password) {
 //
 function createAccount(userId,password){
   console.log("Creating account for: " + userId);
-  return new Promise((resolve,reject) => {
+  return new Promise(async (resolve,reject) => {
 
    //establish connection to the database
    const con = getConnection();
@@ -188,10 +188,11 @@ function createAccount(userId,password){
      }
    });
    //check for valid id
-   const auth = validateAccountCreation(userId,password);
+   const auth = await validateAccountCreation(userId,password);
    //if the userId and password is invalid reject the creation
-    if(auth.overall != "Valid"){
-    reject("Invalid account info.");
+    if(auth.overallStatus != "Valid"){
+      reject("Invalid account info.");
+      return;
     }
 
     //insert the new account
@@ -464,26 +465,23 @@ function getAlerts(){
 }
 
 //app functions
-app.post('/createAccount', (req, res) => {
+app.post('/createAccount', async (req, res) => {
   const { username, password } = req.body;
-  if(validateAccountCreation(username, password) != "Valid"){
-    createAccount(username, password)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((error) => {
-      res.status(500).json({ error: 'An error occurred while creating the account' });
-    });
+  try {
+    const auth = await createAccount(username, password);
+    res.json(auth);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
-  
 });
+
 //express middleware function for validating a login request
-app.post("/login", (req, res) => {
-  
+app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   console.log("Login request received for user: " + username);
   try {
-      const obj = validateLogin(username, password);
+      const obj = await validateLogin(username, password);
       res.json(obj);
   } catch (error) {
       // Handle error if needed
@@ -491,6 +489,7 @@ app.post("/login", (req, res) => {
       res.status(500).send("Internal Server Error");
   }
 });
+
 module.exports = {
   getConnection,
   validateLogin,

@@ -24,16 +24,18 @@ const Login = ({closeMenu}) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ username, password }),
+            }).then((response) => response.json()).then((data) => {
+                if(data.isValid){
+                    console.log('Login successful');
+                    document.cookie = `username=${username}; max-age=${7 * 24 * 60 * 60}`;
+                    //trigger page refresh
+                    window.location.reload();
+
+                } else {
+                    setError('Invalid username or password');
+                }
             });
-
-            if (response.ok) {
-                console.log('Login successful');
-                //TODO: set loggedIn to true and create login cookie
-
-            } else {
-                setError('Invalid username or password');
-            }
-        } catch (error) {
+        }catch (error) {
             console.error('Error occurred during login:', error);
             setError('An error occurred during login');
         }
@@ -46,9 +48,7 @@ const Login = ({closeMenu}) => {
                 setError('Passwords do not match');
                 return;
             }
-            //get version of fetch that works
-            //const response = await fetch('http://localhost:8080/createAccount?username=' + username + '&password=' + password)
-                
+            
             const response = await fetch('http://localhost:8080/createAccount', {
                 method: 'POST',
                 headers: {
@@ -56,9 +56,15 @@ const Login = ({closeMenu}) => {
                 },
                 body: JSON.stringify({ username, password }),
             }); 
-
+    
             if (response.ok) {
+                const data = await response.json();
+                if(data.status !== 'Success'){
+                    setError('Username already exists');
+                    return;
+                }
                 console.log('Sign up successful');
+                handleLogin(e);
                 //TODO: set loggedIn to true and create login cookie
             } else {
                 setError('An error occurred during sign up');
@@ -130,5 +136,4 @@ const Login = ({closeMenu}) => {
         formFormer()
     );
 };
-
 export default Login;
