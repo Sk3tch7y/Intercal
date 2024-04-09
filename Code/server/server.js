@@ -9,7 +9,6 @@ const app = express();
 
 var corsOptions = {
   origin: "http://localhost:3000"
-  
 };
 app.use(cors(corsOptions));
 
@@ -192,7 +191,8 @@ function createAccount(userId,password){
    const auth = await validateAccountCreation(userId,password);
    //if the userId and password is invalid reject the creation
     if(auth.overallStatus != "Valid"){
-      reject("Invalid account info.");
+      const result =  auth;
+      resolve(result);
       return;
     }
 
@@ -482,6 +482,11 @@ app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   console.log("Login request received for user: " + username);
   try {
+      const valid = await validateAccountCreation(username, password);
+      if(valid.overallStatus === "Invalid"){
+        res.json(valid);
+        return;
+      }
       const obj = await validateLogin(username, password);
       res.json(obj);
   } catch (error) {
