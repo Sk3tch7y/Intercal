@@ -153,7 +153,7 @@ async function searchStations(str) {
     }
     else {
         for(i = 0; i < stations.length; i++) {
-            if(stations[i].properties.STATION_NAME.includes(str)) {
+            if(stations[i].properties.STATION_NAME.includes(str.toUpperCase())) {
                 identifier = stations[i].properties.IDENTIFIER;
                 let id = identifier;
                 let name = stations[i].properties.STATION_NAME;
@@ -172,10 +172,10 @@ async function searchStations(str) {
         result = result.slice(0,-1);
         result = result.concat("]}");
     }
-    console.log(JSON.parse(result));
+    return(JSON.parse(result));
 }
 
-searchStations("OKANAGAN");
+//searchStations("okanagan");
 //getStationsLocal();
 //getAnnual("01AD015");
 //getMonthly("01AD002");
@@ -188,5 +188,6 @@ module.exports = {
     getStations,
     makeStationList,
     getLinkedData,
-    getData
+    getData,
+    searchStations
 }

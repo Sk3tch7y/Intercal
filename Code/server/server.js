@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-const { get } = require("request");
+//const { get } = require("request");
 const stations = require('./queries');
 
 const app = express();
@@ -28,8 +28,8 @@ app.get("/", (req, res) => {
 });
 
 // query route?
-app.get("/query", (req, res) => {
-  console.log(req.query.id);
+app.get("/search", async (req, res) => {
+  res.json(await stations.searchStations(req.query.searchTerm));
 });
 
 // set port, listen for requests
