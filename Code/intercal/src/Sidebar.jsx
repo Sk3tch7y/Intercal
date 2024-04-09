@@ -38,10 +38,10 @@ export default function Sidebar() {
     return <Thumbnail monitoringPost={fav}></Thumbnail>;
   });
 
-
+  //TODO: username should be from session
   let username = 'test123';
-  const getSaveData = async () => {
-    //e.preventDefault();
+  const getSaveData = async (e) => {
+    e.preventDefault();
     try {
         const response = await fetch('http://localhost:8080/getSaveData', {
             method: 'POST',
@@ -61,6 +61,7 @@ export default function Sidebar() {
             }
             let dataList = JSON.parse(data);
             dataList.forEach(element => {
+              console.log(element);
              // element = JSON.parse(element);
               addFav({postId: element.postId, content: element.postName, waterLevel: 'placeholder'});
             });
@@ -71,9 +72,9 @@ export default function Sidebar() {
         console.error('Error occurred during data retrieval:', error);
     }
 };
-  getSaveData();
+  //getSaveData();//TODO: 'e' has to be passed in here 
   return (
-  <div className = 'sidebar'>
+  <div className = 'sidebar'  onClick={getSaveData}>
     {as}
   </div>);
 }
