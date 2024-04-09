@@ -227,13 +227,13 @@ function createAccount(userId,password){
 
 //Function for checking if this bookmark already exists
 //Note: this does not save the data, this only checks if the data is already bookmarked
-function validateSaveData(userId,query){
+function validateSaveData(userId,postId){
   return new Promise(async (resolve, reject) => {
 
     //variable for JSON return object
     overall = "Valid";
     isUserIdValid = "Valid";
-    queryStatus = "Valid";
+    postIdStatus = "Valid";
 
     //check if the username exists
     res = await validateAccountCreation(userId,"!@#invalid!@#");
@@ -255,7 +255,7 @@ function validateSaveData(userId,query){
     });
 
     //query to see if saveData already exists
-    con.query(`SELECT userid FROM savedData WHERE userid = ? AND query = ?`,[userId,query], (err,rows,fields) =>{
+    con.query(`SELECT userid FROM savedData WHERE userid = ? AND postId = ?`,[userId,postId], (err,rows,fields) =>{
 
       con.end(); // Close the connection
 
@@ -268,19 +268,19 @@ function validateSaveData(userId,query){
       //the saveData already exists
       if(rows.length > 0){
         overall = "Invalid";
-        queryStatus = "Invalid. savedData already exists for this user";
+        postIdStatus = "Invalid. savedData already exists for this user";
       }
 
       
       //return JSON object with appropriate status
-      resolve({overall,isUserIdValid,queryStatus});
+      resolve({overall,isUserIdValid,postIdStatus});
     });
   });
 }
 
-//funtion for "bookmarking" a query.
-// - The bookmark is tied to the userId, and saves the query string.
-function saveData(userId,query){
+//funtion for "bookmarking" a post.
+// - The bookmark is tied to the userId, and saves the postId, and postName string.
+function saveData(userId,postId,postName){
   return new Promise(async (resolve, reject) => {
 
     //establish connection to the database
@@ -295,13 +295,13 @@ function saveData(userId,query){
 
 
     //validate the saveData, reject if invalid
-    res = await validateSaveData(userId,query);
+    res = await validateSaveData(userId,postId,postName);
     if(res.overall != "Valid"){
       reject(res.overall);
     }
 
     //insert the new saveData
-    con.query(`INSERT INTO savedData(userid,query) VALUES (?,?)`, [userId, query], (err, rows, fields) => {
+    con.query(`INSERT INTO savedData(userid,postId,postName) VALUES (?,?,?)`, [userId, postId,postName], (err, rows, fields) => {
       //close the connection
       con.end();
 
@@ -335,7 +335,7 @@ function getSaveData(userId){
     });
 
     //get all saved queries
-    con.query(`SELECT query FROM savedData WHERE userid = ?`,[userId],(err,rows,fields) => {
+    con.query(`SELECT * FROM savedData WHERE userid = ?`,[userId],(err,rows,fields) => {
       //close the connection
       con.end();
 
@@ -347,7 +347,7 @@ function getSaveData(userId){
       //create list of queries
       let list = [];
       rows.forEach(row => {
-        list.push(row.query);
+        list.push(row);
       });
       
 
@@ -395,7 +395,7 @@ function isAdmin(userId) {
 
 //Function to create an alert
 //must be an 'admin' account type
-function createAlert(userId,query,notes = "None") {
+function createAlert(userId,postId,notes = "None") {
   return new Promise((resolve, reject) => {
 
     //check if userId is an admin account, reject creation if not admin
@@ -415,7 +415,7 @@ function createAlert(userId,query,notes = "None") {
 
     //create the alert 
     //returns a JSON object indicating success
-    con.query(`INSERT INTO alerts (query,notes) VALUES(?,?)`,[query,notes],(err,rows,fields) => {
+    con.query(`INSERT INTO alerts (postId,notes) VALUES(?,?)`,[postId,notes],(err,rows,fields) => {
       //close the connection
       con.end();
 
@@ -494,6 +494,21 @@ app.post("/login", async (req, res) => {
       }
       const obj = await validateLogin(username, password);
       res.json(obj);
+  } catch (error) {
+      // Handle error if needed
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+  }
+});
+//express middleware function for getting saved data
+app.post("/getSaveData", async (req, res) => {
+  
+  const { username } = req.body;
+  console.log("Getting save data for: " + username);
+  try {
+      const obj = await getSaveData(username);
+      res.json(obj);
+
   } catch (error) {
       // Handle error if needed
       console.error(error);

@@ -187,14 +187,14 @@ describe("createAccount tests",function(){
 describe("validateSaveData tests",function(){
     const usernameValid = 'test123';
     const usernameInvalid = 'nonexistentuser';
-    const queryAlreadyTaken = 'testquery';
-    const queryValid = 'brandnewquery';
+    const postIdAlreadyTaken = '123123';
+    const postIdValid = '890890';
     it("Should validate a valid saveData",async function(){
         try{
-            result = await server.validateSaveData(usernameValid,queryValid);
+            result = await server.validateSaveData(usernameValid,postIdValid);
             assert.equal(result.overall,"Valid");
             assert.equal(result.isUserIdValid,"Valid");
-            assert.equal(result.queryStatus,"Valid");
+            assert.equal(result.postIdStatus,"Valid");
         } catch(error){
             assert.fail(error);
         }
@@ -202,20 +202,20 @@ describe("validateSaveData tests",function(){
     });
     it("Should invalidate a saveData with invalid username",async function(){
         try{
-            result = await server.validateSaveData(usernameInvalid,queryValid);
+            result = await server.validateSaveData(usernameInvalid,postIdValid);
             assert.equal(result.overall,"Invalid");
             assert.equal(result.isUserIdValid,"Invalid. userId does not exist");
-            assert.equal(result.queryStatus,"Valid");
+            assert.equal(result.postIdStatus,"Valid");
         } catch(error){
             assert.fail(error);
         }
      });
      it("Should invalidate a saveData that already exists",async function(){
         try{
-            result = await server.validateSaveData(usernameValid,queryAlreadyTaken);
+            result = await server.validateSaveData(usernameValid,postIdAlreadyTaken);
             assert.equal(result.overall,"Invalid");
             assert.equal(result.isUserIdValid,"Valid");
-            assert.equal(result.queryStatus,"Invalid. savedData already exists for this user");
+            assert.equal(result.postIdStatus,"Invalid. savedData already exists for this user");
         } catch(error){
             assert.fail(error);
         }
@@ -225,18 +225,18 @@ describe("validateSaveData tests",function(){
 describe("saveData tests", function(){
     const usernameValid = 'test123';
     const usernameInvalid = 'nonexistentuser';
-    const queryAlreadyTaken = 'testquery';
-    const queryValid = 'brandnewquery';
+    const postIdAlreadyTaken = '123123';
+    const postIdValid = '890890';
     it("Should reject a saveData with invalid username",async function(){
         try{
-            result = await server.saveData(usernameInvalid,queryValid);
+            result = await server.saveData(usernameInvalid,postIdValid);
         } catch(error){
             assert.equal(error,"Invalid");
         }
      });
      it("Should reject a saveData that already exists",async function(){
         try{
-            result = await server.saveData(usernameValid,queryAlreadyTaken);
+            result = await server.saveData(usernameValid,postIdAlreadyTaken);
         } catch(error){
             assert.equal(error,"Invalid");
         }
@@ -247,11 +247,12 @@ describe("saveData tests", function(){
 describe("getSaveData tests",function(){
     usernameValid = 'test123';
     usernameInvalid = 'invaliduser123';
+    postIdFromUser = '123123'
 
     it("should return a list of saveData for the corresponding username",async function(){
         result = await server.getSaveData(usernameValid);
         result = JSON.parse(result);
-        assert.equal(result[0],'testquery');
+        assert.equal(result[0].postId,postIdFromUser);
     });
 });
 
@@ -280,7 +281,7 @@ describe("createAlert tests",function(){
     usernameNonAdmin = "test123";
     it("should reject requests from non-admin accounts",async function(){
         try{
-           await server.createAlert(usernameNonAdmin,'query');
+           await server.createAlert(usernameNonAdmin,'1231231');
         } catch(error){
             assert.equal(error,"User must be an admin to create alerts.")
         }

@@ -15,11 +15,10 @@ const Thumbnail = ({ monitoringPost }) => {
         setShowModal(false);
     };
 
-
     let post = 
     (<div className = 'post' onClick = {openModal}>
         <div className = 'postID'>
-            <h6>{monitoringPost.postId}</h6>
+            <h6>{monitoringPost.postName}</h6>
         </div>
         <div className = 'content'>
             <h6>{monitoringPost.content}</h6>
