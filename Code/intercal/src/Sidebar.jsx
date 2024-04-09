@@ -8,7 +8,7 @@ import { sampleFavs } from './sampleFavs';
 
 export default function Sidebar() {
   const [favs, setFav] = useState([]);
- 
+  const [gotBookmarks, setGotBookmarks] = useState(false);
   //get data from the server
   /*
   useEffect(() => {
@@ -20,40 +20,27 @@ export default function Sidebar() {
   */
 
   function addFav(newFav){
-    setFav(newFav =>{
-      console.log(newFav);
-      let newAr = [...favs, newFav,];
-      return newAr;
-    });
+    setFav([...favs, newFav]);
   }
   
-  //test
 
-
-  if(favs.length === 0){
-   // setFav(sampleFavs); 
-  }
-  let as = favs.map((fav) =>{
-    console.log(fav);
-    return <Thumbnail monitoringPost={fav}></Thumbnail>;
-  });
-
-  //TODO: username should be from session
-  let username = 'test123';
-  const getSaveData = async (e) => {
-    e.preventDefault();
+  const getSaveData = async () => {
     try {
+      const username = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("username="))
+      ?.split("=")[1];
+
         const response = await fetch('http://localhost:8080/getSaveData', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username }),
+            body: JSON.stringify({ username: 'test123' }),
         });
 
         if (response.ok) {
             console.log('data retrieval successful');
-            //TODO: get the savedata json list
             const data = await response.json();
             if(!data){
               console.log('No bookmarks found.');
@@ -61,9 +48,8 @@ export default function Sidebar() {
             }
             let dataList = JSON.parse(data);
             dataList.forEach(element => {
-              console.log(element);
-             // element = JSON.parse(element);
-              addFav({postId: element.postId, content: element.postName, waterLevel: 'placeholder'});
+              element = (element);
+              addFav(element);
             });
             console.log('displaying bookmarks');
 
@@ -72,9 +58,28 @@ export default function Sidebar() {
         console.error('Error occurred during data retrieval:', error);
     }
 };
-  //getSaveData();//TODO: 'e' has to be passed in here 
+
+//test
+  useEffect(() => {
+    if(!gotBookmarks){
+      getSaveData();
+      setGotBookmarks(true);
+    }
+      
+  });
+
+  if(favs.length === 0){
+   // setFav(sampleFavs); 
+  }
+
+  let as = favs.map((fav) =>{
+    console.log(fav);
+    return <Thumbnail key={fav}monitoringPost={fav}></Thumbnail>;
+  });
+
+  
   return (
-  <div className = 'sidebar'  onClick={getSaveData}>
+  <div className = 'sidebar'>
     {as}
   </div>);
 }
