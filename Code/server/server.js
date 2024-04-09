@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
   
 });
 
-// query route?
+// query route, http://localhost:8080?searchTerm=okanagan should provide a few stations around the okanagan while server running
 app.get("/search", async (req, res) => {
   res.json(await stations.searchStations(req.query.searchTerm));
 });

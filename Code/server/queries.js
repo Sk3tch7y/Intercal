@@ -144,7 +144,7 @@ async function searchStations(str) {
                 else {
                     waterLevel = waterData[1][waterData[1].length-1][3];
                 }
-                newResult = '{"id":"'+id+'", "name":"'+name+'", "content":"'+content+'", "waterLevel":"'+waterLevel+'"},';
+                newResult = '{"postId":"'+id+'", "name":"'+name+'", "content":"'+content+'", "waterLevel":"'+waterLevel+'"},';
                 result = result.concat(newResult);
             }
         }
@@ -165,7 +165,7 @@ async function searchStations(str) {
                 else {
                     waterLevel = waterData[1][waterData[1].length-1][3];
                 }
-                newResult = '{"id":"'+id+'", "name":"'+name+'", "content":"'+content+'", "waterLevel":"'+waterLevel+'"},';
+                newResult = '{"postId":"'+id+'", "name":"'+name+'", "content":"'+content+'", "waterLevel":"'+waterLevel+'"},';
                 result = result.concat(newResult);
             }
         }
