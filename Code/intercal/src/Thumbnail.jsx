@@ -15,7 +15,6 @@ const Thumbnail = ({ monitoringPost }) => {
         setShowModal(false);
     };
 
-    console.log(monitoringPost);
     let post = 
     (<div className = 'post' onClick = {openModal}>
         <div className = 'postID'>
