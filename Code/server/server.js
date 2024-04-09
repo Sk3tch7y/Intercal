@@ -27,6 +27,11 @@ app.get("/", (req, res) => {
   
 });
 
+// query route?
+app.get("/query", (req, res) => {
+  console.log(req.query.id);
+});
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
