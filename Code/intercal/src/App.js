@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <Sidebar />
       <div className ='rightSide'>
-        <Header></Header>
+        <Header setWatched={setWatched}></Header>
         <Dashboard watched={watched} setWatched={setWatched} />
       </div>
     </div>
