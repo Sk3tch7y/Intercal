@@ -1,11 +1,12 @@
 
 import './/styles/styles.css';
 import './/styles/app.css'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './/Sidebar.jsx';
 import Dashboard from './/dashboard.jsx';
 import Header from './header.jsx';
 function App() {
+
   const [watched, setWatched] = useState([]);
 
   return (

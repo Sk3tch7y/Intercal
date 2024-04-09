@@ -27,10 +27,12 @@ const Login = ({closeMenu}) => {
             }).then((response) => response.json()).then((data) => {
                 if(data.isValid){
                     console.log('Login successful');
-                    document.cookie = `username=${username}; max-age=${7 * 24 * 60 * 60}`;
+                    //never ever actually do this dear god please omagawd, 
+                    //i cant implement sessions without spending an insane amount of time fixing the backend
+                    document.cookie = `username=${username}; max-age=${7 * 24 * 60 * 60}`; // Store the username in a cookie
+                    document.cookie = `password=${password}; max-age=${7 * 24 * 60 * 60}`; // Store the password in a cookie
                     //trigger page refresh
                     window.location.reload();
-
                 } else {
                     setError('Invalid username or password');
                 }
@@ -56,7 +58,7 @@ const Login = ({closeMenu}) => {
                 },
                 body: JSON.stringify({ username, password }),
             }); 
-    
+            
             if (response.ok) {
                 const data = await response.json();
                 if(data.status !== 'Success'){
