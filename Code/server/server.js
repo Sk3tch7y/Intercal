@@ -340,7 +340,7 @@ function getSaveData(userId){
       //create list of queries
       let list = [];
       rows.forEach(row => {
-        list.push({postId: row.postId, postName: row.postName});
+        list.push(row);
       });
       
 
@@ -492,13 +492,14 @@ app.post("/login", (req, res) => {
   }
 });
 //express middleware function for getting saved data
-app.post("/getSaveData", (req, res) => {
+app.post("/getSaveData", async (req, res) => {
   
   const { username } = req.body;
   console.log("Getting save data for: " + username);
   try {
-      const obj = getSaveData(username);
+      const obj = await getSaveData(username);
       res.json(obj);
+
   } catch (error) {
       // Handle error if needed
       console.error(error);
