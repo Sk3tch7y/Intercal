@@ -1,13 +1,15 @@
 import SearchBar from './SearchBar.jsx';
 import UserLogin from './UserLogin.jsx';
+import app from './App.js'
 import './styles/styles.css';
 import './styles/header.css';
 
-export default function Header(){
-    return(
+const header = ({setWatched}) => {
+return(
         <div className = 'header'>
-            <SearchBar></SearchBar>
+            <SearchBar setWatched={setWatched}></SearchBar>
             <UserLogin></UserLogin>
         </div> 
     );
 }
+export default header;
