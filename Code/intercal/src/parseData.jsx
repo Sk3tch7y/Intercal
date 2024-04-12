@@ -6,18 +6,28 @@ class formattedData {
     data = [];
 }
 
-function parseDailyData(data) {
-    let formatted = new formattedData();
-    let n = data[0].length;
-    //formatted.startDate = [data[0][0][0], getMonth(data[0][0][1]), data[0][0][2]];
-    //formatted.endDate = [data[0][n-1][0], getMonth(data[0][n-1][1]), data[0][n-1][2]];
-    formatted.frequency = "Daily";
-    for(var i = 0; i<n; i++){
-        formatted.dates[i] = "" + data[0][i][0] + "-" +  getMonth(data[0][i][1]) + "-" + data[0][i][2];
-        formatted.data[i] = data[0][i][3];
-    }
-    return formatted;
-}
+function parseDailyData(id) {
+    let data;
+    fetch('http://localhost:8080/getData?id='+id).then(response => {
+        if(!response.ok) {
+            console.error("Response failed.");
+        }
+        return response.json();
+        })
+        .then(data => {
+            console.log(data);
+        let formatted = new formattedData();
+        let n = data[1].length;
+        //formatted.startDate = [data[0][0][0], getMonth(data[0][0][1]), data[0][0][2]];
+        //formatted.endDate = [data[0][n-1][0], getMonth(data[0][n-1][1]), data[0][n-1][2]];
+        formatted.frequency = "Daily";
+        for(let i = 0; i<n; i++){
+            formatted.dates[i] = "" + data[0][i][0] + "-" +  getMonth(data[0][i][1]) + "-" + data[0][i][2];
+            formatted.data[i] = data[0][i][3];
+        }
+        return formatted;
+        })
+    };
 
 function parseMonthlyData(data) {
     let formatted = new formattedData();

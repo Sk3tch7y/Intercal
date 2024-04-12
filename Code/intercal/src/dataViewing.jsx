@@ -7,18 +7,8 @@ import { Line } from 'react-chartjs-2';
 import { Chart } from 'chart.js/auto';
 import { Slider } from '@mui/material';
 
+let id = "01AD001";
 //Sample output from /server/exampleQuery.js for testing
-let exampleDailyData = 
-[
-  [
-    [ 1926, 10, 1, 108 ],
-    [ 1926, 10, 2, 85.5 ],
-    [ 1926, 10, 3, 73.5999984741211 ],
-    [ 1926, 10, 4, 66.5 ],
-    [ 1926, 10, 5, 73.5999984741211 ],
-  ],
-[]
-];
 
 let exampleDailyData2 = 
 [
@@ -360,7 +350,7 @@ let exampleAnnualData2 =
 ];
 
 //TODO - Change exampDailyData to the output of a user-based query.
-let parsedData = parseDailyData(exampleDailyData2);
+let parsedData = await parseDailyData(id);
 //let parsedData = parseMonthlyData(exampleMonthlyData2);
 //let parsedData = parseAnnualMaxData(exampleAnnualData2);
 //let parsedData = parseAnnualMinData(exampleAnnualData2);

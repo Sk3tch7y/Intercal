@@ -183,10 +183,10 @@ async function searchStations(str) {
     return(JSON.parse(result));
 }
 
-searchStations("a");
+//searchStations("a");
 //let idk = searchStations("okanagan");
 //getStationsLocal();
-//getAnnual("01AD015");
+//getAnnual("01AD015").then(response => {console.log(response)});
 //getMonthly("01AD015");
 //console.log(getDaily("01AD015"));
 //makeStationList();
