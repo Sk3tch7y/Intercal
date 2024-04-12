@@ -22,7 +22,7 @@ export default function Sidebar() {
   function addFav(newFav){
     setFav([...favs, newFav]);
   }
-
+  //fixed the cookie issue by adding this function
   function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
