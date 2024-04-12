@@ -8,7 +8,7 @@ import { sampleFavs } from './sampleFavs';
 
 export default function Sidebar() {
   const [favs, setFav] = useState([]);
- 
+  const [gotBookmarks, setGotBookmarks] = useState(false);
   //get data from the server
   /*
   useEffect(() => {
@@ -20,23 +20,63 @@ export default function Sidebar() {
   */
 
   function addFav(newFav){
-    setFav(newFav =>{
-      console.log(newFav);
-      let newAr = [...favs, newFav,];
-      return newAr;
-    });
+    setFav([...favs, newFav]);
   }
   
-  //test
 
+  const getSaveData = async () => {
+    try {
+      const username = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("username="))
+      ?.split("=")[1];
+
+        const response = await fetch('http://localhost:8080/getSaveData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: 'test123' }),
+        });
+
+        if (response.ok) {
+            console.log('data retrieval successful');
+            const data = await response.json();
+            if(!data){
+              console.log('No bookmarks found.');
+              return;
+            }
+            let dataList = JSON.parse(data);
+            dataList.forEach(element => {
+              element = (element);
+              addFav(element);
+            });
+            console.log('displaying bookmarks');
+
+        } 
+    } catch (error) {
+        console.error('Error occurred during data retrieval:', error);
+    }
+};
+
+//test
+  useEffect(() => {
+    if(!gotBookmarks){
+      getSaveData();
+      setGotBookmarks(true);
+    }
+      
+  });
 
   if(favs.length === 0){
-    setFav(sampleFavs); 
+   // setFav(sampleFavs); 
   }
+
   let as = favs.map((fav) =>{
     console.log(fav);
-    return <Thumbnail monitoringPost={fav}></Thumbnail>;
+    return <Thumbnail key={fav}monitoringPost={fav}></Thumbnail>;
   });
+
   
   return (
   <div className = 'sidebar'>

@@ -64,7 +64,8 @@ Only Users can save data.
 #### Args
 
 - userId. The username of the user trying to save data
-- query. The query that corresponds to the data
+- postId. The postId that corresponds to the data
+- postName. The name of the post that corresponds to the data.
 
 #### Returns
 
@@ -72,7 +73,7 @@ A JSON with 3 variables.
 
 - overall(string). The overall validity of the data Either "Valid" or "Invalid"
 - isUserIdValid(string). Either "Valid" or "Invalid. userId does not exist"
-- queryStatus(string). Either "Valid" or "Invalid. savedData already exists for this user". (use this for updating a ui element)
+- postIdStatus(string). Either "Valid" or "Invalid. savedData already exists for this user". (use this for updating a ui element)
 
 
 ### saveData
@@ -92,7 +93,7 @@ A JSON with 1 variable
 
 ### getSaveData
 
-returns all saveData for a user as a JSON array.
+returns all saveData for a user as a JSON array of JSON values.
 
 #### Args
 
@@ -100,11 +101,14 @@ returns all saveData for a user as a JSON array.
 
 #### Returns
 
-A JSON array. To use it in javascript, you must parse it:
+A JSON array of JSON values. To use it in javascript, you must parse it:
 
 ```js
 
 myArray = json.parse(myJsonResult);
+
+postId = myArray[0].postId;
+postName = myArray[0].postName;
 
 ```
 
@@ -115,7 +119,7 @@ A function for admin accounts to create save alerts to a database
 #### Args
 
 - userId. the username of the admin account.
-- query. the query corresponding to the data you want to make an alert for.
+- postId. the postId corresponding to the data you want to make an alert for.
 - notes("None." by default) any string you want to add.
 
 #### Returns
