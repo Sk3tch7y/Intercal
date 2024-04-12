@@ -23,7 +23,7 @@ const Login = ({closeMenu}) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ username, password  }),
             }).then((response) => response.json()).then((data) => {
                 if(data.isValid){
                     console.log('Login successful');
@@ -31,6 +31,8 @@ const Login = ({closeMenu}) => {
                     //i cant implement sessions without spending an insane amount of time fixing the backend
                     document.cookie = `username=${username}; max-age=${7 * 24 * 60 * 60}`; // Store the username in a cookie
                     document.cookie = `password=${password}; max-age=${7 * 24 * 60 * 60}`; // Store the password in a cookie
+                    document.cookie = `state=${data.accountType}`; //store user Admin status
+                    console.log(document.cookie);
                     //trigger page refresh
                     window.location.reload();
                 } else {

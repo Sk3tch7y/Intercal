@@ -42,6 +42,7 @@ const Dashboard = ({watched, setWatched}) => {
   }
 
     let as = watched.map((post) =>{
+      console.log(post);
       return <DataBox key ={post.postId} data={post} ></DataBox>;
 
     });

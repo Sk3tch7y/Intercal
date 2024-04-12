@@ -86,29 +86,31 @@ function validateLogin(userId, password) {
       });
 
       //query to check if the userid and password match
-      con.query(`SELECT userid FROM accounts WHERE userid = ? AND password = ?`, [userId, password], (err, rows, fields) => {
-          if (err) {
-              //reject the promise if there's an error
-              con.end(); //close the connection
-              reject(err);
-              return;
-          }
+    con.query(`SELECT userid, accountType FROM accounts WHERE userid = ? AND password = ?`, [userId, password], (err, rows, fields) => {
+      if (err) {
+        //reject the promise if there's an error
+        con.end(); //close the connection
+        reject(err);
+        return;
+      }
 
-          //close the connection
-          con.end();
+      //close the connection
+      con.end();
 
-          //build the JSON object to be returned
-          var message = "Success.";
-          const isValid = rows.length > 0;
-          if(!isValid){
-            userId = null;
-            message = "Invalid credentials."
-          }
-          const result = { isValid, userId, message};
-          
-          // Resolve the promise with the result
-          resolve(result);
-      });
+      //build the JSON object to be returned
+      var message = "Success.";
+      const isValid = rows.length > 0;
+      if(!isValid){
+        userId = null;
+        message = "Invalid credentials."
+      }
+      const accountType = rows[0].accountType;
+      console.log(accountType);
+      const result = { isValid, userId, message, accountType};
+      
+      // Resolve the promise with the result
+      resolve(result);
+    });
   });
 }
 
@@ -255,7 +257,7 @@ function validateSaveData(userId,postId){
     });
 
     //query to see if saveData already exists
-    con.query(`SELECT userid FROM savedData WHERE userid = ? AND postId = ?`,[userId,postId], (err,rows,fields) =>{
+    con.query(`SELECT userid, postId FROM savedData WHERE userid = ? AND postId = ?;`,[userId,postId], (err,rows,fields) =>{
 
       con.end(); // Close the connection
 
@@ -319,6 +321,34 @@ function saveData(userId,postId,postName){
   });
 }
 
+//Function for removing SaveData
+function removeSaveData(userId,postId) {
+  return new Promise((resolve, reject) => {
+
+    if(!isAdmin(userId)){
+      reject("User must be an admin to create alerts.");
+    }
+
+    const con = getConnection();
+    con.connect((err) => {
+      if (err) {
+        reject(err);
+      }
+    });
+
+    con.query(`DELETE FROM savedData WHERE userid=? AND postid=?`,[userId,postId],(err,rows,fields) => {
+      con.end();
+
+      if (err) {
+        reject(err);
+      }
+
+      const result = { status: 'Success' };
+      resolve(result);
+    });
+  });
+}
+
 //Function to get a list of saved data as a JSON list
 //
 function getSaveData(userId){
@@ -356,7 +386,6 @@ function getSaveData(userId){
     });
   });
 }
-
 
 //Function for checking if the user is an admin
 // 
@@ -415,7 +444,7 @@ function createAlert(userId,postId,notes = "None") {
 
     //create the alert 
     //returns a JSON object indicating success
-    con.query(`INSERT INTO alerts (postId,notes) VALUES(?,?)`,[postId,notes],(err,rows,fields) => {
+    con.query(`INSERT INTO alerts (postid,notes) VALUES(?,?)`,[postId,notes],(err,rows,fields) => {
       //close the connection
       con.end();
 
@@ -428,6 +457,35 @@ function createAlert(userId,postId,notes = "None") {
       const result = { status: 'Success' };
 
       //resolve the promise with the result
+      resolve(result);
+    });
+  });
+}
+
+//Function to remove an alert
+function removeAlert(alertId) {
+  return new Promise((resolve, reject) => {
+
+    if(!isAdmin(userId)){
+      reject("User must be an admin to create alerts.");
+    }
+
+    const con = getConnection();
+    con.connect((err) => {
+      if (err) {
+        reject(err);
+      }
+    });
+
+    con.query(`DELETE FROM alerts WHERE alertid=?`,[alertId],(err,rows,fields) => {
+      con.end();
+
+      if (err) {
+        reject(err);
+      }
+
+      
+      const result = { status: 'Success' };
       resolve(result);
     });
   });
@@ -512,6 +570,30 @@ app.post("/getSaveData", async (req, res) => {
   }
 });
 
+app.get("/markData", async (req, res) => {
+  const { postId, username } = req.query;
+  console.log("Marking data for: " + username);
+  try {
+    const obj = await saveData(username, postId, );
+    res.json(obj);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/flagData", async (req, res) => {
+  const { postId, username } = req.query;
+  console.log("Flagging data for: " + username);
+  try {
+    const obj = await createAlert(username, postId, "Flagged by user."+username);
+    res.json(obj);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 module.exports = {
   getConnection,
   validateLogin,
@@ -520,7 +602,9 @@ module.exports = {
   validateSaveData,
   saveData,
   getSaveData,
+  removeSaveData,
   createAlert,
   getAlerts,
+  removeAlert,
   isAdmin,
 };

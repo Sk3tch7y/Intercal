@@ -1,6 +1,7 @@
 import React from 'react';
 import Graph from './dataViewing.jsx';
-
+import './/styles/styles.css';
+import './/styles/graphStyles.css';
 class GraphWrapper extends React.Component {
     constructor(props) {
         super(props);
@@ -24,7 +25,7 @@ class GraphWrapper extends React.Component {
         const { graphData, otherData } = this.state;
         //TODO: When Oakley IS done <Graph data={graphData} />
         return (
-            <div>
+            <div className='dataViewing'>
                 <h1>Monitoring Post</h1>
                 <div className='sidemenu'>{otherData}</div>
                 <div className = 'graph'></div>
