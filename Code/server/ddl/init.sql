@@ -21,7 +21,7 @@ PRIMARY KEY (userid)
 CREATE TABLE savedData (
 
 userid VARCHAR(20),
-postId VARCHAR(20),
+postid VARCHAR(20),
 postName VARCHAR(4096),
 PRIMARY KEY (userid,postid),
 FOREIGN KEY (userid) REFERENCES accounts(userid)
@@ -30,7 +30,7 @@ FOREIGN KEY (userid) REFERENCES accounts(userid)
 
 CREATE TABLE alerts (
     alertid INT AUTO_INCREMENT,
-    postId VARCHAR(4096),
+    postid VARCHAR(4096),
     notes VARCHAR(4096),
     PRIMARY KEY (alertid)
 );

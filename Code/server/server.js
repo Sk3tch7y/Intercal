@@ -319,6 +319,34 @@ function saveData(userId,postId,postName){
   });
 }
 
+//Function for removing SaveData
+function removeSaveData(userId,postId) {
+  return new Promise((resolve, reject) => {
+
+    if(!isAdmin(userId)){
+      reject("User must be an admin to create alerts.");
+    }
+
+    const con = getConnection();
+    con.connect((err) => {
+      if (err) {
+        reject(err);
+      }
+    });
+
+    con.query(`DELETE FROM savedData WHERE userid=? AND postid=?`,[userId,postId],(err,rows,fields) => {
+      con.end();
+
+      if (err) {
+        reject(err);
+      }
+
+      const result = { status: 'Success' };
+      resolve(result);
+    });
+  });
+}
+
 //Function to get a list of saved data as a JSON list
 //
 function getSaveData(userId){
@@ -356,7 +384,6 @@ function getSaveData(userId){
     });
   });
 }
-
 
 //Function for checking if the user is an admin
 // 
@@ -415,7 +442,7 @@ function createAlert(userId,postId,notes = "None") {
 
     //create the alert 
     //returns a JSON object indicating success
-    con.query(`INSERT INTO alerts (postId,notes) VALUES(?,?)`,[postId,notes],(err,rows,fields) => {
+    con.query(`INSERT INTO alerts (postid,notes) VALUES(?,?)`,[postId,notes],(err,rows,fields) => {
       //close the connection
       con.end();
 
@@ -428,6 +455,35 @@ function createAlert(userId,postId,notes = "None") {
       const result = { status: 'Success' };
 
       //resolve the promise with the result
+      resolve(result);
+    });
+  });
+}
+
+//Function to remove an alert
+function removeAlert(alertId) {
+  return new Promise((resolve, reject) => {
+
+    if(!isAdmin(userId)){
+      reject("User must be an admin to create alerts.");
+    }
+
+    const con = getConnection();
+    con.connect((err) => {
+      if (err) {
+        reject(err);
+      }
+    });
+
+    con.query(`DELETE FROM alerts WHERE alertid=?`,[alertId],(err,rows,fields) => {
+      con.end();
+
+      if (err) {
+        reject(err);
+      }
+
+      
+      const result = { status: 'Success' };
       resolve(result);
     });
   });
@@ -520,7 +576,9 @@ module.exports = {
   validateSaveData,
   saveData,
   getSaveData,
+  removeSaveData,
   createAlert,
   getAlerts,
+  removeAlert,
   isAdmin,
 };
