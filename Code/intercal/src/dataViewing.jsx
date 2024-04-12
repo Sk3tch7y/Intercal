@@ -132,7 +132,7 @@ fetch('http://localhost:8080/getData?id='+id).then(response => {
         })
         .then(data => {
             console.log(data);
-          parsedData = parseDailyData(data);
+          parsedData = parseAnnualMaxData(data);
           //let parsedData = parseMonthlyData(exampleMonthlyData2);
           //let parsedData = parseAnnualMaxData(exampleAnnualData2);
           //let parsedData = parseAnnualMinData(exampleAnnualData2);
