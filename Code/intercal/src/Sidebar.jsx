@@ -22,21 +22,23 @@ export default function Sidebar() {
   function addFav(newFav){
     setFav([...favs, newFav]);
   }
-  
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
 
   const getSaveData = async () => {
     try {
-      const username = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("username="))
-      ?.split("=")[1];
+      const username = getCookie("username");
 
         const response = await fetch('http://localhost:8080/getSaveData', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username: 'test123' }),
+            body: JSON.stringify({ username: username }),
         });
 
         if (response.ok) {
