@@ -108,8 +108,8 @@ async function getData(url, freq) {
             }
         }
     }
-    console.log(levelData);
-    console.log(dischargeData);
+    //console.log(levelData);
+    //console.log(dischargeData);
     return [levelData, dischargeData];
 }
 async function makeStationList() {
@@ -131,9 +131,12 @@ async function searchStations(str) {
     const stations = localStations;
     let result = '[';
     let newResult;
+    let count = 0;
     if(str.length == 7) {
         for(i = 0; i < stations.length; i++) {
             if(stations[i].properties.IDENTIFIER == str) {
+                if(count > 1000) {break;}
+                count++;
                 let id = str;
                 let name = stations[i].properties.STATION_NAME;
                 let content = "Province: "+stations[i].properties.PROV_TERR_STATE_LOC+"; Status: "+stations[i].properties.STATUS_EN;
@@ -155,6 +158,8 @@ async function searchStations(str) {
     else {
         for(i = 0; i < stations.length; i++) {
             if(stations[i].properties.STATION_NAME.includes(str.toUpperCase())) {
+                if(count > 1000) {break;}
+                count++;
                 identifier = stations[i].properties.IDENTIFIER;
                 let id = identifier;
                 let name = stations[i].properties.STATION_NAME;
@@ -178,7 +183,7 @@ async function searchStations(str) {
     return(JSON.parse(result));
 }
 
-//searchStations("01AA015");
+searchStations("a");
 //let idk = searchStations("okanagan");
 //getStationsLocal();
 //getAnnual("01AD015");

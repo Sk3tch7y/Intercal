@@ -11,7 +11,9 @@ const Dashboard = ({watched, setWatched}) => {
   //test files
   useEffect(() => {
       if (!hasAddedSamples) {
-          setWatched(sampleDash);
+          sampleDash().then(data => {
+            setWatched(data);
+          });
           setHasAddedSamples(true);
       }
   }, [hasAddedSamples, sampleDash]);
