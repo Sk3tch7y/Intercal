@@ -512,6 +512,26 @@ app.post("/getSaveData", async (req, res) => {
   }
 });
 
+app.get("/getAlerts", async (req, res) => {
+  try {
+    const obj = await getAlerts();
+    res.json(obj);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/getAlerts", async (req, res) => {
+  try {
+    const obj = await getAlerts();
+    res.json(obj);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 module.exports = {
   getConnection,
   validateLogin,
