@@ -68,7 +68,7 @@ describe("Testing front end data parsing", function() {
         //isEqual = isEqual && (parseData.startDate === 1927);
         //isEqual = isEqual && (parseData.endDate === 1933);
         isEqual = isEqual && (JSON.stringify(parseData.dates) === JSON.stringify(["1927","1928","1929","1930","1931","1932","1933"]));
-        isEqual = isEqual && (parseData.frequency === 'Annual Maximum');
+        isEqual = isEqual && (parseData.frequency === 'Annual maximum');
         isEqual = isEqual && (JSON.stringify(parseData.data) === JSON.stringify([1880,2550,2210,2730,1370,1940,3310]));
         assert.equal(isEqual, true);
     });
@@ -78,7 +78,7 @@ describe("Testing front end data parsing", function() {
         //isEqual = isEqual && (parseData.startDate === 1927);
         //isEqual = isEqual && (parseData.endDate === 1933);
         isEqual = isEqual && (JSON.stringify(parseData.dates) === JSON.stringify(["1927","1928","1929","1930","1931","1932","1933"]));
-        isEqual = isEqual && (parseData.frequency === 'Annual Minimum');
+        isEqual = isEqual && (parseData.frequency === 'Annual minimum');
         isEqual = isEqual && (JSON.stringify(parseData.data) === JSON.stringify([28,45,37.70000076293945,42.5,27.5,45.29999923706055,26.600000381469727]));
         assert.equal(isEqual, true);
     });

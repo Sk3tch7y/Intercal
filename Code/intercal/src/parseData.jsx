@@ -37,7 +37,7 @@ function parseAnnualMaxData(data) {
     let n = data[1].length;
     //formatted.startDate = data[1][0][0];
     //formatted.endDate = data[1][n-1][0];
-    formatted.frequency = "Annual Maximum";
+    formatted.frequency = "Annual maximum";
     for(var i = 0; i<n; i++){
         formatted.dates[i] = "" + data[1][i][0];
         formatted.data[i] = data[1][i][1];
@@ -50,7 +50,7 @@ function parseAnnualMinData(data) {
     let n = data[1].length;
     //formatted.startDate = data[1][0][0];
     //formatted.endDate = data[1][n-1][0];
-    formatted.frequency = "Annual Minimum";
+    formatted.frequency = "Annual minimum";
     for(var i = 0; i<n; i++){
         formatted.dates[i] = "" + data[1][i][0];
         formatted.data[i] = data[1][i][2];
