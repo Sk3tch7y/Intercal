@@ -41,7 +41,7 @@ export default function DataBox( {data} ) {
         //todo: send get request to server to mark the data
         let url = 'http://localhost:8080/markData?postId=';
         console.log(data.postId);
-        fetch(url+ data.postId + "&username="+getCookie('username') + "&postName=" + data.postName)
+        fetch(url+ data.postId + "&username="+getCookie('username') + "&postName=" + data.name)
           .then(response => response.json())
           .then(data => {
             console.log('Success:', data);

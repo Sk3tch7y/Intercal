@@ -18,7 +18,7 @@ export default function Sidebar() {
       .catch(error => console.error(error));
   }, []);
   */
-
+  
   function addFav(newFav){
     setFav([...favs, newFav]);
   }
@@ -49,12 +49,13 @@ export default function Sidebar() {
               return;
             }
             let dataList = JSON.parse(data);
-            dataList.forEach(element => {
-              element = (element);
-              addFav(element);
+            const newFavs = dataList.map(element => {
+              console.log('element:', element);
+              return element;
             });
+            setFav(newFavs);
             console.log('displaying bookmarks');
-
+            console.log(favs);
         } 
     } catch (error) {
         console.error('Error occurred during data retrieval:', error);
@@ -62,23 +63,19 @@ export default function Sidebar() {
 };
 
 //test
-  useEffect(() => {
-    if(!gotBookmarks){
-      getSaveData();
-      setGotBookmarks(true);
+  useState(() => {
+    if (!gotBookmarks) {
+        getSaveData();
+        setGotBookmarks(true);
     }
-      
   });
-
   if(favs.length === 0){
    // setFav(sampleFavs); 
   }
-
   let as = favs.map((fav) =>{
     console.log(fav);
-    return <Thumbnail key={fav}monitoringPost={fav}></Thumbnail>;
+    return <Thumbnail key={fav.postId}monitoringPost={fav} getSaveData={getSaveData}></Thumbnail>;
   });
-
   
   return (
   <div className = 'sidebar'>
