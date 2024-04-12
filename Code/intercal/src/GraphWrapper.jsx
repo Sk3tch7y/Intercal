@@ -1,6 +1,7 @@
 import React from 'react';
 import Graph from './dataViewing.jsx';
-
+import './/styles/styles.css';
+import './/styles/graphStyles.css';
 class GraphWrapper extends React.Component {
     constructor(props) {
         super(props);
