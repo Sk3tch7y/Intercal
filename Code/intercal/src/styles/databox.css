@@ -4,7 +4,6 @@
     background-color: white;
     width: 18%;
     height: 20%;
-    margin: 0 1% 1% 1%;
     padding: 1%;
     border-radius: var(--DefaultBR);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -22,6 +21,10 @@
     align-items: center;
     border-top-left-radius: var(--DefaultBR);
     border-top-right-radius: var(--DefaultBR);
+}
+.data{
+    height: 70%;
+    font-weight: bold;
 }
 .mark{
     width: 20%;
