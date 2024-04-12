@@ -19,6 +19,8 @@ The function returns a JSON with 3 variables
 - **userId**(string or null). This is the user id that was passed into the function. If the login is not valid, the value will be null. The idea for this variable is for it to be assigned to a session variable, so that the website can tell who is logged in(null usernames imply the user is not logged in).
 - **message**(string). displays either "Success." or "Invalid credentials." depending on the validity of the login. The idea for this variable is to provide information to the user about their login attempt.
 
+---
+
 ### validateAccountCreation
 
 Note: This is not the function that creates the account. It justs ensures the given info can be made into an account. Useful for an account creation page.
@@ -38,6 +40,8 @@ A JSON object with 3 variables {overallStatus,userIdStatus,passwordStatus}
 - userIdStatus(string). Indicates the validity of the proposed userId. One of "Valid", "Invalid format.", "Invalid, username already taken."
 - passwordStatus(string). Either "Valid" or "Invalid format."
 
+---
+
 ### createAccount
 
 With attempt to create an account if it is valid.
@@ -52,6 +56,8 @@ With attempt to create an account if it is valid.
 A JSON with 1 variable
 
 - status(string).  "Success". An error will be thrown otherwise.
+
+---
 
 ### validateSaveData
 
@@ -75,6 +81,7 @@ A JSON with 3 variables.
 - isUserIdValid(string). Either "Valid" or "Invalid. userId does not exist"
 - postIdStatus(string). Either "Valid" or "Invalid. savedData already exists for this user". (use this for updating a ui element)
 
+---
 
 ### saveData
 
@@ -90,6 +97,24 @@ Bookmarks the search result if it is valid.
 A JSON with 1 variable
 
 - status(string) "Success". An error will be thrown with an informative message if anything goes wrong(i.e. invalid user).
+
+---
+
+### removeSaveData
+
+A function that removes a bookmark for a user from the database
+
+#### Args
+- userId. The username who is modyfying their saved data
+- postId. The postId the used mants to remove from their bookmarks
+
+#### Returns
+
+A JSON with 1 variable
+
+- status(string) "Success". An error will be thrown if something goes wrong.
+  
+---
 
 ### getSaveData
 
@@ -112,6 +137,8 @@ postName = myArray[0].postName;
 
 ```
 
+---
+
 ### createAlert
 
 A function for admin accounts to create save alerts to a database
@@ -127,6 +154,24 @@ A function for admin accounts to create save alerts to a database
 A JSON with 1 variable
 
 - status(string) "Success". An error will be thrown with an informative message if anything goes wrong(i.e. User must be an admin to create alerts.)
+
+---
+
+### removeAlert
+
+A function that removes an alert from the database 
+
+#### Args
+
+- alertId. The alert's id
+
+#### Returns
+
+A JSON with 1 variable
+
+- status(string) "Success". An error will be thrown if something goes wrong.
+  
+---
 
 ### getAlerts
 
@@ -149,6 +194,8 @@ myArray = json.parse(myJsonResult);
 ### getConnection
 
 A function that returns a connection ready to be connected to the database
+
+---
 
 ### isAdmin
 

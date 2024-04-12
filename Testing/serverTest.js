@@ -287,3 +287,26 @@ describe("createAlert tests",function(){
         }
     });
 });
+
+describe("general alert tests",function(){
+    userId = "admin123"
+    postId = 123;
+    it("should be able to create an alert, get the alert and then delete the alert",async function(){
+        try{
+           message = await server.createAlert(userId,postId);
+           assert.equal(message.status,"Success");
+
+           obj = await server.getAlerts();
+           obj = JSON.parse(obj);
+           len = obj.length;
+           assert.equal(obj[len-1].postId,123);
+
+            alertId = len;
+            message = await server.removeAlert(alertId);
+            assert.equal(message.status,"Success");
+        } catch(error){
+            assert.fail(error);
+        }
+    });
+
+});
