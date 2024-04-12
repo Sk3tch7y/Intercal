@@ -31,6 +31,9 @@ export default function DataBox( {data} ) {
       <div className = 'dataID'>
         <h6>{data.postId}</h6>
       </div>
+      <div className = 'name'>
+        <h6>{data.name}</h6>
+      </div>
       <div className = 'content'>
         <h6>{data.content}</h6>
       </div>

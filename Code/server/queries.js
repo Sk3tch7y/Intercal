@@ -175,12 +175,11 @@ async function searchStations(str) {
         result = result.slice(0,-1);
         result = result.concat("]");
     }
-    console.log(JSON.parse(result));
     return(JSON.parse(result));
 }
 
 //searchStations("01AA015");
-//searchStations("okanagan");
+//let idk = searchStations("okanagan");
 //getStationsLocal();
 //getAnnual("01AD015");
 //getMonthly("01AD015");
