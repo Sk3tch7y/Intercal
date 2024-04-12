@@ -86,29 +86,31 @@ function validateLogin(userId, password) {
       });
 
       //query to check if the userid and password match
-      con.query(`SELECT userid FROM accounts WHERE userid = ? AND password = ?`, [userId, password], (err, rows, fields) => {
-          if (err) {
-              //reject the promise if there's an error
-              con.end(); //close the connection
-              reject(err);
-              return;
-          }
+    con.query(`SELECT userid, accountType FROM accounts WHERE userid = ? AND password = ?`, [userId, password], (err, rows, fields) => {
+      if (err) {
+        //reject the promise if there's an error
+        con.end(); //close the connection
+        reject(err);
+        return;
+      }
 
-          //close the connection
-          con.end();
+      //close the connection
+      con.end();
 
-          //build the JSON object to be returned
-          var message = "Success.";
-          const isValid = rows.length > 0;
-          if(!isValid){
-            userId = null;
-            message = "Invalid credentials."
-          }
-          const result = { isValid, userId, message};
-          
-          // Resolve the promise with the result
-          resolve(result);
-      });
+      //build the JSON object to be returned
+      var message = "Success.";
+      const isValid = rows.length > 0;
+      if(!isValid){
+        userId = null;
+        message = "Invalid credentials."
+      }
+      const accountType = rows[0].accountType;
+      console.log(accountType);
+      const result = { isValid, userId, message, accountType};
+      
+      // Resolve the promise with the result
+      resolve(result);
+    });
   });
 }
 
@@ -255,7 +257,7 @@ function validateSaveData(userId,postId){
     });
 
     //query to see if saveData already exists
-    con.query(`SELECT userid FROM savedData WHERE userid = ? AND postId = ?`,[userId,postId], (err,rows,fields) =>{
+    con.query(`SELECT userid, postId FROM savedData WHERE userid = ? AND postId = ?;`,[userId,postId], (err,rows,fields) =>{
 
       con.end(); // Close the connection
 
@@ -509,6 +511,30 @@ app.post("/getSaveData", async (req, res) => {
       // Handle error if needed
       console.error(error);
       res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/markData", async (req, res) => {
+  const { postId, username } = req.query;
+  console.log("Marking data for: " + username);
+  try {
+    const obj = await saveData(username, postId, );
+    res.json(obj);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/flagData", async (req, res) => {
+  const { postId, username } = req.query;
+  console.log("Flagging data for: " + username);
+  try {
+    const obj = await createAlert(username, postId, "Flagged by user."+username);
+    res.json(obj);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
