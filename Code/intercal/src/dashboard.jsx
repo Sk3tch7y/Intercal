@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './/styles/styles.css';
 import './/styles/dashboard.css'
 import DataBox from './DataBox';
+import App from './App';
 import { sampleDash } from './testFiles/sampleDash';
 
 const Dashboard = ({watched, setWatched}) => {

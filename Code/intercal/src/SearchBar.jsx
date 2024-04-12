@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Dashboard from './dashboard';
+import App from './App';
 import './/styles/header.css'
 
 const SearchBar = ({setWatched}) => {
@@ -13,7 +14,8 @@ const SearchBar = ({setWatched}) => {
             .then(response => {
                 if(response.ok){
                     console.log(response.ok);
-                    return response.json();
+                    console.log(response);
+                    return response;
                 }
                 else{
                     let post = [{ postId: "Post ID 1", content: "Sample Content 1", waterLevel: "Normal" }];
