@@ -1,9 +1,10 @@
-import React from 'react';
-import { useState } from 'react';
-import { fiveNumSummary } from './stats';
+import React, {Fragment, useEffect, useState } from 'react';
+import './styles/dataViewing.css'
+import { fiveNumSummary, mean, variance, stdev, probability } from './stats';
 import { parseDailyData, parseMonthlyData, parseAnnualMaxData, parseAnnualMinData } from './parseData';
 import { Line } from 'react-chartjs-2';
 import { Chart } from 'chart.js/auto';
+import { Slider } from '@mui/material';
 
 //Sample output from /server/exampleQuery.js for testing
 let exampleDailyData = 
@@ -362,65 +363,164 @@ let parsedData = parseDailyData(exampleDailyData2);
 //let parsedData = parseMonthlyData(exampleMonthlyData2);
 //let parsedData = parseAnnualMaxData(exampleAnnualData2);
 //let parsedData = parseAnnualMinData(exampleAnnualData2);
-let data = parsedData.data;
-let FiveNumSum = fiveNumSummary(data);
-let display = <></>;  
+let FiveNumSum = fiveNumSummary(parsedData.data);
+let avg = mean(parsedData.data);
+let vari = variance(parsedData.data);
+let standardDeviation = stdev(parsedData.data);
+let station = '<station>';
 
 export default function Graph(data) {
+  
   return <>
   <ShowLineChart />
   <p></p>
+  <Probability />
+  <p></p>
   <ShowFiveNumSum />
+  <p></p>
+  <AdditionalStats />
+  <p></p>
   </>
-
-function ShowFiveNumSum() {
-  const [FiveNumberSumarry, setFiveNumberSumarry] = useState(FiveNumSum);
-  
-  function handleClick() {
-    setFiveNumberSumarry(fiveNumSummary(data));
-    display =  <>
-    <p>Minimum:         {FiveNumSum[0].toPrecision(4)}</p>
-    <p>First quartile:  {FiveNumSum[1].toPrecision(4)}</p>
-    <p>Median:          {FiveNumSum[2].toPrecision(4)}</p>
-    <p>Third quartile:  {FiveNumSum[3].toPrecision(4)}</p>
-    <p>Maximum:         {FiveNumSum[4].toPrecision(4)}</p>
-    </>;
-  }
-
-  return ( <>
-    <button onClick={handleClick}> 
-      5 - Number Sumarry </button>
-    {display}
-    </>
-  );
-}
 
 function ShowLineChart() {
 
   const chartData = {
     labels: parsedData.dates,
     datasets: [{
-      label: parsedData.frequency + " data from <station>",
+      label: parsedData.frequency + " data from " + station,
       data: parsedData.data,
-      backgroundColor: ["rgba(0.0, 0.0, 0.0, 1.0)"],
-      borderColor: ["rgba(0.0, 0.0, 0.0, 1.0)"],
-      
-
+      backgroundColor: ["rgba(0, 0, 0, 1.0)"],
+      borderColor: ["rgba(0,0, 0, 1.0)"] 
     }]
   };
 
   const chartOptions = {
+    plugins: {
+      legend: {
+        labels: {
+          color: "black", 
+          font: {
+            size: 16
+          }
+        }
+      }
+    },
     scales: {
-      yAxes: [{gridLines: {color: "rgba(255,0,0,0,1.0)"}}]
+      x: {
+        ticks: {
+          color: 'black',
+          autoSkipPadding: 20
+        }
+      },
+      y: {
+        ticks: {
+          color: 'black'
+        }
+      }
     }
   };
 
-  //TODO write lineChart code
-    return <div>
-      <div style={{width: 1000}}>
-          <Line data={chartData} options = {chartOptions} />
-      </div>
-    </div>
+    return (<Line className='graph'data={chartData} options = {chartOptions} />);
+  
+}
+
+function ShowFiveNumSum() {
+  return ( <>
+  <h3> The five number summary of this data set:</h3>
+    <h4>Minimum:         {FiveNumSum[0].toPrecision(4)}</h4>
+    <h4>First quartile:  {FiveNumSum[1].toPrecision(4)}</h4>
+    <h4>Median:          {FiveNumSum[2].toPrecision(4)}</h4>
+    <h4>Third quartile:  {FiveNumSum[3].toPrecision(4)}</h4>
+    <h4>Maximum:         {FiveNumSum[4].toPrecision(4)}</h4>
+    </>
+  );
+}
+
+function Probability() {
+
+  let data = parsedData.data;
+  let IQR = FiveNumSum[3]-FiveNumSum[1];
+  let initialValue = (FiveNumSum[0]+FiveNumSum[4])/2;
+  let left = FiveNumSum[0]-IQR/4;
+  let right = FiveNumSum[4]+IQR/4;
+  let initRange = [(initialValue-(IQR/4)), initialValue+(IQR/4)];
+
+  const [value1, setValue1] = useState(initialValue);
+  const [value2, setValue2] = useState(initRange);
+  const [value3, setValue3] = useState(initialValue);
+
+  const [likelyhood1, setLikelyhood1] = useState(probability(data, 0, initialValue));
+  const [likelyhood2, setLikelyhood2] = useState(probability(data, 1, initRange[0], initRange[1]));
+  const [likelyhood3, setLikelyhood3] = useState(probability(data, 2, initialValue));
+
+  const handleChange1 = (event, newValue1) => {
+    setValue1(newValue1);
+    setLikelyhood1(probability(data, 0, newValue1));
+  };
+
+  const handleChange2 = (event, newValue2) => {
+    setValue2(newValue2);
+    setLikelyhood2(probability(data, 1, newValue2[0], newValue2[1]));
+  };
+
+  const handleChange3 = (event, newValue3) => {
+    setValue3(newValue3);
+    setLikelyhood3(probability(data, 2, newValue3));
+  };
+
+  return ( <>
+  <h3> Drag the sliders to calculate probabilities</h3>
+        <h5>There is a {(likelyhood1*100).toPrecision(3)}% chance that water levels at station 
+          {" " + station} go below {value1.toPrecision(3)} units.</h5>
+        <Slider
+        defaultValue={initialValue}
+        valueLabelDisplay="auto"
+        value = {value1}
+        step={0.1}
+        onChange={handleChange1}
+        min = {left}
+        max = {right}
+        ></Slider>
+
+        <h5>There is a {(likelyhood2*100).toPrecision(3)}% chance that water levels at station
+         {" " + station} are between {value2[0].toPrecision(3)} and {value2[1].toPrecision(3)} units.</h5>
+        <Slider
+        getAriaLabel={() => 'water range'}
+        defaultValue={initRange}
+        valueLabelDisplay="auto"
+        value = {value2}
+        step={0.1}
+        onChange={handleChange2}
+        min = {left}
+        max = {right}
+        ></Slider>
+
+        <h5>There is a {(likelyhood3*100).toPrecision(3)}% chance that water levels at station
+         {" " + station} go above {value3.toPrecision(3)} units.</h5>
+        <Slider
+        defaultValue={initialValue}
+        valueLabelDisplay="auto"
+        value = {value3}
+        step={0.1}
+        onChange={handleChange3}
+        min = {left}
+        max = {right}
+        ></Slider>
+      </>
+
+  );
+  
+}
+
+function AdditionalStats() {
+
+  return ( <>
+  <h3> Some additional statistical information for this data set:</h3>
+    <h4>Mean:               {avg.toPrecision(4)}</h4>
+    <h4>Variance:           {vari.toPrecision(4)}</h4>
+    <h4>Standard deviation: {standardDeviation.toPrecision(4)}</h4>
+    </>
+  );
 }
 
 }

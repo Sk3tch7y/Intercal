@@ -1,0 +1,20 @@
+.dataBody{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 60%;
+    overflow-y: scroll;
+    justify-content: center;
+    align-content: center;
+}
+.dataViewing{
+    width: 95%;
+    top: 100%;
+    margin-bottom: 5px;
+    margin-top: 70%
+}
+.graph{
+    margin: 20px;
+    width: 100%;
+}
