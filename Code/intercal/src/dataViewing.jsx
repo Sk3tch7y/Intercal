@@ -350,16 +350,32 @@ let exampleAnnualData2 =
 ];
 
 //TODO - Change exampDailyData to the output of a user-based query.
-let parsedData = await parseDailyData(id);
-//let parsedData = parseMonthlyData(exampleMonthlyData2);
-//let parsedData = parseAnnualMaxData(exampleAnnualData2);
-//let parsedData = parseAnnualMinData(exampleAnnualData2);
-let FiveNumSum = fiveNumSummary(parsedData.data);
-let avg = mean(parsedData.data);
-let vari = variance(parsedData.data);
-let standardDeviation = stdev(parsedData.data);
-let station = '<station>';
-let freq = parsedData.frequency;
+let parsedData;
+let FiveNumSum;
+let avg;
+let vari;
+let standardDeviation;
+let station;
+let freq;
+fetch('http://localhost:8080/getData?id='+id).then(response => {
+        if(!response.ok) {
+            console.error("Response failed.");
+        }
+        return response.json();
+        })
+        .then(data => {
+            console.log(data);
+          parsedData = parseDailyData(data);
+          //let parsedData = parseMonthlyData(exampleMonthlyData2);
+          //let parsedData = parseAnnualMaxData(exampleAnnualData2);
+          //let parsedData = parseAnnualMinData(exampleAnnualData2);
+          FiveNumSum = fiveNumSummary(parsedData.data);
+          avg = mean(parsedData.data);
+          vari = variance(parsedData.data);
+          standardDeviation = stdev(parsedData.data);
+          station = '<station>';
+          freq = parsedData.frequency;
+        });
 
 export default function Graph(data) {
   
