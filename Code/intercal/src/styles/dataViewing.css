@@ -1,18 +1,18 @@
 .dataBody{
-    box-sizing: border-box;
+    width: 80%;
+    height: 80%;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    width: 60%;
+    justify-self: center;
+    margin: 0 10%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 5px #000;
     overflow-y: scroll;
-    justify-content: center;
-    align-content: center;
+    overflow-x: hidden;
 }
 .dataViewing{
     width: 95%;
-    top: 100%;
     margin-bottom: 5px;
-    margin-top: 70%
 }
 .graph{
     margin: 20px;

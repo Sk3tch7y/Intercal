@@ -1,5 +1,6 @@
 import React, {Fragment, useEffect, useState } from 'react';
 import './styles/dataViewing.css'
+import './styles/viewData.css'
 import { fiveNumSummary, mean, variance, stdev, probability } from './stats';
 import { parseDailyData, parseMonthlyData, parseAnnualMaxData, parseAnnualMinData } from './parseData';
 import { Line } from 'react-chartjs-2';
