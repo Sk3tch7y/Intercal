@@ -255,7 +255,7 @@ function validateSaveData(userId,postId){
     });
 
     //query to see if saveData already exists
-    con.query(`SELECT userid FROM savedData WHERE userid = ? AND postId = ?`,[userId,postId], (err,rows,fields) =>{
+    con.query(`SELECT userid, postId FROM savedData WHERE userid = ? AND postId = ?;`,[userId,postId], (err,rows,fields) =>{
 
       con.end(); // Close the connection
 
@@ -509,6 +509,18 @@ app.post("/getSaveData", async (req, res) => {
       // Handle error if needed
       console.error(error);
       res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/markData", async (req, res) => {
+  const { postId, username } = req.query;
+  console.log("Marking data for: " + username);
+  try {
+    const obj = await saveData(username, postId, );
+    res.json(obj);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
