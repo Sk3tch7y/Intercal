@@ -368,6 +368,7 @@ let avg = mean(parsedData.data);
 let vari = variance(parsedData.data);
 let standardDeviation = stdev(parsedData.data);
 let station = '<station>';
+let freq = parsedData.frequency;
 
 export default function Graph(data) {
   
@@ -426,7 +427,7 @@ function ShowLineChart() {
 
 function ShowFiveNumSum() {
   return ( <>
-  <h3> The five number summary of this data set:</h3>
+  <h3> The five number summary of this data:</h3>
     <h4>Minimum:         {FiveNumSum[0].toPrecision(4)}</h4>
     <h4>First quartile:  {FiveNumSum[1].toPrecision(4)}</h4>
     <h4>Median:          {FiveNumSum[2].toPrecision(4)}</h4>
@@ -470,8 +471,8 @@ function Probability() {
 
   return ( <>
   <h3> Drag the sliders to calculate probabilities</h3>
-        <h5>There is a {(likelyhood1*100).toPrecision(3)}% chance that water levels at station 
-          {" " + station} go below {value1.toPrecision(3)} units.</h5>
+        <h5>There is a {(likelyhood1*100).toPrecision(3)}% chance that a given {freq.toLowerCase()} value
+          is below {value1.toPrecision(3)} units for station {station}.</h5>
         <Slider
         defaultValue={initialValue}
         valueLabelDisplay="auto"
@@ -482,8 +483,8 @@ function Probability() {
         max = {right}
         ></Slider>
 
-        <h5>There is a {(likelyhood2*100).toPrecision(3)}% chance that water levels at station
-         {" " + station} are between {value2[0].toPrecision(3)} and {value2[1].toPrecision(3)} units.</h5>
+        <h5>There is a {(likelyhood2*100).toPrecision(3)}% chance that a given {freq.toLowerCase()} value
+          is between {value2[0].toPrecision(3)} and {value2[1].toPrecision(3)} units for station {station}.</h5>
         <Slider
         getAriaLabel={() => 'water range'}
         defaultValue={initRange}
@@ -495,8 +496,8 @@ function Probability() {
         max = {right}
         ></Slider>
 
-        <h5>There is a {(likelyhood3*100).toPrecision(3)}% chance that water levels at station
-         {" " + station} go above {value3.toPrecision(3)} units.</h5>
+        <h5>There is a {(likelyhood3*100).toPrecision(3)}% chance that a given {freq.toLowerCase()} value
+          is above {value3.toPrecision(3)} units for station {station}.</h5>
         <Slider
         defaultValue={initialValue}
         valueLabelDisplay="auto"
@@ -515,7 +516,7 @@ function Probability() {
 function AdditionalStats() {
 
   return ( <>
-  <h3> Some additional statistical information for this data set:</h3>
+  <h3> Additional statistical information for this data:</h3>
     <h4>Mean:               {avg.toPrecision(4)}</h4>
     <h4>Variance:           {vari.toPrecision(4)}</h4>
     <h4>Standard deviation: {standardDeviation.toPrecision(4)}</h4>
