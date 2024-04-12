@@ -25,7 +25,17 @@ export default function DataBox( {data} ) {
       const parts = value.split(`; ${name}=`);
       if (parts.length === 2) return parts.pop().split(';').shift();
     }
-
+    const flag = (e) => {
+      e.preventDefault();
+      let url = 'http://localhost:8080/flagData?postId=';
+      console.log(data.postId);
+      fetch(url+ data.postId + "&username="+getCookie('username'))
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+        })
+        .catch(error => console.error(error));
+    }
     const mark = (e) => {
         e.preventDefault();
         //todo: send get request to server to mark the data
@@ -60,6 +70,7 @@ export default function DataBox( {data} ) {
   <div className = 'databox'>
     <div className = 'head'>
         <button className='mark' onClick={mark}>👀</button>
+        {getCookie('state') === 'admin' ? (<button className='flag' onClick={flag}>🚩</button>) : ""}
     </div>
     {as}
     {showModal && <ViewData onClose={closeModal} data={data}  />}
