@@ -11,7 +11,7 @@ async function getAnnual(station) {
     const stations = localStations;
     for(let i = 0; i < localStations.length; i++) {
         if(stations[i].properties.IDENTIFIER == station) {
-            var data = getLinkedData(i, "annual", stations);
+            var data = await getLinkedData(i, "annual", stations);
             break;
         }
     }
@@ -22,7 +22,7 @@ async function getMonthly(station) {
     const stations = localStations;
     for(let i = 0; i < stations.length; i++) {
         if(stations[i].properties.IDENTIFIER == station) {
-            var data = getLinkedData(i, "monthly", stations);
+            var data = await getLinkedData(i, "monthly", stations);
             break;
         }
     }
@@ -33,13 +33,13 @@ async function getDaily(station) {
     const stations = localStations;
     for(let i = 0; i < stations.length; i++) {
         if(stations[i].properties.IDENTIFIER == station) {
-            var data = getLinkedData(i, "daily", stations);
+            var data = await getLinkedData(i, "daily", stations);
             break;
         }
     }
     return data;
 }
-function getLinkedData(index, freq, stations) {
+async function getLinkedData(index, freq, stations) {
     let partialLink = "";
     switch(freq) {
         case "annual":
@@ -56,7 +56,7 @@ function getLinkedData(index, freq, stations) {
     for(let j = 0; j < stations[index].properties.links.length; j++) {
         if(stations[index].properties.links[j].href.includes(partialLink)) {
             let selected = stations[index].properties.links[j].href;
-            var data = getData(selected, freq);
+            var data = await getData(selected, freq); // var used due to scope. Hacky ik but it works :)
             break;
         }
     }
@@ -108,8 +108,8 @@ async function getData(url, freq) {
             }
         }
     }
-    //console.log(levelData);
-    //console.log(dischargeData);
+    console.log(levelData);
+    console.log(dischargeData);
     return [levelData, dischargeData];
 }
 async function makeStationList() {
@@ -137,8 +137,8 @@ async function searchStations(str) {
                 let id = str;
                 let name = stations[i].properties.STATION_NAME;
                 let content = "Province: "+stations[i].properties.PROV_TERR_STATE_LOC+"; Status: "+stations[i].properties.STATUS_EN;
-                //let waterData = await getDaily(id);
-                /*if(waterData[0] != 0) {
+                /*let waterData = await getDaily(id);
+                if(waterData[0] != 0) {
                     waterLevel = waterData[0][waterData[0].length-1][3];
                 }
                 else {
@@ -150,7 +150,7 @@ async function searchStations(str) {
             }
         }
         result=result.slice(0,-1);
-        result = result.concat("]}");
+        result = result.concat("]");
     }
     else {
         for(i = 0; i < stations.length; i++) {
@@ -159,8 +159,9 @@ async function searchStations(str) {
                 let id = identifier;
                 let name = stations[i].properties.STATION_NAME;
                 let content = "Province: "+stations[i].properties.PROV_TERR_STATE_LOC+"; Status: "+stations[i].properties.STATUS_EN;
-                //let waterData = await getDaily(id);
-                /*if(typeof(waterData[0]) != 'undefined') {
+                /*let waterData = await getDaily(id);
+                console.log(waterData);
+                if(typeof(waterData[0]) != 'undefined') {
                     waterLevel = waterData[0][waterData[0].length-1][3];
                 }
                 else {
@@ -174,14 +175,16 @@ async function searchStations(str) {
         result = result.slice(0,-1);
         result = result.concat("]");
     }
+    console.log(JSON.parse(result));
     return(JSON.parse(result));
 }
 
+//searchStations("01AA015");
 //searchStations("okanagan");
 //getStationsLocal();
 //getAnnual("01AD015");
-//getMonthly("01AD002");
-//getDaily("01AA002");
+//getMonthly("01AD015");
+//console.log(getDaily("01AD015"));
 //makeStationList();
 module.exports = {
     getDaily,
