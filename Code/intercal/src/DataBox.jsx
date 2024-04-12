@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from 'react';
+import { useSharedState } from './useSharedState.js';
+
 import ViewData from './ViewData.jsx';
 import './/styles/styles.css';
 import './/styles/databox.css';
@@ -14,7 +16,7 @@ export default function DataBox( {data} ) {
   */
   //Set new data to be mapped
   const [showModal, setShowModal] = useState(false);
-
+  const [trigger, triggerUpdate] = useSharedState();
     const openModal = (e) => {
         e.preventDefault();
         setShowModal(true);
@@ -38,6 +40,7 @@ export default function DataBox( {data} ) {
     }
     const mark = (e) => {
         e.preventDefault();
+
         //todo: send get request to server to mark the data
         let url = 'http://localhost:8080/markData?postId=';
         console.log(data.postId);
@@ -45,6 +48,7 @@ export default function DataBox( {data} ) {
           .then(response => response.json())
           .then(data => {
             console.log('Success:', data);
+            triggerUpdate(true);
           })
           .catch(error => console.error(error));
     };

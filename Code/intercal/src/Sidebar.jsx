@@ -2,13 +2,15 @@ import React, {useEffect, useState} from 'react';
 import './/styles/styles.css';
 import './/styles/sidebarStyles.css'
 import Thumbnail from './Thumbnail'; 
-import ViewData from './ViewData.jsx';
 
-import { sampleFavs } from './sampleFavs';
+import { useSharedState } from './useSharedState.js';
+
 
 export default function Sidebar() {
   const [favs, setFav] = useState([]);
   const [gotBookmarks, setGotBookmarks] = useState(false);
+  const [sharedState, setSharedState] = useSharedState();
+
   //get data from the server
   /*
   useEffect(() => {
@@ -63,12 +65,16 @@ export default function Sidebar() {
 };
 
 //test
-  useState(() => {
-    if (!gotBookmarks) {
-        getSaveData();
-        setGotBookmarks(true);
-    }
-  });
+useEffect(() => {
+  if (!gotBookmarks) {
+    getSaveData();
+    setGotBookmarks(true);
+  }
+  if(sharedState !== null){
+    getSaveData();
+    setSharedState(null);
+  }
+}, [gotBookmarks, sharedState]);
   if(favs.length === 0){
    // setFav(sampleFavs); 
   }
