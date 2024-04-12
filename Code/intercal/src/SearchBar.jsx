@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import Dashboard from './dashboard';
+import App from './App';
 import './/styles/header.css'
-
 const SearchBar = ({setWatched}) => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const handleSearch = (e) => {
-        let url = 'http://localhost:8080/search?searchTerm='; //add search url
-        setSearchTerm(e.target.value);
+        let url = 'http://localhost:8080/search?searchTerm='+e.target.value; //add search url
         // Perform search
-        fetch(url + searchTerm)
+         fetch(url) 
             .then(response => {
                 if(response.ok){
                     console.log(response.ok);
+                    console.log(response);
                     return response.json();
                 }
                 else{
