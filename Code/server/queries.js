@@ -182,6 +182,7 @@ async function searchStations(str) {
     }
     return(JSON.parse(result));
 }
+
 async function filterStations(id) {
     let stations = localStations;
     let result = '[';

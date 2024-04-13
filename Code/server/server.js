@@ -34,7 +34,9 @@ app.get("/getData", async (req, res) => {
 // query route, http://localhost:8080?searchTerm=okanagan should provide a few stations around the okanagan while server running
 app.get("/search", async (req, res) => {
   if (req.query.searchTerm === "alerts" || req.query.searchTerm === "alert") {
-    res.json(await stations.searchStations(await getAlerts()));
+    const alerts = await getAlerts();
+    
+    res.json(await stations.filterStations(alerts));
   }else{
     res.json(await stations.searchStations(req.query.searchTerm));
   }
