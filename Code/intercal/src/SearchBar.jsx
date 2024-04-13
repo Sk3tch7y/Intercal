@@ -23,6 +23,10 @@ const SearchBar = ({setWatched}) => {
             .then(data => {
                         
                 const result = data;
+                if(result.length === 0){
+                    let post = [{ postId: "No Results", content: "No Results", waterLevel: "None" }];
+                    result.push(post);
+                }
                 setWatched(result);
                 
             })

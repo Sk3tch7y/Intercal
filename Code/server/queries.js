@@ -180,9 +180,52 @@ async function searchStations(str) {
         result = result.slice(0,-1);
         result = result.concat("]");
     }
+    if(result !== '[]') {
+        try {
+            return(JSON.parse(result));
+        }
+        catch(err) {
+            console.error(err);
+            return;
+        }
+    }else {
+        return;
+    }
+}
+
+async function filterStations(id) {
+    let stations = localStations;
+    let result = '[';
+    let newResult;
+    let count = 0;
+    for(i = 0; i < stations.length; i++) {
+        if(id.includes(stations[i].properties.IDENTIFIER)) {
+            if(count > 25) {break;}
+                count++;
+                let id = stations[i].properties.IDENTIFIER;
+                let name = stations[i].properties.STATION_NAME;
+                let content = "Province: "+stations[i].properties.PROV_TERR_STATE_LOC+"; Status: "+stations[i].properties.STATUS_EN;
+                /*let waterData = await getDaily(id);
+                if(waterData[0] != 0) {
+                    waterLevel = waterData[0][waterData[0].length-1][3];
+                }
+                else {
+                    waterLevel = waterData[1][waterData[1].length-1][3];
+                }*/
+                //newResult = '{"postId":"'+id+'", "name":"'+name+'", "content":"'+content+'", "waterLevel":"'+waterLevel+'"},';
+                newResult = '{"postId":"'+id+'", "name":"'+name+'", "content":"'+content+'", "waterLevel":"Normal"},';
+                result = result.concat(newResult);
+            }
+        }
+        result=result.slice(0,-1);
+        result = result.concat("]");
+    console.log(JSON.parse(result));
     return(JSON.parse(result));
 }
 
+
+stationArray = ["01AD002", "01AD001", "01AD015"];
+filterStations(stationArray);
 //searchStations("a");
 //let idk = searchStations("okanagan");
 //getStationsLocal();
@@ -198,5 +241,6 @@ module.exports = {
     makeStationList,
     getLinkedData,
     getData,
-    searchStations
+    searchStations,
+    filterStations
 }

@@ -33,7 +33,13 @@ app.get("/getData", async (req, res) => {
 
 // query route, http://localhost:8080?searchTerm=okanagan should provide a few stations around the okanagan while server running
 app.get("/search", async (req, res) => {
-  res.json(await stations.searchStations(req.query.searchTerm));
+  if (req.query.searchTerm === "alerts" || req.query.searchTerm === "alert") {
+    const alerts = await getAlerts();
+    
+    res.json(await stations.filterStations(alerts));
+  }else{
+    res.json(await stations.searchStations(req.query.searchTerm));
+  }
 });
 
 // set port, listen for requests
@@ -107,11 +113,23 @@ function validateLogin(userId, password) {
       if(!isValid){
         userId = null;
         message = "Invalid credentials."
+        return
       }
-      const accountType = rows[0].accountType;
-      console.log(accountType);
-      const result = { isValid, userId, message, accountType};
       
+      let result;
+      let accountType=null;
+      try{
+        if(rows[0].accountType){
+          accountType = rows[0].accountType;
+        }else{
+          accountType = null;
+        }
+        result = { isValid, userId, message, accountType};
+      }
+      catch(err){
+        console.error(err);
+        result = {isValid, userId, message};
+      }
       // Resolve the promise with the result
       resolve(result);
     });
@@ -511,7 +529,7 @@ function getAlerts(){
     });
 
     //get alerts and return them as a JSON list
-    con.query(`SELECT * FROM alerts`,(err,rows,fields) => {
+    con.query(`SELECT postId FROM alerts`,(err,rows,fields) => {
        //close the connection
        con.end();
 
@@ -532,83 +550,88 @@ function getAlerts(){
   });
 }
 
-//app functions
-app.post('/createAccount', async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const auth = await createAccount(username, password);
-    res.json(auth);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
-
-//express middleware function for validating a login request
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  console.log("Login request received for user: " + username);
-  try {
-
-      const obj = await validateLogin(username, password);
-      res.json(obj);
-  } catch (error) {
-      // Handle error if needed
+try{
+  //app functions
+  app.post('/createAccount', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+      const auth = await createAccount(username, password);
+      res.json(auth);
+    } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");
-  }
-});
-//express middleware function for getting saved data
-app.post("/getSaveData", async (req, res) => {
-  
-  const { username } = req.body;
-  console.log("Getting save data for: " + username);
-  try {
-      const obj = await getSaveData(username);
-      res.json(obj);
+    }
+  });
 
-  } catch (error) {
-      // Handle error if needed
+  //express middleware function for validating a login request
+  app.post("/login", async (req, res) => {
+    const { username, password } = req.body;
+    console.log("Login request received for user: " + username);
+    try {
+
+        const obj = await validateLogin(username, password);
+        res.json(obj);
+    } catch (error) {
+        // Handle error if needed
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+  });
+  //express middleware function for getting saved data
+  app.post("/getSaveData", async (req, res) => {
+    
+    const { username } = req.body;
+    console.log("Getting save data for: " + username);
+    try {
+        const obj = await getSaveData(username);
+        res.json(obj);
+
+    } catch (error) {
+        // Handle error if needed
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+  });
+
+  app.get("/markData", async (req, res) => {
+    const { postId, username, postName } = req.query;
+    console.log("Marking data for: " + username);
+    try {
+      const obj = await saveData(username, postId, postName);
+      res.json(obj);
+    } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");
-  }
-});
+    }
+  });
 
-app.get("/markData", async (req, res) => {
-  const { postId, username, postName } = req.query;
-  console.log("Marking data for: " + username);
-  try {
-    const obj = await saveData(username, postId, postName);
-    res.json(obj);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
+  app.get("/flagData", async (req, res) => {
+    const { postId, username } = req.query;
+    console.log("Flagging data for: " + username);
+    try {
+      const obj = await createAlert(username, postId, "Flagged by user."+username);
+      res.json(obj);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
 
-app.get("/flagData", async (req, res) => {
-  const { postId, username } = req.query;
-  console.log("Flagging data for: " + username);
-  try {
-    const obj = await createAlert(username, postId, "Flagged by user."+username);
-    res.json(obj);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
+  app.get("/unmarkData", async (req, res) => {
+    const { postId, username } = req.query;
+    console.log("Unmarking data for: " + username);
+    try {
+      const obj = await removeSaveData(username, postId);
+      res.json(obj);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+}catch(err){
+  console.error(err);
+}
 
-app.get("/unmarkData", async (req, res) => {
-  const { postId, username } = req.query;
-  console.log("Unmarking data for: " + username);
-  try {
-    const obj = await removeSaveData(username, postId);
-    res.json(obj);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
 
 module.exports = {
   getConnection,
