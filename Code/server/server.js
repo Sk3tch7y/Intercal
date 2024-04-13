@@ -33,7 +33,11 @@ app.get("/getData", async (req, res) => {
 
 // query route, http://localhost:8080?searchTerm=okanagan should provide a few stations around the okanagan while server running
 app.get("/search", async (req, res) => {
-  res.json(await stations.searchStations(req.query.searchTerm));
+  if (req.query.searchTerm === "alerts" || req.query.searchTerm === "alert") {
+    res.json(await stations.searchStations(await getAlerts()));
+  }else{
+    res.json(await stations.searchStations(req.query.searchTerm));
+  }
 });
 
 // set port, listen for requests
@@ -521,7 +525,7 @@ function getAlerts(){
     });
 
     //get alerts and return them as a JSON list
-    con.query(`SELECT * FROM alerts`,(err,rows,fields) => {
+    con.query(`SELECT postId FROM alerts`,(err,rows,fields) => {
        //close the connection
        con.end();
 
