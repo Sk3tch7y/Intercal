@@ -110,18 +110,19 @@ function validateLogin(userId, password) {
         return
       }
       
-      
+      let result;
+      let accountType=null;
       try{
         if(rows[0].accountType){
-          const accountType = rows[0].accountType;
+          accountType = rows[0].accountType;
         }else{
-          const accountType = null;
+          accountType = null;
         }
-        console.log(accountType);
-        const result = { isValid, userId, message, accountType};
+        result = { isValid, userId, message, accountType};
       }
       catch(err){
         console.error(err);
+        result = {isValid, userId, message};
       }
       // Resolve the promise with the result
       resolve(result);
