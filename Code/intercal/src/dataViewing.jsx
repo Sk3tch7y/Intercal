@@ -124,39 +124,38 @@ let vari;
 let standardDeviation;
 let station;
 let freq;
-fetch('http://localhost:8080/getData?id='+id).then(response => {
-        if(!response.ok) {
-            console.error("Response failed.");
-        }
-        return response.json();
-        })
-        .then(data => {
-            console.log(data);
-          parsedData = parseAnnualMaxData(data);
-          //let parsedData = parseMonthlyData(exampleMonthlyData2);
-          //let parsedData = parseAnnualMaxData(exampleAnnualData2);
-          //let parsedData = parseAnnualMinData(exampleAnnualData2);
-          FiveNumSum = fiveNumSummary(parsedData.data);
-          avg = mean(parsedData.data);
-          vari = variance(parsedData.data);
-          standardDeviation = stdev(parsedData.data);
-          station = '<station>';
-          freq = parsedData.frequency;
-        });
 
-export default function Graph(data) {
+
+export default async function Graph({data}) {
+
+  function loadData(id){
+
+    let result = fetch('http://localhost:8080/getData?id='+id).then(response => {
+      if(!response.ok) {
+          console.error("Response failed.");
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      parsedData = parseAnnualMaxData(data);
+      //let parsedData = parseMonthlyData(exampleMonthlyData2);
+      //let parsedData = parseAnnualMaxData(exampleAnnualData2);
+      //let parsedData = parseAnnualMinData(exampleAnnualData2);
+      FiveNumSum = fiveNumSummary(parsedData.data);
+      avg = mean(parsedData.data);
+      vari = variance(parsedData.data);
+      standardDeviation = stdev(parsedData.data);
+      station = '<station>';
+      freq = parsedData.frequency;
+    });
+    return result;
+  }
+
+  id = data.postId;
+  await loadData(id);
+
   
-  return <>
-  <ShowLineChart />
-  <p></p>
-  <Probability />
-  <p></p>
-  <ShowFiveNumSum />
-  <p></p>
-  <AdditionalStats />
-  <p></p>
-  </>
-
 function ShowLineChart() {
 
   const chartData = {
@@ -297,5 +296,16 @@ function AdditionalStats() {
     </>
   );
 }
+
+return <>
+  <ShowLineChart />
+  <p></p>
+  <Probability />
+  <p></p>
+  <ShowFiveNumSum />
+  <p></p>
+  <AdditionalStats />
+  <p></p>
+  </>
 
 }

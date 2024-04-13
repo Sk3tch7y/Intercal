@@ -11,7 +11,7 @@ const ViewData = ({onClose, data}) =>{
                 <h1>{data.postid}</h1>
             </div>
             <div className="dataBody">
-                <GraphWrapper></GraphWrapper> 
+                <GraphWrapper data={data}></GraphWrapper> 
             </div>
         </div>
     );
