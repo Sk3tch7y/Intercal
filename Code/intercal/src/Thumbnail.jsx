@@ -4,10 +4,10 @@ import './/styles/styles.css';
 import './/styles/thumbnail.css'
 //uses term assigned by dashboard logic to display data of listening post
 
-const Thumbnail = ({ monitoringPost }) => {
+const Thumbnail = ({ monitoringPost, getSaveData }) => {
     
     const [showModal, setShowModal] = useState(false);
-    const [postId, setPostId] = useState(0);
+    const data = monitoringPost;
 
     const openModal = () => {
         setShowModal(true);
@@ -18,16 +18,24 @@ const Thumbnail = ({ monitoringPost }) => {
     };
     const unmark = (e) => {
         e.preventDefault();
-        //todo: send get request to server to unmark the post
-        let url = '/api/markData';
-        fetch(url+postId)
+        //todo: send get request to server to mark the data
+        let url = 'http://localhost:8080/unmarkData?postId=';
+        console.log(data.postId);
+        fetch(url+ data.postId + "&username="+getCookie('username'))
           .then(response => response.json())
           .then(data => {
             console.log('Success:', data);
-            setPostId(data.postId);
+            getSaveData();
           })
           .catch(error => console.error(error));
+          
     };
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
 
     let post = 
     (<div className = 'post' onClick = {openModal}>

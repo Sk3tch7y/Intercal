@@ -571,10 +571,10 @@ app.post("/getSaveData", async (req, res) => {
 });
 
 app.get("/markData", async (req, res) => {
-  const { postId, username } = req.query;
+  const { postId, username, postName } = req.query;
   console.log("Marking data for: " + username);
   try {
-    const obj = await saveData(username, postId, );
+    const obj = await saveData(username, postId, postName);
     res.json(obj);
   } catch (error) {
     console.error(error);
@@ -587,6 +587,18 @@ app.get("/flagData", async (req, res) => {
   console.log("Flagging data for: " + username);
   try {
     const obj = await createAlert(username, postId, "Flagged by user."+username);
+    res.json(obj);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/unmarkData", async (req, res) => {
+  const { postId, username } = req.query;
+  console.log("Unmarking data for: " + username);
+  try {
+    const obj = await removeSaveData(username, postId);
     res.json(obj);
   } catch (error) {
     console.error(error);

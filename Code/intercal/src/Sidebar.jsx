@@ -2,13 +2,15 @@ import React, {useEffect, useState} from 'react';
 import './/styles/styles.css';
 import './/styles/sidebarStyles.css'
 import Thumbnail from './Thumbnail'; 
-import ViewData from './ViewData.jsx';
 
-import { sampleFavs } from './sampleFavs';
+import { useSharedState } from './useSharedState.js';
+
 
 export default function Sidebar() {
   const [favs, setFav] = useState([]);
   const [gotBookmarks, setGotBookmarks] = useState(false);
+  const [sharedState, setSharedState] = useSharedState();
+
   //get data from the server
   /*
   useEffect(() => {
@@ -18,7 +20,7 @@ export default function Sidebar() {
       .catch(error => console.error(error));
   }, []);
   */
-
+  
   function addFav(newFav){
     setFav([...favs, newFav]);
   }
@@ -49,12 +51,13 @@ export default function Sidebar() {
               return;
             }
             let dataList = JSON.parse(data);
-            dataList.forEach(element => {
-              element = (element);
-              addFav(element);
+            const newFavs = dataList.map(element => {
+              console.log('element:', element);
+              return element;
             });
+            setFav(newFavs);
             console.log('displaying bookmarks');
-
+            console.log(favs);
         } 
     } catch (error) {
         console.error('Error occurred during data retrieval:', error);
@@ -62,23 +65,23 @@ export default function Sidebar() {
 };
 
 //test
-  useEffect(() => {
-    if(!gotBookmarks){
-      getSaveData();
-      setGotBookmarks(true);
-    }
-      
-  });
-
+useEffect(() => {
+  if (!gotBookmarks) {
+    getSaveData();
+    setGotBookmarks(true);
+  }
+  if(sharedState !== null){
+    getSaveData();
+    setSharedState(null);
+  }
+}, [gotBookmarks, sharedState]);
   if(favs.length === 0){
    // setFav(sampleFavs); 
   }
-
   let as = favs.map((fav) =>{
     console.log(fav);
-    return <Thumbnail key={fav}monitoringPost={fav}></Thumbnail>;
+    return <Thumbnail key={fav.postId}monitoringPost={fav} getSaveData={getSaveData}></Thumbnail>;
   });
-
   
   return (
   <div className = 'sidebar'>

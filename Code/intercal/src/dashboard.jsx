@@ -30,7 +30,6 @@ const Dashboard = ({watched, setWatched}) => {
   // this function is purely test atm, as the actual favorite button is going to be built into the 
   function addWatched(newWatch){
     setWatched(newWatch =>{
-      console.log(newWatch);
       let newAr = [...watched, newWatch,];
       return newAr;
     });
@@ -42,7 +41,6 @@ const Dashboard = ({watched, setWatched}) => {
   }
 
     let as = watched.map((post) =>{
-      console.log(post);
       return <DataBox key ={post.postId} data={post} ></DataBox>;
 
     });
