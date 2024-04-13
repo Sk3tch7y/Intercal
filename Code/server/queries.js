@@ -180,7 +180,17 @@ async function searchStations(str) {
         result = result.slice(0,-1);
         result = result.concat("]");
     }
-    return(JSON.parse(result));
+    if(result !== '[]') {
+        try {
+            return(JSON.parse(result));
+        }
+        catch(err) {
+            console.error(err);
+            return;
+        }
+    }else {
+        return;
+    }
 }
 
 async function filterStations(id) {
