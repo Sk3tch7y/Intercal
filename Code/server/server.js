@@ -110,7 +110,7 @@ function validateLogin(userId, password) {
         return
       }
       
-      const result = { isValid, userId, message, accountType};
+      
       try{
         if(rows[0].accountType){
           const accountType = rows[0].accountType;
@@ -118,6 +118,7 @@ function validateLogin(userId, password) {
           const accountType = null;
         }
         console.log(accountType);
+        const result = { isValid, userId, message, accountType};
       }
       catch(err){
         console.error(err);
