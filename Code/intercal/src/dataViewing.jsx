@@ -125,26 +125,31 @@ let standardDeviation;
 let station;
 let freq;
 fetch('http://localhost:8080/getData?id='+id).then(response => {
-      if(!response.ok) {
-          console.error("Response failed.");
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data);
-      parsedData = parseAnnualMaxData(data);
-      //let parsedData = parseMonthlyData(exampleMonthlyData2);
-      //let parsedData = parseAnnualMaxData(exampleAnnualData2);
-      //let parsedData = parseAnnualMinData(exampleAnnualData2);
-      FiveNumSum = fiveNumSummary(parsedData.data);
-      avg = mean(parsedData.data);
-      vari = variance(parsedData.data);
-      standardDeviation = stdev(parsedData.data);
-      station = '<station>';
-      freq = parsedData.frequency;
-    });
+  if(!response.ok) {
+      console.error("Response failed.");
+  }
+  return response.json();
+})
+.then(data => {
+  console.log(data);
+  parsedData = parseAnnualMaxData(data);
+  //let parsedData = parseMonthlyData(exampleMonthlyData2);
+  //let parsedData = parseAnnualMaxData(exampleAnnualData2);
+  //let parsedData = parseAnnualMinData(exampleAnnualData2);
+  FiveNumSum = fiveNumSummary(parsedData.data);
+  avg = mean(parsedData.data);
+  vari = variance(parsedData.data);
+  standardDeviation = stdev(parsedData.data);
+  station = "cool";
+  freq = parsedData.frequency;
+});
 
 export default function Graph({data}) {
+  const [, updateState] = useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [isDrawn, setDrawn] = useState(false);
+  let sName = data.name;
+
   fetch('http://localhost:8080/getData?id='+data.postId).then(response => {
       if(!response.ok) {
           console.error("Response failed.");
@@ -161,9 +166,14 @@ export default function Graph({data}) {
       avg = mean(parsedData.data);
       vari = variance(parsedData.data);
       standardDeviation = stdev(parsedData.data);
-      station = '<station>';
+      station = sName;
       freq = parsedData.frequency;
+      if (!isDrawn) {
+        setDrawn(true);
+        forceUpdate();
+      }
     });
+
     
 
       function ShowLineChart() {
