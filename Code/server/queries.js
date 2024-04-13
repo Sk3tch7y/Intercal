@@ -135,7 +135,7 @@ async function searchStations(str) {
     if(str.length == 7) {
         for(i = 0; i < stations.length; i++) {
             if(stations[i].properties.IDENTIFIER == str) {
-                if(count > 5) {break;}
+                if(count > 25) {break;}
                 count++;
                 let id = str;
                 let name = stations[i].properties.STATION_NAME;
@@ -158,7 +158,7 @@ async function searchStations(str) {
     else {
         for(i = 0; i < stations.length; i++) {
             if(stations[i].properties.STATION_NAME.includes(str.toUpperCase())) {
-                if(count > 5) {break;}
+                if(count > 25) {break;}
                 count++;
                 identifier = stations[i].properties.IDENTIFIER;
                 let id = identifier;
