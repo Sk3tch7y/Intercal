@@ -135,7 +135,7 @@ async function searchStations(str) {
     if(str.length == 7) {
         for(i = 0; i < stations.length; i++) {
             if(stations[i].properties.IDENTIFIER == str) {
-                if(count > 1000) {break;}
+                if(count > 5) {break;}
                 count++;
                 let id = str;
                 let name = stations[i].properties.STATION_NAME;
@@ -158,7 +158,7 @@ async function searchStations(str) {
     else {
         for(i = 0; i < stations.length; i++) {
             if(stations[i].properties.STATION_NAME.includes(str.toUpperCase())) {
-                if(count > 1000) {break;}
+                if(count > 5) {break;}
                 count++;
                 identifier = stations[i].properties.IDENTIFIER;
                 let id = identifier;
@@ -183,10 +183,10 @@ async function searchStations(str) {
     return(JSON.parse(result));
 }
 
-searchStations("a");
+//searchStations("a");
 //let idk = searchStations("okanagan");
 //getStationsLocal();
-//getAnnual("01AD015");
+//getAnnual("01AD015").then(response => {console.log(response)});
 //getMonthly("01AD015");
 //console.log(getDaily("01AD015"));
 //makeStationList();

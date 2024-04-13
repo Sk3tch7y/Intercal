@@ -7,18 +7,8 @@ import { Line } from 'react-chartjs-2';
 import { Chart } from 'chart.js/auto';
 import { Slider } from '@mui/material';
 
+let id = "01AD001";
 //Sample output from /server/exampleQuery.js for testing
-let exampleDailyData = 
-[
-  [
-    [ 1926, 10, 1, 108 ],
-    [ 1926, 10, 2, 85.5 ],
-    [ 1926, 10, 3, 73.5999984741211 ],
-    [ 1926, 10, 4, 66.5 ],
-    [ 1926, 10, 5, 73.5999984741211 ],
-  ],
-[]
-];
 
 let exampleDailyData2 = 
 [
@@ -126,403 +116,215 @@ let exampleDailyData2 =
   ]
 ];
 
-let exampleMonthlyData =
-[
-  [
-    [ 1926, 10, 159 ],
-    [ 1926, 11, 375 ],
-    [ 1926, 12, 165 ],
-    [ 1927, 1, 61.900001525878906 ],
-    [ 1927, 2, 33.900001525878906 ],
-    [ 1927, 3, 54.29999923706055 ]
-  ]
-];
-
-let exampleMonthlyData2 = 
-[
-  [
-    [ 1926, 10, 159 ],
-    [ 1926, 11, 375 ],
-    [ 1926, 12, 165 ],
-    [ 1927, 1, 61.900001525878906 ],
-    [ 1927, 2, 33.900001525878906 ],
-    [ 1927, 3, 54.29999923706055 ],
-    [ 1927, 4, 538 ],
-    [ 1927, 5, 573 ],
-    [ 1927, 6, 410 ],
-    [ 1927, 7, 168 ],
-    [ 1927, 8, 97.0999984741211 ],
-    [ 1927, 9, 58.79999923706055 ],
-    [ 1927, 10, 259 ],
-    [ 1927, 11, 686 ],
-    [ 1927, 12, 356 ],
-    [ 1928, 1, 144 ],
-    [ 1928, 2, 75.69999694824219 ],
-    [ 1928, 3, 50.29999923706055 ],
-    [ 1928, 4, 483 ],
-    [ 1928, 5, 1710 ],
-    [ 1928, 6, 523 ],
-    [ 1928, 7, 216 ],
-    [ 1928, 8, 160 ],
-    [ 1928, 9, 119 ],
-    [ 1928, 10, 218 ],
-    [ 1928, 11, 223 ],
-    [ 1928, 12, 140 ],
-    [ 1929, 1, 130 ],
-    [ 1929, 2, 68.5 ],
-    [ 1929, 3, 71 ],
-    [ 1929, 4, 535 ],
-    [ 1929, 5, 1270 ],
-    [ 1929, 6, 329 ],
-    [ 1929, 7, 187 ],
-    [ 1929, 8, 98.0999984741211 ],
-    [ 1929, 9, 67.80000305175781 ],
-    [ 1929, 10, 160 ],
-    [ 1929, 11, 162 ],
-    [ 1929, 12, 58.29999923706055 ],
-    [ 1930, 1, 111 ],
-    [ 1930, 2, 58.59999847412109 ],
-    [ 1930, 3, 69.30000305175781 ],
-    [ 1930, 4, 431 ],
-    [ 1930, 5, 1320 ],
-    [ 1930, 6, 479 ],
-    [ 1930, 7, 266 ],
-    [ 1930, 8, 188 ],
-    [ 1930, 9, 120 ],
-    [ 1930, 10, 83.30000305175781 ],
-    [ 1930, 11, 219 ],
-    [ 1930, 12, 113 ],
-    [ 1931, 1, 52.5 ],
-    [ 1931, 2, 30.100000381469727 ],
-    [ 1931, 3, 30.600000381469727 ],
-    [ 1931, 4, 772 ],
-    [ 1931, 5, 442 ],
-    [ 1931, 6, 320 ],
-    [ 1931, 7, 123 ],
-    [ 1931, 8, 72.4000015258789 ],
-    [ 1931, 9, 146 ],
-    [ 1931, 10, 296 ],
-    [ 1931, 11, 317 ],
-    [ 1931, 12, 98.5999984741211 ],
-    [ 1932, 1, 144 ],
-    [ 1932, 2, 67.5 ],
-    [ 1932, 3, 49.5 ],
-    [ 1932, 4, 944 ],
-    [ 1932, 5, 818 ],
-    [ 1932, 6, 215 ],
-    [ 1932, 7, 259 ],
-    [ 1932, 8, 200 ],
-    [ 1932, 9, 322 ],
-    [ 1932, 10, 211 ],
-    [ 1932, 11, 348 ],
-    [ 1932, 12, 147 ],
-    [ 1933, 1, 75.4000015258789 ],
-    [ 1933, 2, 44.20000076293945 ],
-    [ 1933, 3, 34.29999923706055 ],
-    [ 1933, 4, 471 ],
-    [ 1933, 5, 1500 ],
-    [ 1933, 6, 299 ],
-    [ 1933, 7, 185 ],
-    [ 1933, 8, 56 ],
-    [ 1933, 9, 50.79999923706055 ],
-    [ 1933, 10, 133 ],
-    [ 1933, 11, 117 ],
-    [ 1933, 12, 59.09999847412109 ],
-    [ 1934, 1, 37.29999923706055 ],
-    [ 1934, 2, 28.5 ],
-    [ 1934, 3, 31.299999237060547 ],
-    [ 1934, 4, 1090 ],
-    [ 1934, 5, 1040 ],
-    [ 1934, 6, 280 ],
-    [ 1934, 7, 179 ],
-    [ 1934, 8, 104 ],
-    [ 1934, 9, 67.30000305175781 ],
-    [ 1934, 10, 127 ],
-    [ 1934, 11, 282 ],
-    [ 1934, 12, 238 ],
-    [ 1935, 1, 87.4000015258789 ],
-  ]
-];
-
-let exampleAnnualData =
-[
-  [],
-  [
-    [ 1927, 1880, 28 ],
-    [ 1928, 2550, 45 ],
-    [ 1929, 2210, 37.70000076293945 ],
-    [ 1930, 2730, 42.5 ],
-    [ 1931, 1370, 27.5 ],
-    [ 1932, 1940, 45.29999923706055 ],
-    [ 1933, 3310, 26.600000381469727 ],
-  ]
-];
-
-let exampleAnnualData2 = 
-[
-  [],
-  [
-    [ 1927, 1880, 28 ],
-    [ 1928, 2550, 45 ],
-    [ 1929, 2210, 37.70000076293945 ],
-    [ 1930, 2730, 42.5 ],
-    [ 1931, 1370, 27.5 ],
-    [ 1932, 1940, 45.29999923706055 ],
-    [ 1933, 3310, 26.600000381469727 ],
-    [ 1934, 2670, 26.600000381469727 ],
-    [ 1935, 2040, 32.29999923706055 ],
-    [ 1936, 2280, 33.099998474121094 ],
-    [ 1937, 1720, 62.29999923706055 ],
-    [ 1938, 1950, 40.5 ],
-    [ 1939, 3260, 32.599998474121094 ],
-    [ 1940, 2440, 29.399999618530277 ],
-    [ 1941, 3000, 34.79999923706055 ],
-    [ 1942, 3230, 25.5 ],
-    [ 1943, 2470, 18.100000381469727 ],
-    [ 1944, 2040, 17.299999237060547 ],
-    [ 1945, 2210, 40.5 ],
-    [ 1946, 1940, 31.399999618530277 ],
-    [ 1947, 3140, 25.5 ],
-    [ 1948, 1650, 14.399999618530272 ],
-    [ 1949, 1370, 24.600000381469727 ],
-    [ 1950, 1850, 34.29999923706055 ],
-    [ 1951, 2030, 48.09999847412109 ],
-    [ 1952, 1950, 24.399999618530277 ],
-    [ 1953, 1980, 19 ],
-    [ 1954, 2700, 45.29999923706055 ],
-    [ 1955, 2380, 26.5 ],
-    [ 1956, 1350, 22.399999618530277 ],
-    [ 1957, 1390, 22.799999237060547 ],
-    [ 1958, 3280, 59.70000076293945 ],
-    [ 1959, 1460, 36.79999923706055 ],
-    [ 1960, 2570, 17.5 ],
-    [ 1961, 3680, 26.600000381469727 ],
-    [ 1962, 1290, 27.799999237060547 ],
-    [ 1963, 2110, 33.099998474121094 ],
-    [ 1964, 1260, 29.700000762939453 ],
-    [ 1965, 691, 32.599998474121094 ],
-    [ 1966, 1620, 28.899999618530277 ],
-    [ 1967, 1860, 36 ],
-    [ 1968, 2520, 16.899999618530273 ],
-    [ 1969, 3570, 30.299999237060547 ],
-    [ 1970, 2660, 24 ],
-    [ 1971, 2520, 39.400001525878906 ],
-    [ 1972, 2480, 35.70000076293945 ],
-    [ 1973, 3680, 52.09999847412109 ],
-    [ 1974, 3680, 43.900001525878906 ],
-    [ 1975, 2230, 38.20000076293945 ],
-    [ 1976, 2660, 49.29999923706055 ],
-    [ 1977, 2760, 35.099998474121094 ],
-    [ 1978, 2710, 21.5 ],
-    [ 1979, 4130, 39.59999847412109 ],
-    [ 1980, 1550, 28.600000381469727 ],
-    [ 1981, 2270, 53.79999923706055 ],
-    [ 1982, 2830, 34.5 ],
-    [ 1983, 3790, 34.29999923706055 ],
-    [ 1984, 3030, 49.59999847412109 ],
-    [ 1985, 2190, 29.200000762939453 ],
-    [ 1986, 1740, 36.79999923706055 ],
-    [ 1987, 3090, 27.600000381469727 ],
-    [ 1988, 1240, 31.100000381469727 ],
-    [ 1989, 1390, 29.200000762939453 ],
-    [ 1990, 2350, 41.900001525878906 ],
-    [ 1991, 2410, 26.5 ],
-    [ 1992, 2860, 45.900001525878906 ],
-    [ 1993, 2320, 18.399999618530277 ],
-    [ 1994, 3030, 42.5 ],
-    [ 1995, 1460, 18.299999237060547 ],
-    [ 1996, 2970, 38.20000076293945 ],
-    [ 1997, 2860, 26.200000762939453 ],
-    [ 1998, 2460, 38.79999923706055 ],
-    [ 1999, 1370, 29.200000762939453 ],
-    [ 2000, 2210, 24.700000762939453 ],
-    [ 2001, 2650, 21 ],
-    [ 2002, 2420, 15.5 ],
-    [ 2003, 1740, 23.100000381469727 ],
-    [ 2004, 2220, 48.20000076293945 ],
-    [ 2005, 3130, 25.899999618530277 ],
-    [ 2006, 2080, 32.599998474121094 ],
-    [ 2007, 2410, 41.79999923706055 ],
-    [ 2008, 4630, 69.80000305175781 ],
-    [ 2009, 2660, 37.900001525878906 ],
-    [ 2010, 2530, 22.5 ],
-    [ 2011, 3200, 49.59999847412109 ],
-    [ 2012, 2520, 28.600000381469727 ],
-    [ 2013, 1930, 62.29999923706055 ],
-    [ 2014, 2340, 39.59999847412109 ],
-    [ 2015, 1890, 37.400001525878906 ],
-    [ 2016, 1780, 26.799999237060547 ],
-    [ 2017, 2690, 25.100000381469727 ],
-    [ 2018, 3570, 23.600000381469727 ],
-    [ 2020, 2100, 18 ],
-    [ 2021, 1430, 21.5 ]
-  ]
-];
-
 //TODO - Change exampDailyData to the output of a user-based query.
-let parsedData = parseDailyData(exampleDailyData2);
-//let parsedData = parseMonthlyData(exampleMonthlyData2);
-//let parsedData = parseAnnualMaxData(exampleAnnualData2);
-//let parsedData = parseAnnualMinData(exampleAnnualData2);
-let FiveNumSum = fiveNumSummary(parsedData.data);
-let avg = mean(parsedData.data);
-let vari = variance(parsedData.data);
-let standardDeviation = stdev(parsedData.data);
-let station = '<station>';
-let freq = parsedData.frequency;
+let parsedData;
+let FiveNumSum;
+let avg;
+let vari;
+let standardDeviation;
+let station;
+let freq;
+fetch('http://localhost:8080/getData?id='+id).then(response => {
+  if(!response.ok) {
+      console.error("Response failed.");
+  }
+  return response.json();
+})
+.then(data => {
+  console.log(data);
+  parsedData = parseAnnualMaxData(data);
+  //let parsedData = parseMonthlyData(exampleMonthlyData2);
+  //let parsedData = parseAnnualMaxData(exampleAnnualData2);
+  //let parsedData = parseAnnualMinData(exampleAnnualData2);
+  FiveNumSum = fiveNumSummary(parsedData.data);
+  avg = mean(parsedData.data);
+  vari = variance(parsedData.data);
+  standardDeviation = stdev(parsedData.data);
+  station = "cool";
+  freq = parsedData.frequency;
+});
 
-export default function Graph(data) {
-  
-  return <>
-  <ShowLineChart />
-  <p></p>
-  <Probability />
-  <p></p>
-  <ShowFiveNumSum />
-  <p></p>
-  <AdditionalStats />
-  <p></p>
-  </>
+export default function Graph({data}) {
+  const [, updateState] = useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [isDrawn, setDrawn] = useState(false);
+  let sName = data.name;
 
-function ShowLineChart() {
+  fetch('http://localhost:8080/getData?id='+data.postId).then(response => {
+      if(!response.ok) {
+          console.error("Response failed.");
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      parsedData = parseAnnualMaxData(data);
+      //let parsedData = parseMonthlyData(exampleMonthlyData2);
+      //let parsedData = parseAnnualMaxData(exampleAnnualData2);
+      //let parsedData = parseAnnualMinData(exampleAnnualData2);
+      FiveNumSum = fiveNumSummary(parsedData.data);
+      avg = mean(parsedData.data);
+      vari = variance(parsedData.data);
+      standardDeviation = stdev(parsedData.data);
+      station = sName;
+      freq = parsedData.frequency;
+      if (!isDrawn) {
+        setDrawn(true);
+        forceUpdate();
+      }
+    });
 
-  const chartData = {
-    labels: parsedData.dates,
-    datasets: [{
-      label: parsedData.frequency + " data from " + station,
-      data: parsedData.data,
-      backgroundColor: ["rgba(0, 0, 0, 1.0)"],
-      borderColor: ["rgba(0,0, 0, 1.0)"] 
-    }]
-  };
+    
 
-  const chartOptions = {
-    plugins: {
-      legend: {
-        labels: {
-          color: "black", 
-          font: {
-            size: 16
+      function ShowLineChart() {
+
+        const chartData = {
+          labels: parsedData.dates,
+          datasets: [{
+            label: parsedData.frequency + " data from " + station,
+            data: parsedData.data,
+            backgroundColor: ["rgba(0, 0, 0, 1.0)"],
+            borderColor: ["rgba(0,0, 0, 1.0)"] 
+          }]
+        };
+      
+        const chartOptions = {
+          plugins: {
+            legend: {
+              labels: {
+                color: "black", 
+                font: {
+                  size: 16
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: 'black',
+                autoSkipPadding: 20
+              }
+            },
+            y: {
+              ticks: {
+                color: 'black'
+              }
+            }
           }
-        }
+        };
+      
+          return (<Line className='graph'data={chartData} options = {chartOptions} />);
+        
       }
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: 'black',
-          autoSkipPadding: 20
-        }
-      },
-      y: {
-        ticks: {
-          color: 'black'
-        }
+      
+      function ShowFiveNumSum() {
+        return ( <>
+        <h3> The five number summary of this data:</h3>
+          <h4>Minimum:         {FiveNumSum[0].toPrecision(4)}</h4>
+          <h4>First quartile:  {FiveNumSum[1].toPrecision(4)}</h4>
+          <h4>Median:          {FiveNumSum[2].toPrecision(4)}</h4>
+          <h4>Third quartile:  {FiveNumSum[3].toPrecision(4)}</h4>
+          <h4>Maximum:         {FiveNumSum[4].toPrecision(4)}</h4>
+          </>
+        );
       }
-    }
-  };
-
-    return (<Line className='graph'data={chartData} options = {chartOptions} />);
-  
-}
-
-function ShowFiveNumSum() {
-  return ( <>
-  <h3> The five number summary of this data:</h3>
-    <h4>Minimum:         {FiveNumSum[0].toPrecision(4)}</h4>
-    <h4>First quartile:  {FiveNumSum[1].toPrecision(4)}</h4>
-    <h4>Median:          {FiveNumSum[2].toPrecision(4)}</h4>
-    <h4>Third quartile:  {FiveNumSum[3].toPrecision(4)}</h4>
-    <h4>Maximum:         {FiveNumSum[4].toPrecision(4)}</h4>
-    </>
-  );
-}
-
-function Probability() {
-
-  let data = parsedData.data;
-  let IQR = FiveNumSum[3]-FiveNumSum[1];
-  let initialValue = (FiveNumSum[0]+FiveNumSum[4])/2;
-  let left = FiveNumSum[0]-IQR/4;
-  let right = FiveNumSum[4]+IQR/4;
-  let initRange = [(initialValue-(IQR/4)), initialValue+(IQR/4)];
-
-  const [value1, setValue1] = useState(initialValue);
-  const [value2, setValue2] = useState(initRange);
-  const [value3, setValue3] = useState(initialValue);
-
-  const [likelyhood1, setLikelyhood1] = useState(probability(data, 0, initialValue));
-  const [likelyhood2, setLikelyhood2] = useState(probability(data, 1, initRange[0], initRange[1]));
-  const [likelyhood3, setLikelyhood3] = useState(probability(data, 2, initialValue));
-
-  const handleChange1 = (event, newValue1) => {
-    setValue1(newValue1);
-    setLikelyhood1(probability(data, 0, newValue1));
-  };
-
-  const handleChange2 = (event, newValue2) => {
-    setValue2(newValue2);
-    setLikelyhood2(probability(data, 1, newValue2[0], newValue2[1]));
-  };
-
-  const handleChange3 = (event, newValue3) => {
-    setValue3(newValue3);
-    setLikelyhood3(probability(data, 2, newValue3));
-  };
-
-  return ( <>
-  <h3> Drag the sliders to calculate probabilities</h3>
-        <h5>There is a {(likelyhood1*100).toPrecision(3)}% chance that a given {freq.toLowerCase()} value
-          is below {value1.toPrecision(3)} units for station {station}.</h5>
-        <Slider
-        defaultValue={initialValue}
-        valueLabelDisplay="auto"
-        value = {value1}
-        step={0.1}
-        onChange={handleChange1}
-        min = {left}
-        max = {right}
-        ></Slider>
-
-        <h5>There is a {(likelyhood2*100).toPrecision(3)}% chance that a given {freq.toLowerCase()} value
-          is between {value2[0].toPrecision(3)} and {value2[1].toPrecision(3)} units for station {station}.</h5>
-        <Slider
-        getAriaLabel={() => 'water range'}
-        defaultValue={initRange}
-        valueLabelDisplay="auto"
-        value = {value2}
-        step={0.1}
-        onChange={handleChange2}
-        min = {left}
-        max = {right}
-        ></Slider>
-
-        <h5>There is a {(likelyhood3*100).toPrecision(3)}% chance that a given {freq.toLowerCase()} value
-          is above {value3.toPrecision(3)} units for station {station}.</h5>
-        <Slider
-        defaultValue={initialValue}
-        valueLabelDisplay="auto"
-        value = {value3}
-        step={0.1}
-        onChange={handleChange3}
-        min = {left}
-        max = {right}
-        ></Slider>
-      </>
-
-  );
-  
-}
-
-function AdditionalStats() {
-
-  return ( <>
-  <h3> Additional statistical information for this data:</h3>
-    <h4>Mean:               {avg.toPrecision(4)}</h4>
-    <h4>Variance:           {vari.toPrecision(4)}</h4>
-    <h4>Standard deviation: {standardDeviation.toPrecision(4)}</h4>
-    </>
-  );
-}
-
+      
+      function Probability() {
+      
+        let data = parsedData.data;
+        let IQR = FiveNumSum[3]-FiveNumSum[1];
+        let initialValue = (FiveNumSum[0]+FiveNumSum[4])/2;
+        let left = FiveNumSum[0]-IQR/4;
+        let right = FiveNumSum[4]+IQR/4;
+        let initRange = [(initialValue-(IQR/4)), initialValue+(IQR/4)];
+      
+        const [value1, setValue1] = useState(initialValue);
+        const [value2, setValue2] = useState(initRange);
+        const [value3, setValue3] = useState(initialValue);
+      
+        const [likelyhood1, setLikelyhood1] = useState(probability(data, 0, initialValue));
+        const [likelyhood2, setLikelyhood2] = useState(probability(data, 1, initRange[0], initRange[1]));
+        const [likelyhood3, setLikelyhood3] = useState(probability(data, 2, initialValue));
+      
+        const handleChange1 = (event, newValue1) => {
+          setValue1(newValue1);
+          setLikelyhood1(probability(data, 0, newValue1));
+        };
+      
+        const handleChange2 = (event, newValue2) => {
+          setValue2(newValue2);
+          setLikelyhood2(probability(data, 1, newValue2[0], newValue2[1]));
+        };
+      
+        const handleChange3 = (event, newValue3) => {
+          setValue3(newValue3);
+          setLikelyhood3(probability(data, 2, newValue3));
+        };
+      
+        return ( <>
+        <h3> Drag the sliders to calculate probabilities</h3>
+              <h5>There is a {(likelyhood1*100).toPrecision(3)}% chance that a given {freq.toLowerCase()} value
+                is below {value1.toPrecision(3)} units for station {station}.</h5>
+              <Slider
+              defaultValue={initialValue}
+              valueLabelDisplay="auto"
+              value = {value1}
+              step={0.1}
+              onChange={handleChange1}
+              min = {left}
+              max = {right}
+              ></Slider>
+      
+              <h5>There is a {(likelyhood2*100).toPrecision(3)}% chance that a given {freq.toLowerCase()} value
+                is between {value2[0].toPrecision(3)} and {value2[1].toPrecision(3)} units for station {station}.</h5>
+              <Slider
+              getAriaLabel={() => 'water range'}
+              defaultValue={initRange}
+              valueLabelDisplay="auto"
+              value = {value2}
+              step={0.1}
+              onChange={handleChange2}
+              min = {left}
+              max = {right}
+              ></Slider>
+      
+              <h5>There is a {(likelyhood3*100).toPrecision(3)}% chance that a given {freq.toLowerCase()} value
+                is above {value3.toPrecision(3)} units for station {station}.</h5>
+              <Slider
+              defaultValue={initialValue}
+              valueLabelDisplay="auto"
+              value = {value3}
+              step={0.1}
+              onChange={handleChange3}
+              min = {left}
+              max = {right}
+              ></Slider>
+            </>
+      
+        );
+        
+      }
+      
+      function AdditionalStats() {
+      
+        return ( <>
+        <h3> Additional statistical information for this data:</h3>
+          <h4>Mean:               {avg.toPrecision(4)}</h4>
+          <h4>Variance:           {vari.toPrecision(4)}</h4>
+          <h4>Standard deviation: {standardDeviation.toPrecision(4)}</h4>
+          </>
+        );
+      }
+      
+      return <>
+        <ShowLineChart />
+        <p></p>
+        <Probability />
+        <p></p>
+        <ShowFiveNumSum />
+        <p></p>
+        <AdditionalStats />
+        <p></p>
+        </>
 }
