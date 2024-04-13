@@ -31,6 +31,21 @@ use maindb
 ```console
 source docker-entrypoint.initdb.d/init.sql
 ```
+
+## .env file
+
+The final step in setting up the database is to setup the .env file. This file is not tracked by git, as it usually contains private information. 
+
+In the server folder, create a file named ```.env```. Inside the file insert the following code:
+
+```txt
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=maindb
+DB_USER=root
+DB_PASSWORD=rootpw
+```
+
 If everything worked, your local database should haave all the neccesary tables and entries.
 
 #### You can close your server either from docker or from your terminal:
